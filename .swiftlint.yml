@@ -1,0 +1,37 @@
+disabled_rules:
+  - trailing_whitespace
+  - missing_docs # Public declarations should be documented.
+  - identifier_name
+  - line_length
+  - multiple_closures_with_trailing_closure
+  - nesting
+  
+opt_in_rules:
+  - closure_spacing
+  - implicitly_unwrapped_optional
+  - switch_case_on_newline
+  - object_literal
+  - operator_usage_whitespace
+
+strict: true
+force_cast:
+  severity: warning
+force_try:
+  severity: warning
+included:
+  - TwentyOne
+  - Tunnel
+  - TwentyOneTests
+
+excluded:
+  - Carthage
+  - Pods
+  - .git
+  - .spm
+  - SwiftLint/Common/3rdPartyLib
+
+file_length:
+  warning: 800
+  error: 1500
+
+reporter: "xcode"
