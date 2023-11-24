@@ -11,13 +11,16 @@ import SwiftUI
 @main
 struct WeiBainingAIApp: App {
     
-    let launchStore = Store(initialState: LaunchConfigReducer.State()) {
-        LaunchConfigReducer()
-    }
+//    let launchStore = Store(initialState: LaunchConfigReducer.State()) {
+//        LaunchConfigReducer()
+//    }
 
     var body: some Scene {
         WindowGroup {
-            LaunchLoadView(store: launchStore)
+            TabHubView(store: Store(initialState: TabHubFeature.State(), reducer: {
+                TabHubFeature()
+            }))
+//            LaunchLoadView(store: launchStore)
         }
     }
 }

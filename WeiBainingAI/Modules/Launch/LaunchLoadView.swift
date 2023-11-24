@@ -11,7 +11,7 @@ import SwiftUI
 struct LaunchLoadView: View {
     let store: StoreOf<LaunchConfigReducer>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { _ in
             Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
         }
     }

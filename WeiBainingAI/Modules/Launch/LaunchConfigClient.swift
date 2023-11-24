@@ -19,9 +19,9 @@ extension LaunchConfigClient: DependencyKey {
     static var liveValue: LaunchConfigClient {
         Self {
             AsyncStream { continuation in
-                let reachability = try! Reachability()
+                let reachability = try? Reachability()
 
-                reachability.whenReachable = { reachable in
+                reachability?.whenReachable = { reachable in
                     if reachable.connection == .wifi {
                         Logger(label: "LaunchConfigClient").info("Reachable via WiFi")
                     } else {
@@ -35,19 +35,19 @@ extension LaunchConfigClient: DependencyKey {
                         continuation.finish()
                     }
                 }
-                reachability.whenUnreachable = { _ in
+                reachability?.whenUnreachable = { _ in
                     Logger(label: "LaunchConfigClient").info("Not reachable")
                     continuation.yield(.unavailable)
                 }
 
                 do {
-                    try reachability.startNotifier()
+                    try reachability?.startNotifier()
                 } catch {
                     Logger(label: "LaunchConfigClient").info("Unable to start notifier")
                 }
 
                 continuation.onTermination = { _ in
-                    reachability.stopNotifier()
+                    reachability?.stopNotifier()
                 }
             }
         }

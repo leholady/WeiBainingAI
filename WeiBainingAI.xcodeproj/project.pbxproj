@@ -34,6 +34,13 @@
 		659A55312B0F007400B2BF9B /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55302B0F007400B2BF9B /* SwiftUIX */; };
 		659A55342B0F009A00B2BF9B /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55332B0F009A00B2BF9B /* Logging */; };
 		D310AC212B10A1CE00E48A66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D310AC202B10A1CE00E48A66 /* .swiftlint.yml */; };
+		D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC262B10A69D00E48A66 /* MessagingHubView.swift */; };
+		D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */; };
+		D310AC2B2B10A6B500E48A66 /* MoreOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC2A2B10A6B500E48A66 /* MoreOptionsView.swift */; };
+		D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC2C2B10A6BE00E48A66 /* MessagingHubViewFeature.swift */; };
+		D310AC2F2B10A78500E48A66 /* SupportAssistantFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC2E2B10A78500E48A66 /* SupportAssistantFeature.swift */; };
+		D310AC312B10A8C600E48A66 /* MoreOptionsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC302B10A8C600E48A66 /* MoreOptionsFeature.swift */; };
+		D310AC352B10AB9700E48A66 /* TabHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC342B10AB9700E48A66 /* TabHubView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +64,13 @@
 		659A55172B0EFE0600B2BF9B /* WeiBainingAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeiBainingAI.entitlements; sourceTree = "<group>"; };
 		659A55192B0EFE0600B2BF9B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D310AC202B10A1CE00E48A66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		D310AC262B10A69D00E48A66 /* MessagingHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubView.swift; sourceTree = "<group>"; };
+		D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantView.swift; sourceTree = "<group>"; };
+		D310AC2A2B10A6B500E48A66 /* MoreOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsView.swift; sourceTree = "<group>"; };
+		D310AC2C2B10A6BE00E48A66 /* MessagingHubViewFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubViewFeature.swift; sourceTree = "<group>"; };
+		D310AC2E2B10A78500E48A66 /* SupportAssistantFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantFeature.swift; sourceTree = "<group>"; };
+		D310AC302B10A8C600E48A66 /* MoreOptionsFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsFeature.swift; sourceTree = "<group>"; };
+		D310AC342B10AB9700E48A66 /* TabHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHubView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,9 +162,9 @@
 		659A55102B0EFE0500B2BF9B /* WeiBainingAI */ = {
 			isa = PBXGroup;
 			children = (
+				D310AC222B10A39800E48A66 /* Modules */,
 				65876EC42B0F87ED00DFFE0C /* HttpRequest */,
 				65876ED82B0F936000DFFE0C /* Models */,
-				65876ECE2B0F890900DFFE0C /* Launch */,
 				65876ECD2B0F890200DFFE0C /* Units */,
 				65876EDF2B0FA09800DFFE0C /* Resource */,
 				659A55172B0EFE0600B2BF9B /* WeiBainingAI.entitlements */,
@@ -167,6 +181,45 @@
 				659A55192B0EFE0600B2BF9B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D310AC222B10A39800E48A66 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				65876ECE2B0F890900DFFE0C /* Launch */,
+				D310AC232B10A3AA00E48A66 /* MessagingHub */,
+				D310AC242B10A65D00E48A66 /* SupportAssistant */,
+				D310AC252B10A66100E48A66 /* MoreOptions */,
+				D310AC342B10AB9700E48A66 /* TabHubView.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		D310AC232B10A3AA00E48A66 /* MessagingHub */ = {
+			isa = PBXGroup;
+			children = (
+				D310AC262B10A69D00E48A66 /* MessagingHubView.swift */,
+				D310AC2C2B10A6BE00E48A66 /* MessagingHubViewFeature.swift */,
+			);
+			path = MessagingHub;
+			sourceTree = "<group>";
+		};
+		D310AC242B10A65D00E48A66 /* SupportAssistant */ = {
+			isa = PBXGroup;
+			children = (
+				D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */,
+				D310AC2E2B10A78500E48A66 /* SupportAssistantFeature.swift */,
+			);
+			path = SupportAssistant;
+			sourceTree = "<group>";
+		};
+		D310AC252B10A66100E48A66 /* MoreOptions */ = {
+			isa = PBXGroup;
+			children = (
+				D310AC2A2B10A6B500E48A66 /* MoreOptionsView.swift */,
+				D310AC302B10A8C600E48A66 /* MoreOptionsFeature.swift */,
+			);
+			path = MoreOptions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,10 +349,17 @@
 				65876EDC2B0F948B00DFFE0C /* LaunchLoadView.swift in Sources */,
 				659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */,
 				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
+				D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */,
 				65876ECA2B0F884700DFFE0C /* HttpParserHandler.swift in Sources */,
+				D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */,
+				D310AC2B2B10A6B500E48A66 /* MoreOptionsView.swift in Sources */,
 				65876ED02B0F89DA00DFFE0C /* LaunchConfigReducer.swift in Sources */,
+				D310AC352B10AB9700E48A66 /* TabHubView.swift in Sources */,
 				65876EC62B0F880400DFFE0C /* HttpRequestHandler.swift in Sources */,
+				D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */,
+				D310AC312B10A8C600E48A66 /* MoreOptionsFeature.swift in Sources */,
 				65876ECC2B0F885200DFFE0C /* HttpErrorHandler.swift in Sources */,
+				D310AC2F2B10A78500E48A66 /* SupportAssistantFeature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
