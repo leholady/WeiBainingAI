@@ -19,9 +19,7 @@ force_cast:
 force_try:
   severity: warning
 included:
-  - TwentyOne
-  - Tunnel
-  - TwentyOneTests
+  - WeiBainingAI
 
 excluded:
   - Carthage
