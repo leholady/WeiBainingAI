@@ -31,14 +31,17 @@ jobs:
   build:
     name: Build default scheme using any available iPhone simulator
     runs-on: macos-latest
-  
+    strategy:
+      matrix:
+        # destination: [
+        #   'iOS Simulator,name=iPhone 15 Pro Max'
+        # ]
+        swift-version: [5.0]
+        
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Select Xcode Version
-        uses: actions/setup-xcode@v1
-        with:
-          xcode-version: '15.0.1'
+   
       - name: Build
         run: xcodebuild -scheme WeiBainingAI -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 15 Pro Max' build
 
