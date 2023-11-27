@@ -31,7 +31,6 @@
 		659A55282B0F001C00B2BF9B /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55272B0F001C00B2BF9B /* ComposableArchitecture */; };
 		659A552B2B0F003600B2BF9B /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 659A552A2B0F003600B2BF9B /* KeychainSwift */; };
 		659A552E2B0F004700B2BF9B /* SVProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 659A552D2B0F004700B2BF9B /* SVProgressHUD */; };
-		659A55312B0F007400B2BF9B /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55302B0F007400B2BF9B /* SwiftUIX */; };
 		659A55342B0F009A00B2BF9B /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55332B0F009A00B2BF9B /* Logging */; };
 		D310AC212B10A1CE00E48A66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D310AC202B10A1CE00E48A66 /* .swiftlint.yml */; };
 		D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC262B10A69D00E48A66 /* MessagingHubView.swift */; };
@@ -84,7 +83,6 @@
 				65876EC32B0F873D00DFFE0C /* CryptoSwift in Frameworks */,
 				659A552E2B0F004700B2BF9B /* SVProgressHUD in Frameworks */,
 				659A55342B0F009A00B2BF9B /* Logging in Frameworks */,
-				659A55312B0F007400B2BF9B /* SwiftUIX in Frameworks */,
 				659A552B2B0F003600B2BF9B /* KeychainSwift in Frameworks */,
 				659A55282B0F001C00B2BF9B /* ComposableArchitecture in Frameworks */,
 			);
@@ -244,7 +242,6 @@
 				659A55272B0F001C00B2BF9B /* ComposableArchitecture */,
 				659A552A2B0F003600B2BF9B /* KeychainSwift */,
 				659A552D2B0F004700B2BF9B /* SVProgressHUD */,
-				659A55302B0F007400B2BF9B /* SwiftUIX */,
 				659A55332B0F009A00B2BF9B /* Logging */,
 				65876EBF2B0F86BF00DFFE0C /* DeviceKit */,
 				65876EC22B0F873D00DFFE0C /* CryptoSwift */,
@@ -283,7 +280,6 @@
 				659A55262B0F001C00B2BF9B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				659A55292B0F003600B2BF9B /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				659A552C2B0F004700B2BF9B /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
-				659A552F2B0F007400B2BF9B /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 				659A55322B0F009A00B2BF9B /* XCRemoteSwiftPackageReference "swift-log" */,
 				65876EBE2B0F86BF00DFFE0C /* XCRemoteSwiftPackageReference "DeviceKit" */,
 				65876EC12B0F873D00DFFE0C /* XCRemoteSwiftPackageReference "CryptoSwift" */,
@@ -650,14 +646,6 @@
 				minimumVersion = 2.3.1;
 			};
 		};
-		659A552F2B0F007400B2BF9B /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.9;
-			};
-		};
 		659A55322B0F009A00B2BF9B /* XCRemoteSwiftPackageReference "swift-log" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-log";
@@ -703,11 +691,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 659A552C2B0F004700B2BF9B /* XCRemoteSwiftPackageReference "SVProgressHUD" */;
 			productName = SVProgressHUD;
-		};
-		659A55302B0F007400B2BF9B /* SwiftUIX */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 659A552F2B0F007400B2BF9B /* XCRemoteSwiftPackageReference "SwiftUIX" */;
-			productName = SwiftUIX;
 		};
 		659A55332B0F009A00B2BF9B /* Logging */ = {
 			isa = XCSwiftPackageProductDependency;
