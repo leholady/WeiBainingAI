@@ -19,7 +19,6 @@ jobs:
         include:
           - destination: "OS=17.0,name=iPhone 14 Pro"
             name: "iOS 17.0"
-            testPlan: "iOS"
             xcode: "Xcode_15.0"
             runsOn: firebreak
     steps:
@@ -27,7 +26,7 @@ jobs:
       - name: Install SwiftLint
         run: brew install swiftlint
       - name: ${{ matrix.name }}
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "WeiBainingAI.xcodeproj" -scheme "Alamofire iOS" -destination "${{ matrix.destination }}" -testPlan "${{ matrix.testPlan }}" clean test 2>&1 | xcpretty
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project "WeiBainingAI.xcodeproj" -scheme "Alamofire iOS" -destination "${{ matrix.destination }}" clean test 2>&1 | xcpretty
         
   # build:
   #   name: Build default scheme using any available iPhone simulator
