@@ -21,17 +21,26 @@ struct SupportAssistantFeature {
                                   title: "AI写作与灵感",
                                   content: "通过人工智能驱动的写作和灵感释放您的创造力。 毫不费力地制作引人入胜的内容、产生新的想法并完善您的写作。")
         ]
+        @PresentationState var details: SupportAssistantDetailsFeature.State?
     }
     
     enum Action: Equatable {
+        case dismissDetails(SupportAssistantModel)
+        case fullScreenCoverDetails(PresentationAction<SupportAssistantDetailsFeature.Action>)
     }
     
     var body: some Reducer<State, Action> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
+            case let .dismissDetails(model):
+                state.details = SupportAssistantDetailsFeature.State(somthing: model.title)
+                return .none
             default:
                 return .none
             }
+        }
+        .ifLet(\.$details, action: /Action.fullScreenCoverDetails) {
+            SupportAssistantDetailsFeature()
         }
     }
 }
