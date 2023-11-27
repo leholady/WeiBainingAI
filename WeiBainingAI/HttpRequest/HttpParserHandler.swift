@@ -57,8 +57,7 @@ private extension Data {
         #if DEBUG
             if let json = try? JSONSerialization.jsonObject(with: decryptData),
                let pretty = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted),
-               let string = String(data: pretty, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines)
-            {
+               let string = String(data: pretty, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
                 Logger(label: "").info("返回内容===>\(string)")
             }
         #else
