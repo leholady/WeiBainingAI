@@ -44,8 +44,6 @@ actor HttpRequestHandler {
     /// 请求session
     private let session: Alamofire.Session = {
         let eventMonitor = ClosureEventMonitor()
-        eventMonitor.requestDidCompleteTaskWithError = { request, _, _ in
-        }
         return Alamofire.Session(eventMonitors: [eventMonitor])
     }()
 
@@ -79,9 +77,8 @@ actor HttpRequestHandler {
         let finalParameters = basicParameters(parameters: parameters)
         #if DEBUG
             if let jsonData = try? JSONSerialization.data(withJSONObject: finalParameters, options: .prettyPrinted),
-               let jsonString = String(data: jsonData, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines)
-            {
-                Logger(label: "").info("请求参数===>\(jsonString)")
+               let jsonString = String(data: jsonData, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
+                Logger(label: "Request").info("请求参数===>\(jsonString)")
             }
         #else
         #endif
@@ -142,7 +139,7 @@ extension HttpRequestHandler {
         let response: HttpResponseHandler<HttpResponseTimestamp> = try await baseRequest(
             parameters: [
                 "cmd": HttpConst.getServerTime,
-                "_nonce": UUID().uuidString.md5(),
+                "_nonce": UUID().uuidString.md5()
             ]
         )
         return response.res?.timestamp ?? Int(Date().timeIntervalSince1970)
@@ -152,7 +149,7 @@ extension HttpRequestHandler {
     func loginUserAccount() async throws -> UserProfileModel {
         let parameters: [String: Any] = [
             "thirdType": "VISITOR",
-            "thirdId": userUniqueId,
+            "thirdId": userUniqueId
         ]
         let profile: UserProfileModel = try await requestTask(
             cmd: HttpConst.getLoginAccount,
