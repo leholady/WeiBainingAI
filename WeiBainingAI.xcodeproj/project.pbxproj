@@ -41,6 +41,9 @@
 		7E94A4842B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */; };
 		7E95BC242B14C220001884AD /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95BC232B14C220001884AD /* SegmentedControl.swift */; };
 		7EA68D0C2B15D10D00958343 /* SupportAssistantClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */; };
+		7EA68D102B15EDD100958343 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA68D0F2B15EDD100958343 /* ImagePickerView.swift */; };
+		7EA68D122B15EE1B00958343 /* ImagePickerFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA68D112B15EE1B00958343 /* ImagePickerFeature.swift */; };
+		7EA68D142B16058200958343 /* SupportAssistantDetailsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA68D132B16058200958343 /* SupportAssistantDetailsImageCell.swift */; };
 		D310AC212B10A1CE00E48A66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D310AC202B10A1CE00E48A66 /* .swiftlint.yml */; };
 		D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC262B10A69D00E48A66 /* MessagingHubView.swift */; };
 		D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */; };
@@ -78,6 +81,9 @@
 		7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsFeature.swift; sourceTree = "<group>"; };
 		7E95BC232B14C220001884AD /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantClient.swift; sourceTree = "<group>"; };
+		7EA68D0F2B15EDD100958343 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		7EA68D112B15EE1B00958343 /* ImagePickerFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerFeature.swift; sourceTree = "<group>"; };
+		7EA68D132B16058200958343 /* SupportAssistantDetailsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsImageCell.swift; sourceTree = "<group>"; };
 		D310AC202B10A1CE00E48A66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D310AC262B10A69D00E48A66 /* MessagingHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubView.swift; sourceTree = "<group>"; };
 		D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantView.swift; sourceTree = "<group>"; };
@@ -228,8 +234,11 @@
 				7E94A47E2B144B0600EA23F8 /* SupportAssistantFeature.swift */,
 				7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */,
 				7E94A4812B144BD200EA23F8 /* SupportAssistantDetailsView.swift */,
+				7EA68D132B16058200958343 /* SupportAssistantDetailsImageCell.swift */,
 				7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */,
 				7E95BC232B14C220001884AD /* SegmentedControl.swift */,
+				7EA68D0F2B15EDD100958343 /* ImagePickerView.swift */,
+				7EA68D112B15EE1B00958343 /* ImagePickerFeature.swift */,
 			);
 			path = SupportAssistant;
 			sourceTree = "<group>";
@@ -373,16 +382,19 @@
 				65876EDC2B0F948B00DFFE0C /* LaunchLoadView.swift in Sources */,
 				659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */,
 				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
+				7EA68D102B15EDD100958343 /* ImagePickerView.swift in Sources */,
 				D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */,
 				65876ECA2B0F884700DFFE0C /* HttpParserHandler.swift in Sources */,
 				D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */,
 				D310AC2B2B10A6B500E48A66 /* MoreOptionsView.swift in Sources */,
 				65876ED02B0F89DA00DFFE0C /* LaunchConfigReducer.swift in Sources */,
 				D310AC352B10AB9700E48A66 /* TabHubView.swift in Sources */,
+				7EA68D142B16058200958343 /* SupportAssistantDetailsImageCell.swift in Sources */,
 				7E94A4762B143B8300EA23F8 /* SupportAssistantCell.swift in Sources */,
 				7E0CD91D2B148A2F00308394 /* SupportAssistantDetailsModel.swift in Sources */,
 				7E94A4782B143BC100EA23F8 /* SupportAssistantModel.swift in Sources */,
 				65876EC62B0F880400DFFE0C /* HttpRequestHandler.swift in Sources */,
+				7EA68D122B15EE1B00958343 /* ImagePickerFeature.swift in Sources */,
 				7E94A4832B144BD200EA23F8 /* SupportAssistantDetailsView.swift in Sources */,
 				D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */,
 				7E95BC242B14C220001884AD /* SegmentedControl.swift in Sources */,

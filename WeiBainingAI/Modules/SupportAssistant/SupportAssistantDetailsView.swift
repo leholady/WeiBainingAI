@@ -37,25 +37,20 @@ struct SupportAssistantDetailsView: View {
                                     .padding(.vertical, 14)
                             }
                         }
-                    }
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 40,
-                                              leading: 20,
-                                              bottom: 25,
-                                              trailing: 20))
-                    VStack(alignment: .leading) {
-                        Text("图像提示")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(Color(hex: 0x666666))
-                        Image("assistant_icon_picture")
+                        .padding(.bottom, 25)
                     }
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets(top: 5,
                                               leading: 20,
-                                              bottom: 25,
+                                              bottom: 0,
                                               trailing: 20))
+                    SupportAssistantDetailsImageCell(title: "图像提示",
+                                                     imageData: viewStore.selectImageData) {
+                        viewStore.send(.dismissAlbum)
+                    } deleteAction: {
+                        viewStore.send(.selectImageDetele)
+                    }
                     VStack(alignment: .leading) {
                         Text("图像参考度")
                             .font(.system(size: 12, weight: .medium))
@@ -124,6 +119,10 @@ struct SupportAssistantDetailsView: View {
                             Image("more_icon_share")
                         })
                     }
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$albumState,
+                                                         action: \.fullScreenCoverAlbum)) { store in
+                    ImagePickerView(store: store)
                 }
             }
             .background(Color(hex: 0xF6F6F6))
