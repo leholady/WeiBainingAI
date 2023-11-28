@@ -39,7 +39,7 @@ struct SupportAssistantFeature {
                 return .none
             }
         }
-        .ifLet(\.$details, action: /Action.fullScreenCoverDetails) {
+        .ifLet(\.$details, action: \.fullScreenCoverDetails) {
             SupportAssistantDetailsFeature()
         }
     }
