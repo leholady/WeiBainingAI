@@ -38,7 +38,9 @@ struct SupportAssistantView: View {
                         Image("home_icon_member")
                     }
                 }
-                .fullScreenCover(store: self.store.scope(state: \.$details, action: { .fullScreenCoverDetails($0) })) { store in
+                .fullScreenCover(
+                    store: self.store.scope(state: \.$details,
+                                            action: \.fullScreenCoverDetails)) { store in
                     SupportAssistantDetailsView(store: store)
                 }
             }
