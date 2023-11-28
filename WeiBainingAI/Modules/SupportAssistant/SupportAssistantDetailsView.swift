@@ -17,81 +17,24 @@ struct SupportAssistantDetailsView: View {
         NavigationView {
             WithViewStore(store, observe: { $0 }) { viewStore in
                 List {
-                    VStack(alignment: .leading) {
-                        Text("文字提示")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(Color(hex: 0x666666))
-                        ZStack(alignment: .topLeading) {
-                            TextEditor(text: viewStore.$editorText)
-                                .padding(6)
-                                .font(.system(size: 14))
-                                .foregroundColor(.black)
-                                .frame(minHeight: 120)
-                                .background(.white)
-                                .cornerRadius(10)
-                            if viewStore.editorText.isEmpty {
-                                Text("输入所需的头像内容和风格例如：太空行走的小猫")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(Color(hex: 0x999999))
-                                    .padding(.horizontal, 11)
-                                    .padding(.vertical, 14)
-                            }
-                        }
+                    SupportAssistantDetailsTextCell(title: "文字提示",
+                                                    placeholder: "输入所需的头像内容和风格例如：太空行走的小猫",
+                                                    text: viewStore.$editorText)
+                    SupportAssistantDetailsImageCell(title: "图像提示",
+                                                     imageData: viewStore.selectImageData) {
+                        viewStore.send(.dismissAlbum)
+                    } deleteAction: {
+                        viewStore.send(.selectImageDetele)
                     }
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 40,
-                                              leading: 20,
-                                              bottom: 25,
-                                              trailing: 20))
-                    VStack(alignment: .leading) {
-                        Text("图像提示")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(Color(hex: 0x666666))
-                        Image("assistant_icon_picture")
-                    }
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 5,
-                                              leading: 20,
-                                              bottom: 25,
-                                              trailing: 20))
-                    VStack(alignment: .leading) {
-                        Text("图像参考度")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(Color(hex: 0x666666))
-                        SegmentedControl(items: viewStore.aspectImageFactors.compactMap { $0.title }, selectedIndex: viewStore.$selectImageFactor)
-                    }
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 5,
-                                              leading: 20,
-                                              bottom: 25,
-                                              trailing: 20))
-                    VStack(alignment: .leading) {
-                        Text("风格")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(Color(hex: 0x666666))
-                        SegmentedControl(items: viewStore.aspectStyles.compactMap { $0.title }, selectedIndex: viewStore.$selectStyle)
-                    }
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 5,
-                                              leading: 20,
-                                              bottom: 25,
-                                              trailing: 20))
-                    VStack(alignment: .leading) {
-                        Text("纵横比")
-                            .font(.system(size: 12, weight: .medium))
-                            .foregroundColor(Color(hex: 0x666666))
-                        SegmentedControl(items: viewStore.aspectRatios.compactMap { $0.title }, selectedIndex: viewStore.$selectRatios)
-                    }
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 5,
-                                              leading: 20,
-                                              bottom: 80,
-                                              trailing: 20))
+                    SupportAssistantDetailsSegmentedCell(title: "图像参考度",
+                                                         items: viewStore.aspectImageFactors.compactMap { $0.title },
+                                                         select: viewStore.$selectImageFactor)
+                    SupportAssistantDetailsSegmentedCell(title: "风格",
+                                                         items: viewStore.aspectStyles.compactMap { $0.title },
+                                                         select: viewStore.$selectStyle)
+                    SupportAssistantDetailsSegmentedCell(title: "纵横比",
+                                                         items: viewStore.aspectRatios.compactMap { $0.title },
+                                                         select: viewStore.$selectRatios)
                     RoundedRectangle(cornerRadius: 20)
                         .overlay(content: {
                             Text("生成")
@@ -99,6 +42,7 @@ struct SupportAssistantDetailsView: View {
                         })
                         .frame(height: 50)
                         .padding(.horizontal, 20)
+                        .padding(.top, 60)
                         .foregroundColor(Color(hex: 0x027AFF))
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.clear)
@@ -124,6 +68,10 @@ struct SupportAssistantDetailsView: View {
                             Image("more_icon_share")
                         })
                     }
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$albumState,
+                                                         action: \.fullScreenCoverAlbum)) { store in
+                    ImagePickerView(store: store)
                 }
             }
             .background(Color(hex: 0xF6F6F6))
