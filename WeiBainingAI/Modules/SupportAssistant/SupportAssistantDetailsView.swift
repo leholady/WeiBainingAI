@@ -107,7 +107,7 @@ struct SupportAssistantDetailsView: View {
                         }
                 }
                 .listStyle(.plain)
-                .navigationTitle(viewStore.somthing)
+                .navigationTitle(viewStore.assistantTitle)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
@@ -132,7 +132,7 @@ struct SupportAssistantDetailsView: View {
 }
 
 #Preview {
-    SupportAssistantDetailsView(store: Store(initialState: SupportAssistantDetailsFeature.State(somthing: "Hello World"),
+    SupportAssistantDetailsView(store: Store(initialState: SupportAssistantDetailsFeature.State(assistantTitle: "Hello World"),
                                              reducer: {
         SupportAssistantDetailsFeature()
     }))

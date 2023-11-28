@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct SupportAssistantDetailsFeature {
     struct State: Equatable {
-        var somthing: String
+        var assistantTitle: String
         @BindingState var editorText: String = ""
         var aspectRatios: [SupportAssistantDetailsModel.AssistantDetailsProportion] = [.one, .two, .three, .four, .five, .six]
         @BindingState var selectRatios: Int = 0
