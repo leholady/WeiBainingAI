@@ -28,17 +28,24 @@
 		659A55162B0EFE0600B2BF9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659A55152B0EFE0600B2BF9B /* Assets.xcassets */; };
 		659A551A2B0EFE0600B2BF9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659A55192B0EFE0600B2BF9B /* Preview Assets.xcassets */; };
 		659A55222B0EFE2C00B2BF9B /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55212B0EFE2C00B2BF9B /* Reachability */; };
-		659A55282B0F001C00B2BF9B /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55272B0F001C00B2BF9B /* ComposableArchitecture */; };
 		659A552B2B0F003600B2BF9B /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 659A552A2B0F003600B2BF9B /* KeychainSwift */; };
 		659A552E2B0F004700B2BF9B /* SVProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 659A552D2B0F004700B2BF9B /* SVProgressHUD */; };
 		659A55312B0F007400B2BF9B /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55302B0F007400B2BF9B /* SwiftUIX */; };
 		659A55342B0F009A00B2BF9B /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55332B0F009A00B2BF9B /* Logging */; };
+		7E0CD91D2B148A2F00308394 /* SupportAssistantDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0CD91C2B148A2F00308394 /* SupportAssistantDetailsModel.swift */; };
+		7E689D9C2B15CA9600B4BFD3 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 7E689D9B2B15CA9600B4BFD3 /* ComposableArchitecture */; };
+		7E94A4762B143B8300EA23F8 /* SupportAssistantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */; };
+		7E94A4782B143BC100EA23F8 /* SupportAssistantModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4772B143BC100EA23F8 /* SupportAssistantModel.swift */; };
+		7E94A4802B144B0600EA23F8 /* SupportAssistantFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A47E2B144B0600EA23F8 /* SupportAssistantFeature.swift */; };
+		7E94A4832B144BD200EA23F8 /* SupportAssistantDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4812B144BD200EA23F8 /* SupportAssistantDetailsView.swift */; };
+		7E94A4842B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */; };
+		7E95BC242B14C220001884AD /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95BC232B14C220001884AD /* SegmentedControl.swift */; };
+		7EA68D0C2B15D10D00958343 /* SupportAssistantClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */; };
 		D310AC212B10A1CE00E48A66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D310AC202B10A1CE00E48A66 /* .swiftlint.yml */; };
 		D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC262B10A69D00E48A66 /* MessagingHubView.swift */; };
 		D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */; };
 		D310AC2B2B10A6B500E48A66 /* MoreOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC2A2B10A6B500E48A66 /* MoreOptionsView.swift */; };
 		D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC2C2B10A6BE00E48A66 /* MessagingHubViewFeature.swift */; };
-		D310AC2F2B10A78500E48A66 /* SupportAssistantFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC2E2B10A78500E48A66 /* SupportAssistantFeature.swift */; };
 		D310AC312B10A8C600E48A66 /* MoreOptionsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC302B10A8C600E48A66 /* MoreOptionsFeature.swift */; };
 		D310AC352B10AB9700E48A66 /* TabHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC342B10AB9700E48A66 /* TabHubView.swift */; };
 /* End PBXBuildFile section */
@@ -63,12 +70,19 @@
 		659A55152B0EFE0600B2BF9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		659A55172B0EFE0600B2BF9B /* WeiBainingAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeiBainingAI.entitlements; sourceTree = "<group>"; };
 		659A55192B0EFE0600B2BF9B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7E0CD91C2B148A2F00308394 /* SupportAssistantDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsModel.swift; sourceTree = "<group>"; };
+		7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantCell.swift; sourceTree = "<group>"; };
+		7E94A4772B143BC100EA23F8 /* SupportAssistantModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantModel.swift; sourceTree = "<group>"; };
+		7E94A47E2B144B0600EA23F8 /* SupportAssistantFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantFeature.swift; sourceTree = "<group>"; };
+		7E94A4812B144BD200EA23F8 /* SupportAssistantDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsView.swift; sourceTree = "<group>"; };
+		7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsFeature.swift; sourceTree = "<group>"; };
+		7E95BC232B14C220001884AD /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantClient.swift; sourceTree = "<group>"; };
 		D310AC202B10A1CE00E48A66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D310AC262B10A69D00E48A66 /* MessagingHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubView.swift; sourceTree = "<group>"; };
 		D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantView.swift; sourceTree = "<group>"; };
 		D310AC2A2B10A6B500E48A66 /* MoreOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsView.swift; sourceTree = "<group>"; };
 		D310AC2C2B10A6BE00E48A66 /* MessagingHubViewFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubViewFeature.swift; sourceTree = "<group>"; };
-		D310AC2E2B10A78500E48A66 /* SupportAssistantFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantFeature.swift; sourceTree = "<group>"; };
 		D310AC302B10A8C600E48A66 /* MoreOptionsFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsFeature.swift; sourceTree = "<group>"; };
 		D310AC342B10AB9700E48A66 /* TabHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHubView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,13 +94,13 @@
 			files = (
 				65876ED52B0F8D7C00DFFE0C /* Alamofire in Frameworks */,
 				659A55222B0EFE2C00B2BF9B /* Reachability in Frameworks */,
+				7E689D9C2B15CA9600B4BFD3 /* ComposableArchitecture in Frameworks */,
 				65876EC02B0F86BF00DFFE0C /* DeviceKit in Frameworks */,
 				65876EC32B0F873D00DFFE0C /* CryptoSwift in Frameworks */,
 				659A552E2B0F004700B2BF9B /* SVProgressHUD in Frameworks */,
 				659A55342B0F009A00B2BF9B /* Logging in Frameworks */,
 				659A55312B0F007400B2BF9B /* SwiftUIX in Frameworks */,
 				659A552B2B0F003600B2BF9B /* KeychainSwift in Frameworks */,
-				659A55282B0F001C00B2BF9B /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +140,8 @@
 			isa = PBXGroup;
 			children = (
 				65876ED92B0F936A00DFFE0C /* UserProfileModel.swift */,
+				7E94A4772B143BC100EA23F8 /* SupportAssistantModel.swift */,
+				7E0CD91C2B148A2F00308394 /* SupportAssistantDetailsModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -208,7 +224,12 @@
 			isa = PBXGroup;
 			children = (
 				D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */,
-				D310AC2E2B10A78500E48A66 /* SupportAssistantFeature.swift */,
+				7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */,
+				7E94A47E2B144B0600EA23F8 /* SupportAssistantFeature.swift */,
+				7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */,
+				7E94A4812B144BD200EA23F8 /* SupportAssistantDetailsView.swift */,
+				7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */,
+				7E95BC232B14C220001884AD /* SegmentedControl.swift */,
 			);
 			path = SupportAssistant;
 			sourceTree = "<group>";
@@ -241,7 +262,6 @@
 			name = WeiBainingAI;
 			packageProductDependencies = (
 				659A55212B0EFE2C00B2BF9B /* Reachability */,
-				659A55272B0F001C00B2BF9B /* ComposableArchitecture */,
 				659A552A2B0F003600B2BF9B /* KeychainSwift */,
 				659A552D2B0F004700B2BF9B /* SVProgressHUD */,
 				659A55302B0F007400B2BF9B /* SwiftUIX */,
@@ -249,6 +269,7 @@
 				65876EBF2B0F86BF00DFFE0C /* DeviceKit */,
 				65876EC22B0F873D00DFFE0C /* CryptoSwift */,
 				65876ED42B0F8D7C00DFFE0C /* Alamofire */,
+				7E689D9B2B15CA9600B4BFD3 /* ComposableArchitecture */,
 			);
 			productName = WeiBainingAI;
 			productReference = 659A550E2B0EFE0500B2BF9B /* WeiBainingAI.app */;
@@ -280,7 +301,6 @@
 			mainGroup = 659A55052B0EFE0500B2BF9B;
 			packageReferences = (
 				659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability" */,
-				659A55262B0F001C00B2BF9B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				659A55292B0F003600B2BF9B /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				659A552C2B0F004700B2BF9B /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
 				659A552F2B0F007400B2BF9B /* XCRemoteSwiftPackageReference "SwiftUIX" */,
@@ -288,6 +308,7 @@
 				65876EBE2B0F86BF00DFFE0C /* XCRemoteSwiftPackageReference "DeviceKit" */,
 				65876EC12B0F873D00DFFE0C /* XCRemoteSwiftPackageReference "CryptoSwift" */,
 				65876ED32B0F8D7C00DFFE0C /* XCRemoteSwiftPackageReference "Alamofire" */,
+				7E689D9A2B15CA9600B4BFD3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 659A550F2B0EFE0500B2BF9B /* Products */;
 			projectDirPath = "";
@@ -343,9 +364,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E94A4842B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift in Sources */,
 				65876EDE2B0F96A500DFFE0C /* HttpRequestClient.swift in Sources */,
+				7E94A4802B144B0600EA23F8 /* SupportAssistantFeature.swift in Sources */,
 				65876EDA2B0F936A00DFFE0C /* UserProfileModel.swift in Sources */,
 				65876EC82B0F881100DFFE0C /* HttpResponseHandler.swift in Sources */,
+				7EA68D0C2B15D10D00958343 /* SupportAssistantClient.swift in Sources */,
 				65876EDC2B0F948B00DFFE0C /* LaunchLoadView.swift in Sources */,
 				659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */,
 				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
@@ -355,11 +379,15 @@
 				D310AC2B2B10A6B500E48A66 /* MoreOptionsView.swift in Sources */,
 				65876ED02B0F89DA00DFFE0C /* LaunchConfigReducer.swift in Sources */,
 				D310AC352B10AB9700E48A66 /* TabHubView.swift in Sources */,
+				7E94A4762B143B8300EA23F8 /* SupportAssistantCell.swift in Sources */,
+				7E0CD91D2B148A2F00308394 /* SupportAssistantDetailsModel.swift in Sources */,
+				7E94A4782B143BC100EA23F8 /* SupportAssistantModel.swift in Sources */,
 				65876EC62B0F880400DFFE0C /* HttpRequestHandler.swift in Sources */,
+				7E94A4832B144BD200EA23F8 /* SupportAssistantDetailsView.swift in Sources */,
 				D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */,
+				7E95BC242B14C220001884AD /* SegmentedControl.swift in Sources */,
 				D310AC312B10A8C600E48A66 /* MoreOptionsFeature.swift in Sources */,
 				65876ECC2B0F885200DFFE0C /* HttpErrorHandler.swift in Sources */,
-				D310AC2F2B10A78500E48A66 /* SupportAssistantFeature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,14 +654,6 @@
 				kind = branch;
 			};
 		};
-		659A55262B0F001C00B2BF9B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.2;
-			};
-		};
 		659A55292B0F003600B2BF9B /* XCRemoteSwiftPackageReference "keychain-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/evgenyneu/keychain-swift";
@@ -666,6 +686,14 @@
 				minimumVersion = 1.5.3;
 			};
 		};
+		7E689D9A2B15CA9600B4BFD3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -689,11 +717,6 @@
 			package = 659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability" */;
 			productName = Reachability;
 		};
-		659A55272B0F001C00B2BF9B /* ComposableArchitecture */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 659A55262B0F001C00B2BF9B /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
-			productName = ComposableArchitecture;
-		};
 		659A552A2B0F003600B2BF9B /* KeychainSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 659A55292B0F003600B2BF9B /* XCRemoteSwiftPackageReference "keychain-swift" */;
@@ -713,6 +736,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 659A55322B0F009A00B2BF9B /* XCRemoteSwiftPackageReference "swift-log" */;
 			productName = Logging;
+		};
+		7E689D9B2B15CA9600B4BFD3 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7E689D9A2B15CA9600B4BFD3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
