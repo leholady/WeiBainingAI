@@ -38,11 +38,14 @@ struct SupportAssistantView: View {
                         Image("home_icon_member")
                     }
                 }
+                .onAppear {
+                    viewStore.send(.uploadAssistantItems)
+                }
                 .fullScreenCover(
                     store: self.store.scope(state: \.$details,
                                             action: \.fullScreenCoverDetails)) { store in
-                    SupportAssistantDetailsView(store: store)
-                }
+                                                SupportAssistantDetailsView(store: store)
+                                            }
             }
             .background(Color(hex: 0xF6F6F6))
         }

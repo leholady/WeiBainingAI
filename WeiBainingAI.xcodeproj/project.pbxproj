@@ -40,6 +40,7 @@
 		7E94A4832B144BD200EA23F8 /* SupportAssistantDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4812B144BD200EA23F8 /* SupportAssistantDetailsView.swift */; };
 		7E94A4842B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */; };
 		7E95BC242B14C220001884AD /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E95BC232B14C220001884AD /* SegmentedControl.swift */; };
+		7EA68D0C2B15D10D00958343 /* SupportAssistantClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */; };
 		D310AC212B10A1CE00E48A66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D310AC202B10A1CE00E48A66 /* .swiftlint.yml */; };
 		D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC262B10A69D00E48A66 /* MessagingHubView.swift */; };
 		D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */; };
@@ -76,6 +77,7 @@
 		7E94A4812B144BD200EA23F8 /* SupportAssistantDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsView.swift; sourceTree = "<group>"; };
 		7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsFeature.swift; sourceTree = "<group>"; };
 		7E95BC232B14C220001884AD /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantClient.swift; sourceTree = "<group>"; };
 		D310AC202B10A1CE00E48A66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D310AC262B10A69D00E48A66 /* MessagingHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubView.swift; sourceTree = "<group>"; };
 		D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantView.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */,
 				7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */,
 				7E94A47E2B144B0600EA23F8 /* SupportAssistantFeature.swift */,
+				7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */,
 				7E94A4812B144BD200EA23F8 /* SupportAssistantDetailsView.swift */,
 				7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */,
 				7E95BC232B14C220001884AD /* SegmentedControl.swift */,
@@ -366,6 +369,7 @@
 				7E94A4802B144B0600EA23F8 /* SupportAssistantFeature.swift in Sources */,
 				65876EDA2B0F936A00DFFE0C /* UserProfileModel.swift in Sources */,
 				65876EC82B0F881100DFFE0C /* HttpResponseHandler.swift in Sources */,
+				7EA68D0C2B15D10D00958343 /* SupportAssistantClient.swift in Sources */,
 				65876EDC2B0F948B00DFFE0C /* LaunchLoadView.swift in Sources */,
 				659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */,
 				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
