@@ -19,6 +19,8 @@ struct SupportAssistantDetailsFeature {
         @BindingState var selectStyle: Int = 0
         var aspectImageFactors: [SupportAssistantDetailsModel.AssistantDetailsImageFactor] = [.low, .middle, .high, .forced]
         @BindingState var selectImageFactor: Int = 0
+        
+        var editModel = SupportAssistantDetailsModel()
     }
     
     enum Action: Equatable {
@@ -26,6 +28,7 @@ struct SupportAssistantDetailsFeature {
         case aspectRatioChanged(Int)
         case aspectStyleChanged(Int)
         case aspectImageFactorChanged(Int)
+        case generateStart
     }
     
     var body: some Reducer<State, Action> {
@@ -33,15 +36,25 @@ struct SupportAssistantDetailsFeature {
             switch action {
             case let .textEditorChanged(text):
                 state.editorText = text
+                state.editModel.text = text
                 return .none
             case let .aspectRatioChanged(ratio):
                 state.selectRatios = ratio
+                state.editModel.proportion = state.aspectRatios[ratio]
                 return .none
             case let .aspectStyleChanged(style):
                 state.selectStyle = style
+                state.editModel.style = state.aspectStyles[style]
                 return .none
-            case let .aspectImageFactorChanged(style):
-                state.selectImageFactor = style
+            case let .aspectImageFactorChanged(factor):
+                state.selectImageFactor = factor
+                state.editModel.referImageFactor = state.aspectImageFactors[factor]
+                return .none
+            case .generateStart:
+                if let data = try? JSONEncoder().encode(state.editModel),
+                   let json = String(data: data, encoding: .utf8) {
+                    debugPrint("==========\(json)=============")
+                }
                 return .none
 //            default:
 //                return .none

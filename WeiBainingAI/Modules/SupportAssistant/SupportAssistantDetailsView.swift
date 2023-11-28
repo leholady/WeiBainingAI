@@ -40,7 +40,7 @@ struct SupportAssistantDetailsView: View {
                     }
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
-                    .listRowInsets(EdgeInsets(top: 5,
+                    .listRowInsets(EdgeInsets(top: 40,
                                               leading: 20,
                                               bottom: 25,
                                               trailing: 20))
@@ -60,7 +60,7 @@ struct SupportAssistantDetailsView: View {
                         Text("图像参考度")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(Color(hex: 0x666666))
-                        SegmentedControl(items: viewStore.aspectImageFactors.compactMap { $0.rawValue }, selectedIndex: viewStore.binding(get: \.selectImageFactor, send: SupportAssistantDetailsFeature.Action.aspectImageFactorChanged))
+                        SegmentedControl(items: viewStore.aspectImageFactors.compactMap { $0.title }, selectedIndex: viewStore.binding(get: \.selectImageFactor, send: SupportAssistantDetailsFeature.Action.aspectImageFactorChanged))
                     }
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
@@ -72,7 +72,7 @@ struct SupportAssistantDetailsView: View {
                         Text("风格")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(Color(hex: 0x666666))
-                        SegmentedControl(items: viewStore.aspectStyles.compactMap { $0.rawValue }, selectedIndex: viewStore.binding(get: \.selectStyle, send: SupportAssistantDetailsFeature.Action.aspectStyleChanged))
+                        SegmentedControl(items: viewStore.aspectStyles.compactMap { $0.title }, selectedIndex: viewStore.binding(get: \.selectStyle, send: SupportAssistantDetailsFeature.Action.aspectStyleChanged))
                     }
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
@@ -84,12 +84,28 @@ struct SupportAssistantDetailsView: View {
                         Text("纵横比")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(Color(hex: 0x666666))
-                        SegmentedControl(items: viewStore.aspectRatios.compactMap { $0.rawValue }, selectedIndex: viewStore.binding(get: \.selectRatios, send: SupportAssistantDetailsFeature.Action.aspectRatioChanged))
+                        SegmentedControl(items: viewStore.aspectRatios.compactMap { $0.title }, selectedIndex: viewStore.binding(get: \.selectRatios, send: SupportAssistantDetailsFeature.Action.aspectRatioChanged))
                     }
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 5,
+                                              leading: 20,
+                                              bottom: 80,
+                                              trailing: 20))
+                    RoundedRectangle(cornerRadius: 20)
+                        .overlay(content: {
+                            Text("生成")
+                                .foregroundColor(.white)
+                        })
+                        .frame(height: 50)
+                        .padding(.horizontal, 20)
+                        .foregroundColor(Color(hex: 0x027AFF))
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                        .onTapGesture {
+                            viewStore.send(.generateStart)
+                        }
                 }
-                
                 .listStyle(.plain)
                 .navigationTitle(viewStore.somthing)
                 .navigationBarTitleDisplayMode(.inline)
