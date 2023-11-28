@@ -63,6 +63,7 @@
 		659A55152B0EFE0600B2BF9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		659A55172B0EFE0600B2BF9B /* WeiBainingAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeiBainingAI.entitlements; sourceTree = "<group>"; };
 		659A55192B0EFE0600B2BF9B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		65B048DD2B14E280000DEBC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		D310AC202B10A1CE00E48A66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D310AC262B10A69D00E48A66 /* MessagingHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubView.swift; sourceTree = "<group>"; };
 		D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantView.swift; sourceTree = "<group>"; };
@@ -162,6 +163,7 @@
 		659A55102B0EFE0500B2BF9B /* WeiBainingAI */ = {
 			isa = PBXGroup;
 			children = (
+				65B048DD2B14E280000DEBC1 /* Info.plist */,
 				D310AC222B10A39800E48A66 /* Modules */,
 				65876EC42B0F87ED00DFFE0C /* HttpRequest */,
 				65876ED82B0F936000DFFE0C /* Models */,
@@ -496,6 +498,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeiBainingAI/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -541,6 +544,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeiBainingAI/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
