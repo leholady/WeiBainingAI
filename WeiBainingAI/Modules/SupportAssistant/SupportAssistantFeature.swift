@@ -10,21 +10,45 @@ import ComposableArchitecture
 @Reducer
 struct SupportAssistantFeature {
     struct State: Equatable {
-        #warning("To do")
-        var somthing: String = "Hello world"
+        var assistants: [SupportAssistantModel] = []
+        @PresentationState var details: SupportAssistantDetailsFeature.State?
     }
     
-    enum Action {
-        #warning("To do")
-        case doSomething
+    enum Action: Equatable {
+        case uploadAssistantItems
+        case assistantsUpdate([SupportAssistantModel])
+        case dismissDetails(SupportAssistantModel)
+        case fullScreenCoverDetails(PresentationAction<SupportAssistantDetailsFeature.Action>)
     }
+
+    @Dependency(\.assistantClient) var assistantClient
     
     var body: some Reducer<State, Action> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
+            case .uploadAssistantItems:
+                return .run { send in
+                    await send(.assistantsUpdate(try await assistantClient.assistantItems()))
+                }
+            case let .assistantsUpdate(items):
+                state.assistants = items
+                return .none
+            case let .dismissDetails(model):
+                state.details = SupportAssistantDetailsFeature.State(assistantTitle: model.title)
+                return .none
             default:
                 return .none
             }
         }
+        .ifLet(\.$details, action: \.fullScreenCoverDetails) {
+            SupportAssistantDetailsFeature()
+        }
+    }
+}
+
+extension DependencyValues {
+    var assistantClient: SupportAssistantClient {
+        get { self[SupportAssistantClient.self] }
+        set { self[SupportAssistantClient.self] = newValue }
     }
 }
