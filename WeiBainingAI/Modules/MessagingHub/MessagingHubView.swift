@@ -12,7 +12,7 @@ import SwiftUIX
 struct MessagingHubView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { _ in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             NavigationView(content: {
                 ScrollView {
                     VStack(alignment: .center, spacing: 0, content: {
@@ -55,6 +55,9 @@ struct MessagingHubView: View {
                 }
             })
             .navigationViewStyle(.stack)
+            .task {
+                viewStore.send(.loadDefaultData)
+            }
         }
     }
 }
@@ -76,7 +79,12 @@ struct NewQuestionView: View {
                     .multilineTextAlignment(.center)
                     .lineSpacing(5)
 
-                Button(action: {}, label: {
+                NavigationLink(destination:
+                    MessageListView(store: Store(
+                        initialState: MessageListFeature.State(),
+                        reducer: { MessageListFeature() }
+                    ))
+                ) {
                     Text("开始提问")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.white)
@@ -84,7 +92,7 @@ struct NewQuestionView: View {
                         .frame(maxWidth: .infinity)
                         .background(Color.black)
                         .cornerRadius(20)
-                })
+                }
                 .buttonStyle(.plain)
                 .padding(.top, 30)
 
@@ -105,7 +113,7 @@ struct NewQuestionView: View {
 struct SuggestQuestionListView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { _ in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 20, content: {
                 VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 5, content: {
                     Text("建议问题")
@@ -122,8 +130,8 @@ struct SuggestQuestionListView: View {
                 .padding(.top, 40)
 
                 List {
-                    ForEach(0 ..< 3) { _ in
-                        SuggestQuestionListItemView()
+                    ForEach(viewStore.suggestions, id: \.self) { suggestion in
+                        SuggestQuestionListItemView(suggestion: suggestion)
                     }
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
@@ -137,13 +145,15 @@ struct SuggestQuestionListView: View {
     }
 
     struct SuggestQuestionListItemView: View {
+        var suggestion: SuggestionsModel
+
         var body: some View {
             HStack {
                 Image(.homeIconBubble)
                     .scaledToFit()
                     .frame(width: 26, height: 26)
 
-                Text("如何使用写一份关于太空旅行的市场分析报告")
+                Text(suggestion.title)
                     .font(.system(size: 14, weight: .regular))
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -165,7 +175,7 @@ struct SuggestQuestionListView: View {
 struct TopicHistoryView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { _ in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             VStack(alignment: .leading, spacing: 0, content: {
                 VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 5, content: {
                     Text("话题历史")
@@ -183,8 +193,8 @@ struct TopicHistoryView: View {
 
                 ScrollView(.horizontal, showsIndicators: false, content: {
                     HStack(spacing: 10, content: {
-                        ForEach(0 ..< 10) { _ in
-                            TopicHistoryItemView()
+                        ForEach(viewStore.topicList, id: \.self) { topic in
+                            TopicHistoryItemView(topicModel: topic)
                         }
                     })
                     .padding(.horizontal, 20)
@@ -197,6 +207,7 @@ struct TopicHistoryView: View {
     }
 
     struct TopicHistoryItemView: View {
+        var topicModel: TopicHistoryModel
         var body: some View {
             VStack(alignment: .leading, spacing: 0, content: {
                 HStack(alignment: .center, spacing: 9, content: {
@@ -212,25 +223,27 @@ struct TopicHistoryView: View {
                             .foregroundColor(Color(hexadecimal6: 0x888888))
                             .frame(alignment: .leading)
 
-                        Text("2021-03-17 17:18")
+                        Text(topicModel.timeString)
                             .font(.custom("DOUYINSANSBOLD-GB", size: 9))
                             .foregroundColor(Color(hexadecimal6: 0x999999))
                             .frame(alignment: .leading)
+
                     })
                 })
                 .padding(.horizontal, 16)
 
-                Text("当我想到你，我想到了旅行。\n你是那个总是在路上的人，\n你的灵魂总是在寻找新的冒险和经历。当我想到你，我想到了旅行。\n你是那个总是在路上的人，\n你的灵魂总是在寻找新的冒险和经历。")
+                Text(topicModel.reply)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(.black)
                     .frame(maxWidth: Screen.width - 86, alignment: .leading)
                     .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
+                    .lineLimit(3)
 
                 Divider()
                     .height(0.5)
                     .background(Color.black.opacity(0.05))
                     .padding(.horizontal, 16)
-                
+
                 HStack(alignment: .center, spacing: 9, content: {
                     Image(.homeIconBubble)
                         .scaledToFit()
@@ -244,10 +257,11 @@ struct TopicHistoryView: View {
                             .foregroundColor(Color(hexadecimal6: 0x888888))
                             .frame(alignment: .leading)
 
-                        Text("给热爱旅行的妻子写一封情人节信")
+                        Text(topicModel.topic)
                             .font(.system(size: 10, weight: .semibold))
-                            .foregroundColor(Color(hexadecimal6: 0xbbbbbb))
+                            .foregroundColor(Color(hexadecimal6: 0xBBBBBB))
                             .frame(alignment: .leading)
+                            .lineLimit(3)
                     })
                 })
                 .padding(EdgeInsets(top: 10, leading: 16, bottom: 0, trailing: 16))
