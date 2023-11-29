@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TextImageTaskResultModel: Codable {
+struct TextImageTaskResultModel: Codable, Equatable {
     
     var status: TaskResultStatus
     var transcationId: String

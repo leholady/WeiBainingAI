@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TextImageTaskConfigureModel: Codable {
+struct TextImageTaskConfigureModel: Codable, Equatable {
     
     var server: TaskServer = .dream
     let ext: SupportAssistantDetailsModel
