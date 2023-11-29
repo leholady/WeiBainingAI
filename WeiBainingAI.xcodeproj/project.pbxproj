@@ -49,6 +49,7 @@
 		7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA1F2B171630003A1B4A /* UploadImageModel.swift */; };
 		7EE7CA222B1724FB003A1B4A /* TextImageTaskConfigureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA212B1724FB003A1B4A /* TextImageTaskConfigureModel.swift */; };
 		7EE7CA242B172510003A1B4A /* TextImageTaskResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA232B172510003A1B4A /* TextImageTaskResultModel.swift */; };
+		7EE7CA262B1728AF003A1B4A /* GradientProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA252B1728AF003A1B4A /* GradientProgressView.swift */; };
 		D310AC212B10A1CE00E48A66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D310AC202B10A1CE00E48A66 /* .swiftlint.yml */; };
 		D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC262B10A69D00E48A66 /* MessagingHubView.swift */; };
 		D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */; };
@@ -94,6 +95,7 @@
 		7EE7CA1F2B171630003A1B4A /* UploadImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageModel.swift; sourceTree = "<group>"; };
 		7EE7CA212B1724FB003A1B4A /* TextImageTaskConfigureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextImageTaskConfigureModel.swift; sourceTree = "<group>"; };
 		7EE7CA232B172510003A1B4A /* TextImageTaskResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextImageTaskResultModel.swift; sourceTree = "<group>"; };
+		7EE7CA252B1728AF003A1B4A /* GradientProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientProgressView.swift; sourceTree = "<group>"; };
 		D310AC202B10A1CE00E48A66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D310AC262B10A69D00E48A66 /* MessagingHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubView.swift; sourceTree = "<group>"; };
 		D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantView.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				7E95BC232B14C220001884AD /* SegmentedControl.swift */,
 				7EA68D0F2B15EDD100958343 /* ImagePickerView.swift */,
 				7EA68D112B15EE1B00958343 /* ImagePickerFeature.swift */,
+				7EE7CA252B1728AF003A1B4A /* GradientProgressView.swift */,
 			);
 			path = SupportAssistant;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7E94A4842B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift in Sources */,
+				7EE7CA262B1728AF003A1B4A /* GradientProgressView.swift in Sources */,
 				65876EDE2B0F96A500DFFE0C /* HttpRequestClient.swift in Sources */,
 				7EE7CA222B1724FB003A1B4A /* TextImageTaskConfigureModel.swift in Sources */,
 				7E94A4802B144B0600EA23F8 /* SupportAssistantFeature.swift in Sources */,
