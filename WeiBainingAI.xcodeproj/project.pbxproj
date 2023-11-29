@@ -50,6 +50,11 @@
 		7EE7CA222B1724FB003A1B4A /* TextImageTaskConfigureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA212B1724FB003A1B4A /* TextImageTaskConfigureModel.swift */; };
 		7EE7CA242B172510003A1B4A /* TextImageTaskResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA232B172510003A1B4A /* TextImageTaskResultModel.swift */; };
 		7EE7CA262B1728AF003A1B4A /* GradientProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA252B1728AF003A1B4A /* GradientProgressView.swift */; };
+		7EE7CA292B1728E9003A1B4A /* SupportAssistantMakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA272B1728E9003A1B4A /* SupportAssistantMakeView.swift */; };
+		7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA282B1728E9003A1B4A /* SupportAssistantMakeFeature.swift */; };
+		7EE7CA2C2B1732A4003A1B4A /* SupportAssistantResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA2B2B1732A4003A1B4A /* SupportAssistantResultView.swift */; };
+		7EE7CA2E2B1732C7003A1B4A /* SupportAssistantResultFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA2D2B1732C7003A1B4A /* SupportAssistantResultFeature.swift */; };
+		7EE7CA312B1736BA003A1B4A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7EE7CA302B1736BA003A1B4A /* Kingfisher */; };
 		D310AC212B10A1CE00E48A66 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D310AC202B10A1CE00E48A66 /* .swiftlint.yml */; };
 		D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC262B10A69D00E48A66 /* MessagingHubView.swift */; };
 		D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */; };
@@ -96,6 +101,10 @@
 		7EE7CA212B1724FB003A1B4A /* TextImageTaskConfigureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextImageTaskConfigureModel.swift; sourceTree = "<group>"; };
 		7EE7CA232B172510003A1B4A /* TextImageTaskResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextImageTaskResultModel.swift; sourceTree = "<group>"; };
 		7EE7CA252B1728AF003A1B4A /* GradientProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientProgressView.swift; sourceTree = "<group>"; };
+		7EE7CA272B1728E9003A1B4A /* SupportAssistantMakeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantMakeView.swift; sourceTree = "<group>"; };
+		7EE7CA282B1728E9003A1B4A /* SupportAssistantMakeFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantMakeFeature.swift; sourceTree = "<group>"; };
+		7EE7CA2B2B1732A4003A1B4A /* SupportAssistantResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantResultView.swift; sourceTree = "<group>"; };
+		7EE7CA2D2B1732C7003A1B4A /* SupportAssistantResultFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantResultFeature.swift; sourceTree = "<group>"; };
 		D310AC202B10A1CE00E48A66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D310AC262B10A69D00E48A66 /* MessagingHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubView.swift; sourceTree = "<group>"; };
 		D310AC282B10A6AE00E48A66 /* SupportAssistantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantView.swift; sourceTree = "<group>"; };
@@ -114,6 +123,7 @@
 				659A55222B0EFE2C00B2BF9B /* Reachability in Frameworks */,
 				7E689D9C2B15CA9600B4BFD3 /* ComposableArchitecture in Frameworks */,
 				65876EC02B0F86BF00DFFE0C /* DeviceKit in Frameworks */,
+				7EE7CA312B1736BA003A1B4A /* Kingfisher in Frameworks */,
 				65876EC32B0F873D00DFFE0C /* CryptoSwift in Frameworks */,
 				659A552E2B0F004700B2BF9B /* SVProgressHUD in Frameworks */,
 				659A55342B0F009A00B2BF9B /* Logging in Frameworks */,
@@ -253,6 +263,10 @@
 				7E51696C2B16143500737171 /* SupportAssistantDetailsTextCell.swift */,
 				7E51696E2B16157E00737171 /* SupportAssistantDetailsSegmentedCell.swift */,
 				7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */,
+				7EE7CA272B1728E9003A1B4A /* SupportAssistantMakeView.swift */,
+				7EE7CA282B1728E9003A1B4A /* SupportAssistantMakeFeature.swift */,
+				7EE7CA2B2B1732A4003A1B4A /* SupportAssistantResultView.swift */,
+				7EE7CA2D2B1732C7003A1B4A /* SupportAssistantResultFeature.swift */,
 				7E95BC232B14C220001884AD /* SegmentedControl.swift */,
 				7EA68D0F2B15EDD100958343 /* ImagePickerView.swift */,
 				7EA68D112B15EE1B00958343 /* ImagePickerFeature.swift */,
@@ -297,6 +311,7 @@
 				65876EC22B0F873D00DFFE0C /* CryptoSwift */,
 				65876ED42B0F8D7C00DFFE0C /* Alamofire */,
 				7E689D9B2B15CA9600B4BFD3 /* ComposableArchitecture */,
+				7EE7CA302B1736BA003A1B4A /* Kingfisher */,
 			);
 			productName = WeiBainingAI;
 			productReference = 659A550E2B0EFE0500B2BF9B /* WeiBainingAI.app */;
@@ -336,6 +351,7 @@
 				65876EC12B0F873D00DFFE0C /* XCRemoteSwiftPackageReference "CryptoSwift" */,
 				65876ED32B0F8D7C00DFFE0C /* XCRemoteSwiftPackageReference "Alamofire" */,
 				7E689D9A2B15CA9600B4BFD3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				7EE7CA2F2B1736BA003A1B4A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 659A550F2B0EFE0500B2BF9B /* Products */;
 			projectDirPath = "";
@@ -400,8 +416,11 @@
 				65876EC82B0F881100DFFE0C /* HttpResponseHandler.swift in Sources */,
 				7E51696D2B16143500737171 /* SupportAssistantDetailsTextCell.swift in Sources */,
 				7EA68D0C2B15D10D00958343 /* SupportAssistantClient.swift in Sources */,
+				7EE7CA292B1728E9003A1B4A /* SupportAssistantMakeView.swift in Sources */,
+				7EE7CA2E2B1732C7003A1B4A /* SupportAssistantResultFeature.swift in Sources */,
 				65876EDC2B0F948B00DFFE0C /* LaunchLoadView.swift in Sources */,
 				659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */,
+				7EE7CA2C2B1732A4003A1B4A /* SupportAssistantResultView.swift in Sources */,
 				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
 				7EA68D102B15EDD100958343 /* ImagePickerView.swift in Sources */,
 				D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */,
@@ -410,6 +429,7 @@
 				D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */,
 				D310AC2B2B10A6B500E48A66 /* MoreOptionsView.swift in Sources */,
 				7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */,
+				7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */,
 				65876ED02B0F89DA00DFFE0C /* LaunchConfigReducer.swift in Sources */,
 				D310AC352B10AB9700E48A66 /* TabHubView.swift in Sources */,
 				7EA68D142B16058200958343 /* SupportAssistantDetailsImageCell.swift in Sources */,
@@ -560,6 +580,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "允许访问相册, 用于保存生成的图像数据";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允许访问相册, 用于添加参考图像";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -605,6 +627,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "允许访问相册, 用于保存生成的图像数据";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允许访问相册, 用于添加参考图像";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -730,6 +754,14 @@
 				minimumVersion = 1.5.0;
 			};
 		};
+		7EE7CA2F2B1736BA003A1B4A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.10.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -777,6 +809,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7E689D9A2B15CA9600B4BFD3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		7EE7CA302B1736BA003A1B4A /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7EE7CA2F2B1736BA003A1B4A /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

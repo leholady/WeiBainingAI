@@ -22,6 +22,7 @@ struct SupportAssistantDetailsFeature {
         var aspectImageFactors: [SupportAssistantDetailsModel.AssistantDetailsImageFactor] = [.low, .middle, .high, .forced]
         @BindingState var selectImageFactor: Int = 0
         var editModel = SupportAssistantDetailsModel()
+        @PresentationState var makeState: SupportAssistantMakeFeature.State?
     }
     
     enum Action: BindableAction, Equatable {
@@ -29,8 +30,11 @@ struct SupportAssistantDetailsFeature {
         case fullScreenCoverAlbum(PresentationAction<ImagePickerFeature.Action>)
         case selectImageDetele
         case binding(BindingAction<State>)
-        case generateStart
+        case dismissMake
+        case fullScreenCoverMake(PresentationAction<SupportAssistantMakeFeature.Action>)
     }
+    
+    @Dependency(\.dismiss) var dismiss
     
     var body: some Reducer<State, Action> {
         BindingReducer()
@@ -45,22 +49,26 @@ struct SupportAssistantDetailsFeature {
             case .selectImageDetele:
                 state.selectImageData = nil
                 return .none
-            case .generateStart:
-                //                state.editModel.text = state.editorText
-                //                state.editModel.proportion = state.aspectRatios[state.selectRatios]
-                //                state.editModel.style = state.aspectStyles[state.selectStyle]
-                //                state.editModel.referImageFactor = state.aspectImageFactors[state.selectImageFactor]
-                //                if let data = try? JSONEncoder().encode(state.editModel),
-                //                   let json = String(data: data, encoding: .utf8) {
-                //                    debugPrint("==========\(json)=============")
-                //                }
+            case .dismissMake:
+                state.editModel.text = state.editorText
+                state.editModel.proportion = state.aspectRatios[state.selectRatios]
+                state.editModel.style = state.aspectStyles[state.selectStyle]
+                state.editModel.referImageFactor = state.aspectImageFactors[state.selectImageFactor]
+                state.makeState = SupportAssistantMakeFeature.State(extModel: state.editModel, imgData: state.selectImageData)
                 return .none
+            case .fullScreenCoverMake(.presented(.delegate(.resultMakeDismiss))):
+                return .run { _ in 
+                    await self.dismiss()
+                }
             default:
                 return .none
             }
         }
         .ifLet(\.$albumState, action: \.fullScreenCoverAlbum) {
             ImagePickerFeature()
+        }
+        .ifLet(\.$makeState, action: \.fullScreenCoverMake) {
+            SupportAssistantMakeFeature()
         }
     }
 }
