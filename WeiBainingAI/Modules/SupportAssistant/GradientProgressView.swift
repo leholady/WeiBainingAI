@@ -23,6 +23,7 @@ struct GradientProgressView: View {
                                          endPoint: .trailing))
                     .frame(width: min(progress * geometry.size.width, geometry.size.width),
                            height: 10)
+                    .animation(.linear, value: progress)
             }
         }
     }
