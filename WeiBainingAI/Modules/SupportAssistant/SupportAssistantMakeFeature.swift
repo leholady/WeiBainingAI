@@ -59,8 +59,10 @@ struct SupportAssistantMakeFeature {
                             let sign = try await httpClient.uploadImageSign(data)
                             await send(.uploadImageSign(sign))
                             await send(.txtToImageTask(TextImageTaskConfigureModel(ext: extModel)))
+                            await send(.turnOnTimer)
                         } catch {
                             await send(.uploadMakeStatus(.failure))
+                            await send(.closureTimer)
                         }
                     }
                 }
