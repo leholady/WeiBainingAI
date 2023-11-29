@@ -8,8 +8,11 @@
 import UIKit
 
 struct SuggestionsModel: Codable, Equatable, Identifiable, Hashable {
-    var id: String {
-        UUID().uuidString
-    }
+    let id: String
     let title: String
+
+    init(id: String = UUID().uuidString, title: String) {
+        self.id = id
+        self.title = title
+    }
 }

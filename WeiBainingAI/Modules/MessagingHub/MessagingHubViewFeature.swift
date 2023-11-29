@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import Logging
 
 @Reducer
 struct MessagingHubViewFeature {
@@ -19,9 +20,9 @@ struct MessagingHubViewFeature {
         /// 加载首页数据
         case loadDefaultData
         /// 更新首页数据
-        case updateDefaultData([SuggestionsModel])
+        case updateDefaultData(TaskResult<[SuggestionsModel]>)
         /// 更新历史话题数据
-        case updateTopicData([TopicHistoryModel])
+        case updateTopicData(TaskResult<[TopicHistoryModel]>)
         /// 点击历史话题
         case didTapHistoryButton
         /// 点击话题
@@ -37,20 +38,35 @@ struct MessagingHubViewFeature {
             switch action {
             case .loadDefaultData:
                 return .run { send in
-                    await send(.updateDefaultData(try await messageAPIClient.requestHomeProfile()))
-                    await send(.updateTopicData(try await messageAPIClient.loadHistoryTopic()))
+                    await send(.updateDefaultData(TaskResult {
+                        try await messageAPIClient.requestHomeProfile()
+                    }))
+                    await send(.updateTopicData(TaskResult {
+                        try await messageAPIClient.loadHistoryTopic()
+                    }))
                 }
-            case let .updateDefaultData(items):
+            case let .updateDefaultData(.success(items)):
                 state.suggestions = items
                 return .none
-            case let .updateTopicData(items):
+
+            case let .updateDefaultData(.failure(error)):
+                Logger(label: "MessagingHubViewFeature").error("\(error)")
+                state.suggestions = []
+                return .none
+
+            case let .updateTopicData(.success(items)):
                 state.topicList = items
                 return .none
-            case .startQuestions:
-    
+
+            case let .updateTopicData(.failure(error)):
+                Logger(label: "MessagingHubViewFeature").error("\(error)")
+                state.topicList = []
                 return .none
+
+            case .startQuestions:
+                return .none
+
             default:
-           
                 return .none
             }
         }

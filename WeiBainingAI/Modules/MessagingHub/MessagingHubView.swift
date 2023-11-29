@@ -223,7 +223,7 @@ struct TopicHistoryView: View {
                             .foregroundColor(Color(hexadecimal6: 0x888888))
                             .frame(alignment: .leading)
 
-                        Text(topicModel.timeString)
+                        Text(topicModel.timestamp.timeFormat)
                             .font(.custom("DOUYINSANSBOLD-GB", size: 9))
                             .foregroundColor(Color(hexadecimal6: 0x999999))
                             .frame(alignment: .leading)
