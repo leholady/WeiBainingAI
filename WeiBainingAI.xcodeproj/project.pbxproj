@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		655D35FF2B16D82F004A5308 /* SuggestionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */; };
+		655D36002B16D82F004A5308 /* TopicHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */; };
+		655D36052B16D85C004A5308 /* MessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36032B16D85C004A5308 /* MessageListView.swift */; };
+		655D36062B16D85C004A5308 /* MessageListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36042B16D85C004A5308 /* MessageListFeature.swift */; };
+		655D36082B16D864004A5308 /* MessagingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36072B16D864004A5308 /* MessagingClient.swift */; };
+		655D360A2B171299004A5308 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36092B171299004A5308 /* Date+Ex.swift */; };
 		65876EC02B0F86BF00DFFE0C /* DeviceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 65876EBF2B0F86BF00DFFE0C /* DeviceKit */; };
 		65876EC32B0F873D00DFFE0C /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 65876EC22B0F873D00DFFE0C /* CryptoSwift */; };
 		65876EC62B0F880400DFFE0C /* HttpRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65876EC52B0F880400DFFE0C /* HttpRequestHandler.swift */; };
@@ -65,6 +71,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionsModel.swift; sourceTree = "<group>"; };
+		655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicHistoryModel.swift; sourceTree = "<group>"; };
+		655D36032B16D85C004A5308 /* MessageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListView.swift; sourceTree = "<group>"; };
+		655D36042B16D85C004A5308 /* MessageListFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListFeature.swift; sourceTree = "<group>"; };
+		655D36072B16D864004A5308 /* MessagingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingClient.swift; sourceTree = "<group>"; };
+		655D36092B171299004A5308 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		65876EC52B0F880400DFFE0C /* HttpRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestHandler.swift; sourceTree = "<group>"; };
 		65876EC72B0F881100DFFE0C /* HttpResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpResponseHandler.swift; sourceTree = "<group>"; };
 		65876EC92B0F884700DFFE0C /* HttpParserHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpParserHandler.swift; sourceTree = "<group>"; };
@@ -135,6 +147,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		655D36022B16D85C004A5308 /* MessageList */ = {
+			isa = PBXGroup;
+			children = (
+				655D36032B16D85C004A5308 /* MessageListView.swift */,
+				655D36042B16D85C004A5308 /* MessageListFeature.swift */,
+			);
+			path = MessageList;
+			sourceTree = "<group>";
+		};
 		65876EC42B0F87ED00DFFE0C /* HttpRequest */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +171,7 @@
 		65876ECD2B0F890200DFFE0C /* Units */ = {
 			isa = PBXGroup;
 			children = (
+				655D36092B171299004A5308 /* Date+Ex.swift */,
 			);
 			path = Units;
 			sourceTree = "<group>";
@@ -173,6 +195,8 @@
 				7EE7CA1F2B171630003A1B4A /* UploadImageModel.swift */,
 				7EE7CA212B1724FB003A1B4A /* TextImageTaskConfigureModel.swift */,
 				7EE7CA232B172510003A1B4A /* TextImageTaskResultModel.swift */,
+				655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */,
+				655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -246,7 +270,9 @@
 			isa = PBXGroup;
 			children = (
 				D310AC262B10A69D00E48A66 /* MessagingHubView.swift */,
+				655D36072B16D864004A5308 /* MessagingClient.swift */,
 				D310AC2C2B10A6BE00E48A66 /* MessagingHubViewFeature.swift */,
+				655D36022B16D85C004A5308 /* MessageList */,
 			);
 			path = MessagingHub;
 			sourceTree = "<group>";
@@ -413,6 +439,7 @@
 				7EE7CA222B1724FB003A1B4A /* TextImageTaskConfigureModel.swift in Sources */,
 				7E94A4802B144B0600EA23F8 /* SupportAssistantFeature.swift in Sources */,
 				65876EDA2B0F936A00DFFE0C /* UserProfileModel.swift in Sources */,
+				655D360A2B171299004A5308 /* Date+Ex.swift in Sources */,
 				65876EC82B0F881100DFFE0C /* HttpResponseHandler.swift in Sources */,
 				7E51696D2B16143500737171 /* SupportAssistantDetailsTextCell.swift in Sources */,
 				7EA68D0C2B15D10D00958343 /* SupportAssistantClient.swift in Sources */,
@@ -430,8 +457,18 @@
 				D310AC2B2B10A6B500E48A66 /* MoreOptionsView.swift in Sources */,
 				7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */,
 				7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */,
+				655D36062B16D85C004A5308 /* MessageListFeature.swift in Sources */,
+				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
+				7EA68D102B15EDD100958343 /* ImagePickerView.swift in Sources */,
+				D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */,
+				655D36052B16D85C004A5308 /* MessageListView.swift in Sources */,
+				65876ECA2B0F884700DFFE0C /* HttpParserHandler.swift in Sources */,
+				D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */,
+				D310AC2B2B10A6B500E48A66 /* MoreOptionsView.swift in Sources */,
+				655D35FF2B16D82F004A5308 /* SuggestionsModel.swift in Sources */,
 				65876ED02B0F89DA00DFFE0C /* LaunchConfigReducer.swift in Sources */,
 				D310AC352B10AB9700E48A66 /* TabHubView.swift in Sources */,
+				655D36002B16D82F004A5308 /* TopicHistoryModel.swift in Sources */,
 				7EA68D142B16058200958343 /* SupportAssistantDetailsImageCell.swift in Sources */,
 				7E94A4762B143B8300EA23F8 /* SupportAssistantCell.swift in Sources */,
 				7E0CD91D2B148A2F00308394 /* SupportAssistantDetailsModel.swift in Sources */,
@@ -444,6 +481,7 @@
 				7E95BC242B14C220001884AD /* SegmentedControl.swift in Sources */,
 				D310AC312B10A8C600E48A66 /* MoreOptionsFeature.swift in Sources */,
 				65876ECC2B0F885200DFFE0C /* HttpErrorHandler.swift in Sources */,
+				655D36082B16D864004A5308 /* MessagingClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
