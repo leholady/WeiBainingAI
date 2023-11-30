@@ -31,7 +31,7 @@ struct SupportAssistantMakeFeature {
         case startMark
         case uploadMakeStatus(AssistantMakeStatus)
         case uploadImageSign(String)
-        case txtToImageTask(TextImageTaskConfigureModel)
+        case txtToImageTask
         case judgmentTaskResult(TextImageTaskResultModel)
         case turnOnTimer
         case closureTimer
@@ -53,19 +53,19 @@ struct SupportAssistantMakeFeature {
             switch action {
             case .startMark:
                 if state.extModel.referImageSign != nil {
-                    return .run { [extModel = state.extModel] send in
+                    return .run { send in
                         await send(.uploadMakeStatus(.loading))
-                        await send(.txtToImageTask(TextImageTaskConfigureModel(ext: extModel)))
+                        await send(.txtToImageTask)
                         await send(.turnOnTimer)
                     }
                 }
                 if let data = state.imgData {
-                    return .run { [extModel = state.extModel] send in
+                    return .run { send in
                         await send(.uploadMakeStatus(.loading))
                         do {
                             let sign = try await httpClient.uploadImageSign(data)
                             await send(.uploadImageSign(sign))
-                            await send(.txtToImageTask(TextImageTaskConfigureModel(ext: extModel)))
+                            await send(.txtToImageTask)
                             await send(.turnOnTimer)
                         } catch {
                             await send(.uploadMakeStatus(.failure))
@@ -73,9 +73,9 @@ struct SupportAssistantMakeFeature {
                         }
                     }
                 }
-                return .run { [extModel = state.extModel] send in
+                return .run { send in
                     await send(.uploadMakeStatus(.loading))
-                    await send(.txtToImageTask(TextImageTaskConfigureModel(ext: extModel)))
+                    await send(.txtToImageTask)
                     await send(.turnOnTimer)
                 }
             case let .uploadMakeStatus(status):
@@ -84,10 +84,10 @@ struct SupportAssistantMakeFeature {
             case let .uploadImageSign(sign):
                 state.extModel.referImageSign = sign
                 return .none
-            case let .txtToImageTask(configure):
-                return .run { send in
+            case .txtToImageTask:
+                return .run { [extModel = state.extModel] send in
                     do {
-                        var model = try await httpClient.txtToImageTask(configure)
+                        var model = try await httpClient.txtToImageTask(TextImageTaskConfigureModel(ext: extModel))
                         while model.status == .doing {
                             try await Task.sleep(nanoseconds: 2_000_000_000)
                             model = try await httpClient.txtToImageResult(model.transcationId)
