@@ -50,15 +50,15 @@ struct SupportAssistantDetailsModel: Codable, Equatable {
             case .automatic:
                 return "智能"
             case .style1:
-                return "动漫1"
+                return "动漫"
             case .style2:
-                return "动漫2"
+                return "写实"
             case .style3:
-                return "动漫3"
+                return "卡通"
             case .style4:
-                return "动漫4"
+                return "水彩"
             case .style5:
-                return "动漫5"
+                return "足球宝贝"
             default:
                 return "智能"
             }
@@ -85,7 +85,7 @@ struct SupportAssistantDetailsModel: Codable, Equatable {
             case .three:
                 return "16:9"
             case .four:
-                return "9:18"
+                return "壁纸"
             case .five:
                 return "3:4"
             case .six:

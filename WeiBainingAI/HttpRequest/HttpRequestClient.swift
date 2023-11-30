@@ -15,6 +15,12 @@ struct HttpRequestClient {
     var loginUserAccount: @Sendable () async throws -> UserProfileModel
     /// 获取用户配置
     var getNewUserProfile: @Sendable () async throws -> UserProfileModel
+    /// 上传图片获取Sign
+    var uploadImageSign: @Sendable (Data) async throws -> String
+    /// 生成AI自动创作图像任务-异步
+    var txtToImageTask: @Sendable (TextImageTaskConfigureModel) async throws -> TextImageTaskResultModel
+    /// 获取AI自动创作图像结果
+    var txtToImageResult: @Sendable (String) async throws -> TextImageTaskResultModel
 }
 
 extension HttpRequestClient: DependencyKey {
@@ -29,6 +35,15 @@ extension HttpRequestClient: DependencyKey {
             },
             getNewUserProfile: {
                 try await handler.getNewUserProfile()
+            },
+            uploadImageSign: {
+                try await handler.uploadImageSign($0)
+            },
+            txtToImageTask: { 
+                try await handler.txtToImageTask($0)
+            },
+            txtToImageResult: {
+                try await handler.txtToImageResult($0)
             }
         )
     }

@@ -15,4 +15,11 @@ struct SupportAssistantModel: Codable, Equatable, Identifiable {
     var imgSign: String
     var title: String
     var content: String
+    var type: SupportAssistantType
+    
+    enum SupportAssistantType: String, Codable, Equatable {
+        case avatar
+        case wallpaper
+        case chat
+    }
 }
