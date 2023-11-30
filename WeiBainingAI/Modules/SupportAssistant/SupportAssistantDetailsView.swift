@@ -47,7 +47,7 @@ struct SupportAssistantDetailsView: View {
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.clear)
                         .onTapGesture {
-                            viewStore.send(.generateStart)
+                            viewStore.send(.dismissMake)
                         }
                 }
                 .listStyle(.plain)
@@ -61,13 +61,10 @@ struct SupportAssistantDetailsView: View {
                             Image("icon_back")
                         })
                     }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button(action: {
-                            dismiss()
-                        }, label: {
-                            Image("more_icon_share")
-                        })
-                    }
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$makeState,
+                                                         action: \.fullScreenCoverMake)) { store in
+                    SupportAssistantMakeView(store: store)
                 }
                 .fullScreenCover(store: self.store.scope(state: \.$albumState,
                                                          action: \.fullScreenCoverAlbum)) { store in

@@ -32,7 +32,7 @@ public struct MYImagePicker: UIViewControllerRepresentable {
     let data: Binding<Data?>?
     
     let encoding: Image.Encoding?
-    var allowsEditing = false
+    var allowsEditing = true
     var cameraDevice: UIImagePickerController.CameraDevice?
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
     var mediaTypes: [String]?

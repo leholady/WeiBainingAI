@@ -103,6 +103,60 @@ actor HttpRequestHandler {
         }
     }
 
+    private func baseUpload<T: Codable>(cmd: String,
+                                        parameters: [String: Any] = [:],
+                                        fileData: Data,
+                                        fileName: String = "image",
+                                        mimeType: String? = nil) async throws -> T {
+        var params = parameters
+        params.updateValue(cmd, forKey: "cmd")
+        params.updateValue(UUID().uuidString.md5(), forKey: "_nonce")
+
+        let serverTime = timestamp.serverTime
+        if serverTime == 0 {
+            let serverTime = try await getServerTimestamp()
+            timestamp = (serverTime, Int(Date().timeIntervalSince1970))
+            params.updateValue(serverTime, forKey: "_time")
+        } else {
+            params.updateValue(serverTime + (Int(Date().timeIntervalSince1970) - timestamp.awakTime), forKey: "_time")
+        }
+        let finalParameters = basicParameters(parameters: params)
+        #if DEBUG
+            if let jsonData = try? JSONSerialization.data(withJSONObject: finalParameters, options: .prettyPrinted),
+               let jsonString = String(data: jsonData, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
+                Logger(label: "Request").info("请求参数===>\(jsonString)")
+            }
+        #else
+        #endif
+        let dataTask = session
+            .upload(multipartFormData: { multipartFormData in
+                for parameter in finalParameters {
+                    if let data = "\(parameter.value)".data(using: .utf8) {
+                        multipartFormData.append(data, withName: parameter.key)
+                    }
+                }
+                multipartFormData.append(fileData, withName: fileName, fileName: fileName, mimeType: mimeType)
+            }, to: HttpConst.hostApi)
+            .serializingDecodable(
+                HttpResponseHandler<T>.self, automaticallyCancelling: true,
+                dataPreprocessor: HttpParserHandler(aesKey: HttpConst.aesKey, aesIv: HttpConst.aseIv),
+                decoder: JSONDecoder()
+            )
+        do {
+            let taskRespons = try await dataTask.value
+            switch taskRespons.err {
+            case .success where taskRespons.res != nil:
+                return taskRespons.res!
+            case .needLogin:
+                return try await requestTask(cmd: cmd, parameters: params)
+            default:
+                throw HttpErrorHandler.failedWithServer(taskRespons.errUserMsg)
+            }
+        } catch {
+            throw HttpErrorHandler.failure(error)
+        }
+    }
+    
     /// 基础类请求
     private func requestTask<T: Codable>(cmd: String, parameters: [String: Any] = [:]) async throws -> T {
         var params = parameters
@@ -175,5 +229,29 @@ extension HttpRequestHandler {
         } catch {
             throw HttpErrorHandler.failedWithServer("获取用户信息失败")
         }
+    }
+    
+    /// 上传图片获取Sign
+    func uploadImageSign(_ imgData: Data) async throws -> String {
+        let model: UploadImageModel = try await baseUpload(
+            cmd: HttpConst.uploadImage,
+            fileData: imgData
+        )
+        return model.sign
+    }
+    
+    /// 生成AI自动创作图像任务-异步
+    func txtToImageTask(_ configure: TextImageTaskConfigureModel) async throws -> TextImageTaskResultModel {
+        var parame = ["server": configure.server.rawValue]
+        let jsonData = try JSONEncoder().encode(configure.ext)
+        parame["ext"] = String(data: jsonData, encoding: .utf8)
+        return try await requestTask(cmd: HttpConst.genTxt2imgTask,
+                                     parameters: parame)
+    }
+    
+    /// 获取AI自动创作图像结果
+    func txtToImageResult(_ transcationId: String) async throws -> TextImageTaskResultModel {
+        return try await requestTask(cmd: HttpConst.getTxt2imgResult,
+                                     parameters: ["transcationId": transcationId])
     }
 }

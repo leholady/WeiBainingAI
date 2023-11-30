@@ -100,8 +100,7 @@ struct ChatModelSelectionView: View {
     }
 }
 
-// MARK: - 聊天风格
-
+// MARK: - 聊天风格选择
 
 #Preview {
     ChatModelSetupView()

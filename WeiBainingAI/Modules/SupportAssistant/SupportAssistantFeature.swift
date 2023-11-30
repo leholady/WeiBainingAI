@@ -34,7 +34,8 @@ struct SupportAssistantFeature {
                 state.assistants = items
                 return .none
             case let .dismissDetails(model):
-                state.details = SupportAssistantDetailsFeature.State(assistantTitle: model.title)
+                state.details = SupportAssistantDetailsFeature.State(assistantTitle: model.title,
+                                                                     selectRatios: model.type == .wallpaper ? 3 : 0)
                 return .none
             default:
                 return .none

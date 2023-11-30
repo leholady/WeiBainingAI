@@ -23,7 +23,12 @@ struct SupportAssistantView: View {
                                                   bottom: 5,
                                                   trailing: 20))
                         .onTapGesture {
-                            viewStore.send(.dismissDetails(item))
+                            switch item.type {
+                            case .chat:
+                                break
+                            default:
+                                viewStore.send(.dismissDetails(item))
+                            }
                         }
                 }
                 .background(Color.clear)
