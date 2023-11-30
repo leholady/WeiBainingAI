@@ -7,6 +7,7 @@
 
 import Foundation
 import ComposableArchitecture
+import SVProgressHUD
 
 @Reducer
 struct SupportAssistantDetailsFeature {
@@ -54,8 +55,19 @@ struct SupportAssistantDetailsFeature {
                 state.editModel.proportion = state.aspectRatios[state.selectRatios]
                 state.editModel.style = state.aspectStyles[state.selectStyle]
                 state.editModel.referImageFactor = state.aspectImageFactors[state.selectImageFactor]
-                state.makeState = SupportAssistantMakeFeature.State(extModel: state.editModel, imgData: state.selectImageData)
-                return .none
+                switch state.editModel.style {
+                case .style3, .style4:
+                    if state.selectImageData == nil {
+                        SVProgressHUD.showError(withStatus: "当前风格需要添加参考图")
+                        return .none
+                    } else {
+                        state.makeState = SupportAssistantMakeFeature.State(extModel: state.editModel, imgData: state.selectImageData)
+                        return .none
+                    }
+                default:
+                    state.makeState = SupportAssistantMakeFeature.State(extModel: state.editModel, imgData: state.selectImageData)
+                    return .none
+                }
             case .fullScreenCoverMake(.presented(.delegate(.resultMakeDismiss))):
                 return .run { _ in 
                     await self.dismiss()
