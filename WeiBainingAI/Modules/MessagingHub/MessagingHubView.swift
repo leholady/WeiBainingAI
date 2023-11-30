@@ -152,6 +152,7 @@ struct SuggestQuestionListView: View {
                 Image(.homeIconBubble)
                     .scaledToFit()
                     .frame(width: 26, height: 26)
+                    .padding(.leading, 16)
 
                 Text(suggestion.title)
                     .font(.system(size: 14, weight: .regular))
