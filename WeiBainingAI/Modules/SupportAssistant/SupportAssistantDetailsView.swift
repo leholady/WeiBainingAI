@@ -61,13 +61,6 @@ struct SupportAssistantDetailsView: View {
                             Image("icon_back")
                         })
                     }
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button(action: {
-                            dismiss()
-                        }, label: {
-                            Image("more_icon_share")
-                        })
-                    }
                 }
                 .fullScreenCover(store: self.store.scope(state: \.$makeState,
                                                          action: \.fullScreenCoverMake)) { store in
