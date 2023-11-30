@@ -21,7 +21,10 @@ struct SegmentedControl: View {
                         Text(items[index])
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(selectedIndex == index ? Color.white : Color.black)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
                     })
+                    .padding(.horizontal, 5)
                     .matchedGeometryEffect(
                         id: index,
                         in: namespace,
