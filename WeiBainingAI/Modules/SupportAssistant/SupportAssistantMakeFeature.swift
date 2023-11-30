@@ -52,6 +52,13 @@ struct SupportAssistantMakeFeature {
         Reduce { state, action in
             switch action {
             case .startMark:
+                if state.extModel.referImageSign != nil {
+                    return .run { [extModel = state.extModel] send in
+                        await send(.uploadMakeStatus(.loading))
+                        await send(.txtToImageTask(TextImageTaskConfigureModel(ext: extModel)))
+                        await send(.turnOnTimer)
+                    }
+                }
                 if let data = state.imgData {
                     return .run { [extModel = state.extModel] send in
                         await send(.uploadMakeStatus(.loading))
