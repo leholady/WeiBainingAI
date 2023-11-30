@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct SupportAssistantCell: View {
     
@@ -13,8 +14,10 @@ struct SupportAssistantCell: View {
     
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
-            Image(model.imgSign)
-                .resizable()
+            KFAnimatedImage(URL(string: "\(HttpConst.hostImg)/\(model.imgSign)")!)
+                .configure({ view in
+                    view.framePreloadCount = 3
+                })
                 .frame(width: 100, height: 100)
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
@@ -41,7 +44,7 @@ struct SupportAssistantCell: View {
 }
 
 #Preview {
-    SupportAssistantCell(model: SupportAssistantModel(imgSign: "home_icon_assistant_sel", 
+    SupportAssistantCell(model: SupportAssistantModel(imgSign: "e3436025a39a154abd8a0a2e8f8f2467",
                                                       title: "AI艺术头像制作",
                                                       content: "头像生成器应用程序可让您通过上传图像和自定义不同的样式来创建独特的头像。",
                                                       type: .avatar))
