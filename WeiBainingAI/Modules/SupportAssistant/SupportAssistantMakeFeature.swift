@@ -79,6 +79,9 @@ struct SupportAssistantMakeFeature {
                     await send(.turnOnTimer)
                 }
             case let .uploadMakeStatus(status):
+                if status == .failure {
+                    state.progress = 0
+                }
                 state.makeStatus = status
                 return .none
             case let .uploadImageSign(sign):
