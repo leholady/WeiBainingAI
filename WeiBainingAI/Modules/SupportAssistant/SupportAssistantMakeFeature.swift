@@ -89,7 +89,7 @@ struct SupportAssistantMakeFeature {
                     do {
                         var model = try await httpClient.txtToImageTask(TextImageTaskConfigureModel(ext: extModel))
                         while model.status == .doing {
-                            try await Task.sleep(nanoseconds: 2_000_000_000)
+                            try await Task.sleep(nanoseconds: 3_000_000_000)
                             model = try await httpClient.txtToImageResult(model.transcationId)
                         }
                         await send(.judgmentTaskResult(model))
@@ -104,6 +104,7 @@ struct SupportAssistantMakeFeature {
                     if let imageUrl = result.resImageUrl {
                         return .run { send in
                             await send(.uploadMakeStatus(.success))
+                            await send(.closureTimer)
                             await send(.progressCompleted)
                             try await Task.sleep(nanoseconds: 500_000_000)
                             await send(.dismissResult(imageUrl))
