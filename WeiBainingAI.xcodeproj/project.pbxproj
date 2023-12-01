@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		65081C582B18CE91004F4C47 /* SegmentControlStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C572B18CE91004F4C47 /* SegmentControlStyleView.swift */; };
+		65081C5B2B18DC29004F4C47 /* ChatMsgShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */; };
+		65081C5D2B18ED9E004F4C47 /* ChatConfigUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C5C2B18ED9E004F4C47 /* ChatConfigUnit.swift */; };
 		6553F6F92B18AC0D00C77C29 /* ChatModelSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */; };
 		6553F6FB2B18AC1B00C77C29 /* ChatModelSetupFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6FA2B18AC1B00C77C29 /* ChatModelSetupFeature.swift */; };
 		6553F6FD2B18AC2500C77C29 /* ChatModelSetupClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6FC2B18AC2500C77C29 /* ChatModelSetupClient.swift */; };
@@ -74,6 +77,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		65081C572B18CE91004F4C47 /* SegmentControlStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlStyleView.swift; sourceTree = "<group>"; };
+		65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMsgShareView.swift; sourceTree = "<group>"; };
+		65081C5C2B18ED9E004F4C47 /* ChatConfigUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConfigUnit.swift; sourceTree = "<group>"; };
 		6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModelSetupView.swift; sourceTree = "<group>"; };
 		6553F6FA2B18AC1B00C77C29 /* ChatModelSetupFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModelSetupFeature.swift; sourceTree = "<group>"; };
 		6553F6FC2B18AC2500C77C29 /* ChatModelSetupClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModelSetupClient.swift; sourceTree = "<group>"; };
@@ -154,12 +160,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65081C592B18DC05004F4C47 /* ChatMsgShare */ = {
+			isa = PBXGroup;
+			children = (
+				65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */,
+			);
+			path = ChatMsgShare;
+			sourceTree = "<group>";
+		};
 		6553F6F62B18ABCB00C77C29 /* ChatModelSetup */ = {
 			isa = PBXGroup;
 			children = (
+				65081C572B18CE91004F4C47 /* SegmentControlStyleView.swift */,
 				6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */,
 				6553F6FA2B18AC1B00C77C29 /* ChatModelSetupFeature.swift */,
 				6553F6FC2B18AC2500C77C29 /* ChatModelSetupClient.swift */,
+				65081C5C2B18ED9E004F4C47 /* ChatConfigUnit.swift */,
 			);
 			path = ChatModelSetup;
 			sourceTree = "<group>";
@@ -291,6 +307,7 @@
 				655D36072B16D864004A5308 /* MessagingClient.swift */,
 				65EAFBD42B18C59B0055ABEA /* MessagingHubViewFeature.swift */,
 				6553F6F62B18ABCB00C77C29 /* ChatModelSetup */,
+				65081C592B18DC05004F4C47 /* ChatMsgShare */,
 				655D36022B16D85C004A5308 /* MessageList */,
 			);
 			path = MessagingHub;
@@ -458,11 +475,13 @@
 				7EE7CA222B1724FB003A1B4A /* TextImageTaskConfigureModel.swift in Sources */,
 				7E94A4802B144B0600EA23F8 /* SupportAssistantFeature.swift in Sources */,
 				65876EDA2B0F936A00DFFE0C /* UserProfileModel.swift in Sources */,
+				65081C5B2B18DC29004F4C47 /* ChatMsgShareView.swift in Sources */,
 				6553F6FD2B18AC2500C77C29 /* ChatModelSetupClient.swift in Sources */,
 				6553F6F92B18AC0D00C77C29 /* ChatModelSetupView.swift in Sources */,
 				655D360A2B171299004A5308 /* Date+Ex.swift in Sources */,
 				65876EC82B0F881100DFFE0C /* HttpResponseHandler.swift in Sources */,
 				7E51696D2B16143500737171 /* SupportAssistantDetailsTextCell.swift in Sources */,
+				65081C5D2B18ED9E004F4C47 /* ChatConfigUnit.swift in Sources */,
 				7EA68D0C2B15D10D00958343 /* SupportAssistantClient.swift in Sources */,
 				7EE7CA292B1728E9003A1B4A /* SupportAssistantMakeView.swift in Sources */,
 				7EE7CA2E2B1732C7003A1B4A /* SupportAssistantResultFeature.swift in Sources */,
@@ -475,6 +494,7 @@
 				7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */,
 				7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */,
 				655D36062B16D85C004A5308 /* MessageListFeature.swift in Sources */,
+				65081C582B18CE91004F4C47 /* SegmentControlStyleView.swift in Sources */,
 				655D36052B16D85C004A5308 /* MessageListView.swift in Sources */,
 				655D35FF2B16D82F004A5308 /* SuggestionsModel.swift in Sources */,
 				65EAFBD12B18C5150055ABEA /* LaunchConfigClient.swift in Sources */,

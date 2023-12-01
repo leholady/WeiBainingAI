@@ -47,6 +47,9 @@ struct MessageListView: View {
                             .frame(width: 10, height: 10)
                             .padding(.leading, 5)
                     })
+                    .onTapGesture {
+                        viewStore.send(.chatModelSetupTapped)
+                    }
                 })
 
                 ToolbarItem(placement: .topBarTrailing, content: {
@@ -61,6 +64,10 @@ struct MessageListView: View {
             .navigationViewStyle(.stack)
             .task {
                 viewStore.send(.loadMessageList)
+            }
+            .sheet(store: store.scope(state: \.$modelSetup,
+                                      action: \.presentationModelSetup)) { store in
+                ChatModelSetupView(store: store)
             }
         }
     }

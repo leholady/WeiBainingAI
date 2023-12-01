@@ -34,12 +34,7 @@ extension MessageAPIClient: TestDependencyKey {
                     SuggestionsModel(title: "写一首古代散文诗歌"),
                     SuggestionsModel(title: "给热爱旅行的妻子写一封情人节信"),
                     SuggestionsModel(title: "写一篇关于二手车买卖市场趋势的调查报告"),
-                    SuggestionsModel(title: "写一首反映工业文明的现代叙事诗"),
-                    SuggestionsModel(title: "给喜欢登山的朋友写一封生日贺卡"),
-                    SuggestionsModel(title: "撰写一份有关虚拟现实游戏用户体验的调查分析"),
-                    SuggestionsModel(title: "创作一首抒发大自然之美的田园诗歌"),
-                    SuggestionsModel(title: "给一直支持你学业的老师写一封感谢信"),
-                    SuggestionsModel(title: "研究一下无人机应用领域的市场前景预测")
+                    SuggestionsModel(title: "写一首反映工业文明的现代叙事诗")
                 ]
             },
             loadHistoryTopic: {
@@ -54,19 +49,7 @@ extension MessageAPIClient: TestDependencyKey {
 
                     TopicHistoryModel(timestamp: Date(),
                                       topic: "给喜欢登山的朋友写一封生日贺卡",
-                                      reply: "每当看到高山,总会想起你激动而专注的神情。每一座峰顶都是你的生日礼物,愿你像攀登山峰那样勇往直前,从未放弃梦想!"),
-
-                    TopicHistoryModel(timestamp: Date(),
-                                      topic: "撰写一份有关虚拟现实游戏用户体验的调查分析",
-                                      reply: "根据对210名虚拟现实游戏玩家的调研,超过85%的受访者对当前主流VR游戏的用户体验表示满意。本研究分析了虚拟现实游戏在视觉、听觉、交互等多方面的优势..."),
-
-                    TopicHistoryModel(timestamp: Date(),
-                                      topic: "创作一首抒发大自然之美的田园诗歌",
-                                      reply: "绿草如茵,花儿绽放。坐在草坪上,聆听鸟语花香。微风轻拂,树叶婆娑。汇成一曲田园之歌,歌颂大自然赐予的美好时光。"),
-
-                    TopicHistoryModel(timestamp: Date(),
-                                      topic: "给一直支持你学业的老师写一封感谢信",
-                                      reply: "您的教导与帮助让我受益匪浅,学业上的每一个进步都离不开您的指导。我由衷地感谢您多年来对我的鼓励与支持。您就是我心目中最伟大的老师!")
+                                      reply: "每当看到高山,总会想起你激动而专注的神情。每一座峰顶都是你的生日礼物,愿你像攀登山峰那样勇往直前,从未放弃梦想!")
                 ]
             },
             loadMsgList: { userId in
