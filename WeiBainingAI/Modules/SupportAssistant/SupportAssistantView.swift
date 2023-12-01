@@ -54,6 +54,7 @@ struct SupportAssistantView: View {
             }
             .background(Color(hex: 0xF6F6F6))
         }
+        .navigationViewStyle(.stack)
     }
 }
 
