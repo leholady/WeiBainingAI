@@ -10,21 +10,37 @@ import ComposableArchitecture
 @Reducer
 struct MoreOptionsFeature {
     struct State: Equatable {
-        #warning("To do")
-        var somthing: String = "Hello world"
+        var groups: [MoreOptionsGroupModel] = [.groupBalance, .groupMember, .groupHistory, .groupAbout]
+        var balanceItems: [MoreBalanceItemModel] = []
     }
     
-    enum Action {
-        #warning("To do")
-        case doSomething
+    enum Action: Equatable {
+        case uploadBalanceItems
+        case balanceItemsUpdate([MoreBalanceItemModel])
     }
+    
+    @Dependency(\.moreClient) var moreClient
     
     var body: some Reducer<State, Action> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            default:
+            case .uploadBalanceItems:
+                return .run { send in
+                   await send(.balanceItemsUpdate(try await moreClient.moreBalanceItems()))
+                }
+            case let .balanceItemsUpdate(items):
+                state.balanceItems = items
                 return .none
+//            default:
+//                return .none
             }
         }
+    }
+}
+
+extension DependencyValues {
+    var moreClient: MoreOptionsClient {
+        get { self[MoreOptionsClient.self] }
+        set { self[MoreOptionsClient.self] = newValue }
     }
 }

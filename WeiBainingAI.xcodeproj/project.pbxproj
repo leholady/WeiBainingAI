@@ -41,6 +41,12 @@
 		7E0CD91D2B148A2F00308394 /* SupportAssistantDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0CD91C2B148A2F00308394 /* SupportAssistantDetailsModel.swift */; };
 		7E51696D2B16143500737171 /* SupportAssistantDetailsTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E51696C2B16143500737171 /* SupportAssistantDetailsTextCell.swift */; };
 		7E51696F2B16157E00737171 /* SupportAssistantDetailsSegmentedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E51696E2B16157E00737171 /* SupportAssistantDetailsSegmentedCell.swift */; };
+		7E645C772B19892500D7E589 /* MoreOptionsGroupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C762B19892500D7E589 /* MoreOptionsGroupModel.swift */; };
+		7E645C792B199EC700D7E589 /* MoreOptionsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C782B199EC700D7E589 /* MoreOptionsHeaderView.swift */; };
+		7E645C7B2B19BC3600D7E589 /* MoreOptionsItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C7A2B19BC3600D7E589 /* MoreOptionsItemCell.swift */; };
+		7E645C7D2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C7C2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift */; };
+		7E645C802B19C40000D7E589 /* MoreBalanceItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C7F2B19C40000D7E589 /* MoreBalanceItemModel.swift */; };
+		7E645C822B19CA2A00D7E589 /* MoreOptionsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C812B19CA2A00D7E589 /* MoreOptionsClient.swift */; };
 		7E689D9C2B15CA9600B4BFD3 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 7E689D9B2B15CA9600B4BFD3 /* ComposableArchitecture */; };
 		7E94A4762B143B8300EA23F8 /* SupportAssistantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */; };
 		7E94A4782B143BC100EA23F8 /* SupportAssistantModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4772B143BC100EA23F8 /* SupportAssistantModel.swift */; };
@@ -99,6 +105,13 @@
 		7E0CD91C2B148A2F00308394 /* SupportAssistantDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsModel.swift; sourceTree = "<group>"; };
 		7E51696C2B16143500737171 /* SupportAssistantDetailsTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsTextCell.swift; sourceTree = "<group>"; };
 		7E51696E2B16157E00737171 /* SupportAssistantDetailsSegmentedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsSegmentedCell.swift; sourceTree = "<group>"; };
+		7E645C762B19892500D7E589 /* MoreOptionsGroupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsGroupModel.swift; sourceTree = "<group>"; };
+		7E645C782B199EC700D7E589 /* MoreOptionsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsHeaderView.swift; sourceTree = "<group>"; };
+		7E645C7A2B19BC3600D7E589 /* MoreOptionsItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsItemCell.swift; sourceTree = "<group>"; };
+		7E645C7C2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsBalanceCell.swift; sourceTree = "<group>"; };
+		7E645C7E2B19C09900D7E589 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7E645C7F2B19C40000D7E589 /* MoreBalanceItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreBalanceItemModel.swift; sourceTree = "<group>"; };
+		7E645C812B19CA2A00D7E589 /* MoreOptionsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsClient.swift; sourceTree = "<group>"; };
 		7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantCell.swift; sourceTree = "<group>"; };
 		7E94A4772B143BC100EA23F8 /* SupportAssistantModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantModel.swift; sourceTree = "<group>"; };
 		7E94A47E2B144B0600EA23F8 /* SupportAssistantFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantFeature.swift; sourceTree = "<group>"; };
@@ -197,6 +210,8 @@
 				7EE7CA232B172510003A1B4A /* TextImageTaskResultModel.swift */,
 				655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */,
 				655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */,
+				7E645C762B19892500D7E589 /* MoreOptionsGroupModel.swift */,
+				7E645C7F2B19C40000D7E589 /* MoreBalanceItemModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -233,6 +248,7 @@
 		659A55102B0EFE0500B2BF9B /* WeiBainingAI */ = {
 			isa = PBXGroup;
 			children = (
+				7E645C7E2B19C09900D7E589 /* Info.plist */,
 				D310AC222B10A39800E48A66 /* Modules */,
 				65876EC42B0F87ED00DFFE0C /* HttpRequest */,
 				65876ED82B0F936000DFFE0C /* Models */,
@@ -306,6 +322,10 @@
 			children = (
 				D310AC2A2B10A6B500E48A66 /* MoreOptionsView.swift */,
 				D310AC302B10A8C600E48A66 /* MoreOptionsFeature.swift */,
+				7E645C812B19CA2A00D7E589 /* MoreOptionsClient.swift */,
+				7E645C782B199EC700D7E589 /* MoreOptionsHeaderView.swift */,
+				7E645C7A2B19BC3600D7E589 /* MoreOptionsItemCell.swift */,
+				7E645C7C2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift */,
 			);
 			path = MoreOptions;
 			sourceTree = "<group>";
@@ -448,17 +468,22 @@
 				65876EDC2B0F948B00DFFE0C /* LaunchLoadView.swift in Sources */,
 				659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */,
 				7EE7CA2C2B1732A4003A1B4A /* SupportAssistantResultView.swift in Sources */,
+				7E645C792B199EC700D7E589 /* MoreOptionsHeaderView.swift in Sources */,
 				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
 				7EA68D102B15EDD100958343 /* ImagePickerView.swift in Sources */,
+				7E645C772B19892500D7E589 /* MoreOptionsGroupModel.swift in Sources */,
 				D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */,
 				7EE7CA242B172510003A1B4A /* TextImageTaskResultModel.swift in Sources */,
 				65876ECA2B0F884700DFFE0C /* HttpParserHandler.swift in Sources */,
 				D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */,
+				7E645C7B2B19BC3600D7E589 /* MoreOptionsItemCell.swift in Sources */,
+				7E645C822B19CA2A00D7E589 /* MoreOptionsClient.swift in Sources */,
 				D310AC2B2B10A6B500E48A66 /* MoreOptionsView.swift in Sources */,
 				7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */,
 				7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */,
 				655D36062B16D85C004A5308 /* MessageListFeature.swift in Sources */,
 				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
+				7E645C7D2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift in Sources */,
 				7EA68D102B15EDD100958343 /* ImagePickerView.swift in Sources */,
 				D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */,
 				655D36052B16D85C004A5308 /* MessageListView.swift in Sources */,
@@ -479,6 +504,7 @@
 				7E94A4832B144BD200EA23F8 /* SupportAssistantDetailsView.swift in Sources */,
 				D310AC272B10A69D00E48A66 /* MessagingHubView.swift in Sources */,
 				7E95BC242B14C220001884AD /* SegmentedControl.swift in Sources */,
+				7E645C802B19C40000D7E589 /* MoreBalanceItemModel.swift in Sources */,
 				D310AC312B10A8C600E48A66 /* MoreOptionsFeature.swift in Sources */,
 				65876ECC2B0F885200DFFE0C /* HttpErrorHandler.swift in Sources */,
 				655D36082B16D864004A5308 /* MessagingClient.swift in Sources */,
@@ -618,6 +644,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeiBainingAI/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "允许访问相册, 用于保存生成的图像数据";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允许访问相册, 用于添加参考图像";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -665,6 +692,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeiBainingAI/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "允许访问相册, 用于保存生成的图像数据";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允许访问相册, 用于添加参考图像";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
