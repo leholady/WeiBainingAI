@@ -47,6 +47,8 @@
 		7E645C7D2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C7C2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift */; };
 		7E645C802B19C40000D7E589 /* MoreBalanceItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C7F2B19C40000D7E589 /* MoreBalanceItemModel.swift */; };
 		7E645C822B19CA2A00D7E589 /* MoreOptionsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C812B19CA2A00D7E589 /* MoreOptionsClient.swift */; };
+		7E645C842B19D19700D7E589 /* MoreOptionsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C832B19D19700D7E589 /* MoreOptionsSectionView.swift */; };
+		7E645C862B19D86B00D7E589 /* MoreSafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E645C852B19D86B00D7E589 /* MoreSafariView.swift */; };
 		7E689D9C2B15CA9600B4BFD3 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 7E689D9B2B15CA9600B4BFD3 /* ComposableArchitecture */; };
 		7E94A4762B143B8300EA23F8 /* SupportAssistantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */; };
 		7E94A4782B143BC100EA23F8 /* SupportAssistantModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4772B143BC100EA23F8 /* SupportAssistantModel.swift */; };
@@ -112,6 +114,8 @@
 		7E645C7E2B19C09900D7E589 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E645C7F2B19C40000D7E589 /* MoreBalanceItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreBalanceItemModel.swift; sourceTree = "<group>"; };
 		7E645C812B19CA2A00D7E589 /* MoreOptionsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsClient.swift; sourceTree = "<group>"; };
+		7E645C832B19D19700D7E589 /* MoreOptionsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsSectionView.swift; sourceTree = "<group>"; };
+		7E645C852B19D86B00D7E589 /* MoreSafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreSafariView.swift; sourceTree = "<group>"; };
 		7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantCell.swift; sourceTree = "<group>"; };
 		7E94A4772B143BC100EA23F8 /* SupportAssistantModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantModel.swift; sourceTree = "<group>"; };
 		7E94A47E2B144B0600EA23F8 /* SupportAssistantFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantFeature.swift; sourceTree = "<group>"; };
@@ -323,9 +327,11 @@
 				D310AC2A2B10A6B500E48A66 /* MoreOptionsView.swift */,
 				D310AC302B10A8C600E48A66 /* MoreOptionsFeature.swift */,
 				7E645C812B19CA2A00D7E589 /* MoreOptionsClient.swift */,
+				7E645C832B19D19700D7E589 /* MoreOptionsSectionView.swift */,
 				7E645C782B199EC700D7E589 /* MoreOptionsHeaderView.swift */,
 				7E645C7A2B19BC3600D7E589 /* MoreOptionsItemCell.swift */,
 				7E645C7C2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift */,
+				7E645C852B19D86B00D7E589 /* MoreSafariView.swift */,
 			);
 			path = MoreOptions;
 			sourceTree = "<group>";
@@ -467,6 +473,7 @@
 				7EE7CA2E2B1732C7003A1B4A /* SupportAssistantResultFeature.swift in Sources */,
 				65876EDC2B0F948B00DFFE0C /* LaunchLoadView.swift in Sources */,
 				659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */,
+				7E645C842B19D19700D7E589 /* MoreOptionsSectionView.swift in Sources */,
 				7EE7CA2C2B1732A4003A1B4A /* SupportAssistantResultView.swift in Sources */,
 				7E645C792B199EC700D7E589 /* MoreOptionsHeaderView.swift in Sources */,
 				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
@@ -483,6 +490,7 @@
 				7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */,
 				655D36062B16D85C004A5308 /* MessageListFeature.swift in Sources */,
 				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
+				7E645C862B19D86B00D7E589 /* MoreSafariView.swift in Sources */,
 				7E645C7D2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift in Sources */,
 				7EA68D102B15EDD100958343 /* ImagePickerView.swift in Sources */,
 				D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */,

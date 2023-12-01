@@ -25,6 +25,7 @@ struct MoreOptionsItemCell: View {
         .listRowSeparator(.visible)
         .padding(.horizontal, 20)
         .frame(height: 60)
+        .background(.white)
     }
 }
 

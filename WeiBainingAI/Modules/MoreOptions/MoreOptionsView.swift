@@ -17,30 +17,19 @@ struct MoreOptionsView: View {
                     List {
                         MoreOptionsHeaderView()
                         ForEach(viewStore.groups) { group in
-                            Section(content: {
-                                VStack {
-                                    ForEach(group.items) { item in
-                                        switch item {
-                                        case .itemBalance:
-                                            MoreOptionsBalanceCell(items: viewStore.balanceItems)
-                                        default:
-                                            MoreOptionsItemCell(item: item)
-                                        }
-                                        if item != group.items.last {
-                                            Divider()
-                                                .padding(.leading, 20)
-                                        }
-                                    }
+                            MoreOptionsSectionView(group: group,
+                                                   balanceItems: viewStore.balanceItems) {
+                                switch $0 {
+                                case .itemPolicy:
+                                    viewStore.send(.dismissSafari(HttpConst.privateUrl))
+                                case .itemAgreement:
+                                    viewStore.send(.dismissSafari(HttpConst.usageUrl))
+                                case .itemConnect:
+                                    viewStore.send(.dismissSafari(HttpConst.feedbackUrl))
+                                default:
+                                    break
                                 }
-                                .background(Color.white)
-                                .cornerRadius(10)
-                            }, header: {
-                                Text(group.rawValue)
-                                    .foregroundColor(Color(hex: 0x666666))
-                                    .font(.system(size: 12, weight: .medium))
-                            })
-                            .listRowSeparator(.hidden)
-                            .listRowBackground(Color.clear)
+                            }
                         }
                     }
                     .background(Color.clear)
@@ -59,6 +48,10 @@ struct MoreOptionsView: View {
                 }
                 .onAppear {
                     viewStore.send(.uploadBalanceItems)
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$safariState,
+                                                         action: \.fullScreenCoverSafari)) { store in
+                    MoreSafariView(store: store)
                 }
             }
             .background(Color(hex: 0xF6F6F6))
