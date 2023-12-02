@@ -16,7 +16,7 @@ struct SupportAssistantFeature {
     
     enum Action: Equatable {
         case uploadAssistantItems
-        case assistantsUpdate([SupportAssistantModel])
+        case assistantsUpdate(TaskResult<[SupportAssistantModel]>)
         case dismissDetails(SupportAssistantModel)
         case fullScreenCoverDetails(PresentationAction<SupportAssistantDetailsFeature.Action>)
     }
@@ -28,10 +28,17 @@ struct SupportAssistantFeature {
             switch action {
             case .uploadAssistantItems:
                 return .run { send in
-                    await send(.assistantsUpdate(try await assistantClient.assistantItems()))
+                    await send(.assistantsUpdate(
+                        TaskResult {
+                            try await assistantClient.assistantItems()
+                        }
+                    ))
                 }
-            case let .assistantsUpdate(items):
+            case let .assistantsUpdate(.success(items)):
                 state.assistants = items
+                return .none
+            case .assistantsUpdate(.failure):
+                state.assistants = []
                 return .none
             case let .dismissDetails(model):
                 state.details = SupportAssistantDetailsFeature.State(assistantTitle: model.title,
