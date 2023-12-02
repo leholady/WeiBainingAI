@@ -13,18 +13,18 @@ struct SegmentedControl: View {
     @Namespace var namespace
     
     var body: some View {
-        HStack(alignment: .center, spacing: 2) {
+        HStack(alignment: .center, spacing: 0) {
             ForEach(0..<items.count, id: \.self) { index in
                 Rectangle()
-                    .foregroundColor(.clear)
+                    .foregroundColor(.white.opacity(0.01))
                     .overlay(content: {
                         Text(items[index])
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(selectedIndex == index ? Color.white : Color.black)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
+                            .padding(.horizontal, 5)
                     })
-                    .padding(.horizontal, 5)
                     .matchedGeometryEffect(
                         id: index,
                         in: namespace,
