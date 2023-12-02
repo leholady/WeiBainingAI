@@ -14,6 +14,7 @@ struct MoreOptionsFeature {
         var groups: [MoreOptionsGroupModel] = []
         var balanceItems: [MoreBalanceItemModel] = []
         @PresentationState var safariState: MoreSafariFeature.State?
+        @PresentationState var premiumState: PremiumMemberFeature.State?
     }
     
     enum Action: Equatable {
@@ -22,6 +23,8 @@ struct MoreOptionsFeature {
         case balanceItemsUpdate(TaskResult<[MoreBalanceItemModel]>)
         case dismissSafari(URL)
         case fullScreenCoverSafari(PresentationAction<MoreSafariFeature.Action>)
+        case dismissPremium
+        case fullScreenCoverPremium(PresentationAction<PremiumMemberFeature.Action>)
     }
     
     @Dependency(\.moreClient) var moreClient
@@ -52,12 +55,18 @@ struct MoreOptionsFeature {
             case let .dismissSafari(url):
                 state.safariState = MoreSafariFeature.State(url: url)
                 return .none
+            case .dismissPremium:
+                state.premiumState = PremiumMemberFeature.State()
+                return .none
             default:
                 return .none
             }
         }
         .ifLet(\.$safariState, action: \.fullScreenCoverSafari) {
             MoreSafariFeature()
+        }
+        .ifLet(\.$premiumState, action: \.fullScreenCoverPremium) {
+            PremiumMemberFeature()
         }
     }
 }
