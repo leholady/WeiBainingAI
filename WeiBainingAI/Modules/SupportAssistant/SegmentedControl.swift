@@ -7,7 +7,20 @@
 
 import SwiftUI
 
+struct SegmentedControlConfiguration {
+    var backgroundRadius: CGFloat = 20
+    var selectRadius: CGFloat = 18
+    var backgroundColor: Color = Color.white
+    var selectColor: Color = Color(hex: 0x027AFF)
+    var height: CGFloat = 46
+    var textColor: Color = Color.black
+    var textSelectColor: Color = Color.white
+    var textFont: Font = .system(size: 14, weight: .medium)
+}
+
 struct SegmentedControl: View {
+    
+    var configuratiion = SegmentedControlConfiguration()
     var items: [String]
     @Binding var selectedIndex: Int
     @Namespace var namespace
@@ -19,8 +32,8 @@ struct SegmentedControl: View {
                     .foregroundColor(.white.opacity(0.01))
                     .overlay(content: {
                         Text(items[index])
-                            .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(selectedIndex == index ? Color.white : Color.black)
+                            .font(configuratiion.textFont)
+                            .foregroundColor(selectedIndex == index ? configuratiion.textSelectColor : configuratiion.textColor)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
                             .padding(.horizontal, 5)
@@ -39,8 +52,8 @@ struct SegmentedControl: View {
         }
         .background {
             Rectangle()
-                .fill(Color(hex: 0x027AFF))
-                .cornerRadius(18)
+                .fill(configuratiion.selectColor)
+                .cornerRadius(configuratiion.selectRadius)
                 .matchedGeometryEffect(
                     id: selectedIndex,
                     in: namespace,
@@ -48,8 +61,8 @@ struct SegmentedControl: View {
                 )
         }
         .padding(2)
-        .frame(height: 46)
-        .background(Color.white)
-        .cornerRadius(20)
+        .frame(height: configuratiion.height)
+        .background(configuratiion.backgroundColor)
+        .cornerRadius(configuratiion.backgroundRadius)
     }
 }
