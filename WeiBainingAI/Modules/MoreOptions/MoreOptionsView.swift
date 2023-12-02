@@ -16,10 +16,15 @@ struct MoreOptionsView: View {
                 VStack(spacing: 20) {
                     List {
                         MoreOptionsHeaderView()
+                            .onTapGesture {
+                                viewStore.send(.dismissPremium)
+                            }
                         ForEach(viewStore.groups) { group in
                             MoreOptionsSectionView(group: group,
                                                    balanceItems: viewStore.balanceItems) {
                                 switch $0 {
+                                case .itemMember:
+                                    viewStore.send(.dismissPremium)
                                 case .itemPolicy:
                                     viewStore.send(.dismissSafari(HttpConst.privateUrl))
                                 case .itemAgreement:
@@ -49,11 +54,15 @@ struct MoreOptionsView: View {
                 .onAppear {
                     viewStore.send(.uploadBalanceItems)
                 }
+                .fullScreenCover(store: self.store.scope(state: \.$premiumState,
+                                                         action: \.fullScreenCoverPremium)) { store in
+                    PremiumMemberView(store: store)
+                }
                 .fullScreenCover(store: self.store.scope(state: \.$safariState,
                                                          action: \.fullScreenCoverSafari)) { store in
                     MoreSafariView(store: store)
                 }
-            }
+             }
             .background(Color(hex: 0xF6F6F6))
         }
         .navigationViewStyle(.stack)
