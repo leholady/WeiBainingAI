@@ -16,7 +16,6 @@
 		655D35FF2B16D82F004A5308 /* SuggestionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */; };
 		655D36002B16D82F004A5308 /* TopicHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */; };
 		655D36052B16D85C004A5308 /* MessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36032B16D85C004A5308 /* MessageListView.swift */; };
-		655D36062B16D85C004A5308 /* MessageListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36042B16D85C004A5308 /* MessageListFeature.swift */; };
 		655D36082B16D864004A5308 /* MessagingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36072B16D864004A5308 /* MessagingClient.swift */; };
 		655D360A2B171299004A5308 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36092B171299004A5308 /* Date+Ex.swift */; };
 		6561317C2B1AE323004FCAEF /* MessageListClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561317B2B1AE323004FCAEF /* MessageListClient.swift */; };
@@ -45,6 +44,11 @@
 		659A552E2B0F004700B2BF9B /* SVProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 659A552D2B0F004700B2BF9B /* SVProgressHUD */; };
 		659A55312B0F007400B2BF9B /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55302B0F007400B2BF9B /* SwiftUIX */; };
 		659A55342B0F009A00B2BF9B /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 659A55332B0F009A00B2BF9B /* Logging */; };
+		65D074472B1AFCE0004A4E0F /* MessageListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D074462B1AFCE0004A4E0F /* MessageListFeature.swift */; };
+		65D074492B1AFCF4004A4E0F /* SupportAssistantMakeFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D074482B1AFCF4004A4E0F /* SupportAssistantMakeFeature.swift */; };
+		65D0744B2B1AFD09004A4E0F /* UploadImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D0744A2B1AFD09004A4E0F /* UploadImageModel.swift */; };
+		65D0744D2B1AFD19004A4E0F /* TextImageTaskResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D0744C2B1AFD19004A4E0F /* TextImageTaskResultModel.swift */; };
+		65D0744F2B1B6DC8004A4E0F /* MessageSeedFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D0744E2B1B6DC8004A4E0F /* MessageSeedFeature.swift */; };
 		65EAFBD12B18C5150055ABEA /* LaunchConfigClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EAFBD02B18C5150055ABEA /* LaunchConfigClient.swift */; };
 		65EAFBD32B18C5800055ABEA /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EAFBD22B18C5800055ABEA /* ImagePickerView.swift */; };
 		65EAFBD52B18C59C0055ABEA /* MessagingHubViewFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EAFBD42B18C59B0055ABEA /* MessagingHubViewFeature.swift */; };
@@ -72,12 +76,9 @@
 		7EA68D0C2B15D10D00958343 /* SupportAssistantClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */; };
 		7EA68D122B15EE1B00958343 /* ImagePickerFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA68D112B15EE1B00958343 /* ImagePickerFeature.swift */; };
 		7EA68D142B16058200958343 /* SupportAssistantDetailsImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EA68D132B16058200958343 /* SupportAssistantDetailsImageCell.swift */; };
-		7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA1F2B171630003A1B4A /* UploadImageModel.swift */; };
 		7EE7CA222B1724FB003A1B4A /* TextImageTaskConfigureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA212B1724FB003A1B4A /* TextImageTaskConfigureModel.swift */; };
-		7EE7CA242B172510003A1B4A /* TextImageTaskResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA232B172510003A1B4A /* TextImageTaskResultModel.swift */; };
 		7EE7CA262B1728AF003A1B4A /* GradientProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA252B1728AF003A1B4A /* GradientProgressView.swift */; };
 		7EE7CA292B1728E9003A1B4A /* SupportAssistantMakeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA272B1728E9003A1B4A /* SupportAssistantMakeView.swift */; };
-		7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA282B1728E9003A1B4A /* SupportAssistantMakeFeature.swift */; };
 		7EE7CA2C2B1732A4003A1B4A /* SupportAssistantResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA2B2B1732A4003A1B4A /* SupportAssistantResultView.swift */; };
 		7EE7CA2E2B1732C7003A1B4A /* SupportAssistantResultFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE7CA2D2B1732C7003A1B4A /* SupportAssistantResultFeature.swift */; };
 		7EE7CA312B1736BA003A1B4A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7EE7CA302B1736BA003A1B4A /* Kingfisher */; };
@@ -97,7 +98,6 @@
 		655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionsModel.swift; sourceTree = "<group>"; };
 		655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicHistoryModel.swift; sourceTree = "<group>"; };
 		655D36032B16D85C004A5308 /* MessageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListView.swift; sourceTree = "<group>"; };
-		655D36042B16D85C004A5308 /* MessageListFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListFeature.swift; sourceTree = "<group>"; };
 		655D36072B16D864004A5308 /* MessagingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingClient.swift; sourceTree = "<group>"; };
 		655D36092B171299004A5308 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		6561317B2B1AE323004FCAEF /* MessageListClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListClient.swift; sourceTree = "<group>"; };
@@ -120,6 +120,11 @@
 		659A55152B0EFE0600B2BF9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		659A55172B0EFE0600B2BF9B /* WeiBainingAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeiBainingAI.entitlements; sourceTree = "<group>"; };
 		659A55192B0EFE0600B2BF9B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		65D074462B1AFCE0004A4E0F /* MessageListFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListFeature.swift; sourceTree = "<group>"; };
+		65D074482B1AFCF4004A4E0F /* SupportAssistantMakeFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantMakeFeature.swift; sourceTree = "<group>"; };
+		65D0744A2B1AFD09004A4E0F /* UploadImageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadImageModel.swift; sourceTree = "<group>"; };
+		65D0744C2B1AFD19004A4E0F /* TextImageTaskResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextImageTaskResultModel.swift; sourceTree = "<group>"; };
+		65D0744E2B1B6DC8004A4E0F /* MessageSeedFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSeedFeature.swift; sourceTree = "<group>"; };
 		65EAFBD02B18C5150055ABEA /* LaunchConfigClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchConfigClient.swift; sourceTree = "<group>"; };
 		65EAFBD22B18C5800055ABEA /* ImagePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		65EAFBD42B18C59B0055ABEA /* MessagingHubViewFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingHubViewFeature.swift; sourceTree = "<group>"; };
@@ -147,12 +152,9 @@
 		7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantClient.swift; sourceTree = "<group>"; };
 		7EA68D112B15EE1B00958343 /* ImagePickerFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerFeature.swift; sourceTree = "<group>"; };
 		7EA68D132B16058200958343 /* SupportAssistantDetailsImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsImageCell.swift; sourceTree = "<group>"; };
-		7EE7CA1F2B171630003A1B4A /* UploadImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageModel.swift; sourceTree = "<group>"; };
 		7EE7CA212B1724FB003A1B4A /* TextImageTaskConfigureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextImageTaskConfigureModel.swift; sourceTree = "<group>"; };
-		7EE7CA232B172510003A1B4A /* TextImageTaskResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextImageTaskResultModel.swift; sourceTree = "<group>"; };
 		7EE7CA252B1728AF003A1B4A /* GradientProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientProgressView.swift; sourceTree = "<group>"; };
 		7EE7CA272B1728E9003A1B4A /* SupportAssistantMakeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantMakeView.swift; sourceTree = "<group>"; };
-		7EE7CA282B1728E9003A1B4A /* SupportAssistantMakeFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantMakeFeature.swift; sourceTree = "<group>"; };
 		7EE7CA2B2B1732A4003A1B4A /* SupportAssistantResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantResultView.swift; sourceTree = "<group>"; };
 		7EE7CA2D2B1732C7003A1B4A /* SupportAssistantResultFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantResultFeature.swift; sourceTree = "<group>"; };
 		D310AC202B10A1CE00E48A66 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -207,7 +209,8 @@
 			children = (
 				655D36032B16D85C004A5308 /* MessageListView.swift */,
 				6561317B2B1AE323004FCAEF /* MessageListClient.swift */,
-				655D36042B16D85C004A5308 /* MessageListFeature.swift */,
+				65D074462B1AFCE0004A4E0F /* MessageListFeature.swift */,
+				65D0744E2B1B6DC8004A4E0F /* MessageSeedFeature.swift */,
 			);
 			path = MessageList;
 			sourceTree = "<group>";
@@ -257,9 +260,9 @@
 				65876ED92B0F936A00DFFE0C /* UserProfileModel.swift */,
 				7E94A4772B143BC100EA23F8 /* SupportAssistantModel.swift */,
 				7E0CD91C2B148A2F00308394 /* SupportAssistantDetailsModel.swift */,
-				7EE7CA1F2B171630003A1B4A /* UploadImageModel.swift */,
+				65D0744A2B1AFD09004A4E0F /* UploadImageModel.swift */,
 				7EE7CA212B1724FB003A1B4A /* TextImageTaskConfigureModel.swift */,
-				7EE7CA232B172510003A1B4A /* TextImageTaskResultModel.swift */,
+				65D0744C2B1AFD19004A4E0F /* TextImageTaskResultModel.swift */,
 				655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */,
 				655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */,
 				7E645C762B19892500D7E589 /* MoreOptionsGroupModel.swift */,
@@ -361,7 +364,7 @@
 				7E51696E2B16157E00737171 /* SupportAssistantDetailsSegmentedCell.swift */,
 				7E94A4822B144BD200EA23F8 /* SupportAssistantDetailsFeature.swift */,
 				7EE7CA272B1728E9003A1B4A /* SupportAssistantMakeView.swift */,
-				7EE7CA282B1728E9003A1B4A /* SupportAssistantMakeFeature.swift */,
+				65D074482B1AFCF4004A4E0F /* SupportAssistantMakeFeature.swift */,
 				7EE7CA2B2B1732A4003A1B4A /* SupportAssistantResultView.swift */,
 				7EE7CA2D2B1732C7003A1B4A /* SupportAssistantResultFeature.swift */,
 				7E95BC232B14C220001884AD /* SegmentedControl.swift */,
@@ -522,8 +525,11 @@
 				655D360A2B171299004A5308 /* Date+Ex.swift in Sources */,
 				65876EC82B0F881100DFFE0C /* HttpResponseHandler.swift in Sources */,
 				7E51696D2B16143500737171 /* SupportAssistantDetailsTextCell.swift in Sources */,
+				65D074472B1AFCE0004A4E0F /* MessageListFeature.swift in Sources */,
+				65D074492B1AFCF4004A4E0F /* SupportAssistantMakeFeature.swift in Sources */,
 				65081C5D2B18ED9E004F4C47 /* ChatConfigUnit.swift in Sources */,
 				7EA68D0C2B15D10D00958343 /* SupportAssistantClient.swift in Sources */,
+				65D0744F2B1B6DC8004A4E0F /* MessageSeedFeature.swift in Sources */,
 				7EE7CA292B1728E9003A1B4A /* SupportAssistantMakeView.swift in Sources */,
 				7EE7CA2E2B1732C7003A1B4A /* SupportAssistantResultFeature.swift in Sources */,
 				65EAFBD92B18C5E90055ABEA /* MoreOptionsView.swift in Sources */,
@@ -534,20 +540,14 @@
 				7EE7CA2C2B1732A4003A1B4A /* SupportAssistantResultView.swift in Sources */,
 				7E645C792B199EC700D7E589 /* MoreOptionsHeaderView.swift in Sources */,
 				7E645C772B19892500D7E589 /* MoreOptionsGroupModel.swift in Sources */,
-				7EE7CA242B172510003A1B4A /* TextImageTaskResultModel.swift in Sources */,
 				7E645C7B2B19BC3600D7E589 /* MoreOptionsItemCell.swift in Sources */,
 				7E645C822B19CA2A00D7E589 /* MoreOptionsClient.swift in Sources */,
-				7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */,
-				7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */,
-				655D36062B16D85C004A5308 /* MessageListFeature.swift in Sources */,
+				65D0744D2B1AFD19004A4E0F /* TextImageTaskResultModel.swift in Sources */,
 				7E645C862B19D86B00D7E589 /* MoreSafariView.swift in Sources */,
 				7E645C7D2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift in Sources */,
-				7EE7CA242B172510003A1B4A /* TextImageTaskResultModel.swift in Sources */,
 				656131802B1AE32C004FCAEF /* HistoryChatTopicsView.swift in Sources */,
 				65EAFBDB2B18C6050055ABEA /* SupportAssistantView.swift in Sources */,
-				7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */,
-				7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */,
-				655D36062B16D85C004A5308 /* MessageListFeature.swift in Sources */,
+				65D0744B2B1AFD09004A4E0F /* UploadImageModel.swift in Sources */,
 				65081C582B18CE91004F4C47 /* SegmentControlStyleView.swift in Sources */,
 				655D36052B16D85C004A5308 /* MessageListView.swift in Sources */,
 				655D35FF2B16D82F004A5308 /* SuggestionsModel.swift in Sources */,
@@ -721,8 +721,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
@@ -769,8 +769,8 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";

@@ -14,11 +14,17 @@ struct MessagingHubViewFeature {
     struct State: Equatable {
         var suggestions: [SuggestionsModel] = []
         var topicList: [TopicHistoryModel] = []
+        /// 用户配置信息
+        var userConfig: UserProfileModel?
     }
 
     enum Action: Equatable {
         /// 加载首页数据
         case loadDefaultData
+        /// 加载用户配置
+        case loadUserConfig
+        /// 更新用户配置
+        case updateUserConfig(TaskResult<UserProfileModel>)
         /// 更新首页数据
         case updateDefaultData(TaskResult<[SuggestionsModel]>)
         /// 更新历史话题数据
@@ -32,6 +38,7 @@ struct MessagingHubViewFeature {
     }
 
     @Dependency(\.msgAPIClient) var msgAPIClient
+    @Dependency(\.httpClient) var httpClient
     @Dependency(\.msgListClient) var msgListClient
 
     var body: some Reducer<State, Action> {
@@ -42,10 +49,21 @@ struct MessagingHubViewFeature {
                     await send(.updateDefaultData(TaskResult {
                         try await msgAPIClient.requestHomeProfile()
                     }))
+                    await send(.updateUserConfig(TaskResult {
+                        try await httpClient.currentUserProfile()
+                    }))
                     await send(.updateTopicData(TaskResult {
-                         await msgListClient.loadLocalTopics(0)
+                        await msgListClient.loadLocalTopics(0)
                     }))
                 }
+            case let .updateUserConfig(.success(result)):
+                state.userConfig = result
+                return .none
+
+            case let .updateUserConfig(.failure(error)):
+                Logger(label: "v").error("\(error)")
+                return .none
+
             case let .updateDefaultData(.success(items)):
                 state.suggestions = items
                 return .none

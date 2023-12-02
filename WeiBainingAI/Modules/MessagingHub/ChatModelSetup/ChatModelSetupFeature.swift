@@ -34,7 +34,7 @@ struct ChatModelSetupFeature {
         case delegate(Delegate)
         
         enum Delegate: Equatable {
-            case updateChatModel(ChatModelConfig)
+            case updateChatModel(ChatRequestConfigMacro)
         }
     }
 
@@ -53,9 +53,9 @@ struct ChatModelSetupFeature {
                 return .none
 
             case .dismissConfig:
-                let model = state.chatModelList[state.selectModelId - 1]
+                let chatConfig = ChatRequestConfigMacro.defaultConfig()
                 return .run { send in
-                    await send(.delegate(.updateChatModel(model)))
+                    await send(.delegate(.updateChatModel(chatConfig)))
                     await dismiss()
                 }
             default:

@@ -49,3 +49,13 @@ struct MessageItemModel: Codable, Equatable, Hashable, Identifiable {
         self.timestamp = timestamp
     }
 }
+
+struct MessageDialogModel: Codable {
+    var content: String
+    var role: Role
+
+    enum Role: String, Codable {
+        case user = "user"
+        case robot = "assistant"
+    }
+}

@@ -27,7 +27,6 @@ struct MessageListView: View {
                     .listRowInsets(.zero)
                 }
                 .listStyle(.plain)
-
                 MessageInputContentView(store: store)
             })
             .toolbar {
@@ -39,7 +38,7 @@ struct MessageListView: View {
 
                 ToolbarItem(placement: .principal, content: {
                     HStack(alignment: .center, spacing: 0, content: {
-                        Text("GPT-3.5 Turbo")
+                        Text(viewStore.chatConfig.model.title)
                             .font(.custom("DOUYINSANSBOLD-GB", size: 16))
 
                         Image(.homeIconTriangledown)
@@ -64,7 +63,7 @@ struct MessageListView: View {
             .navigationBarBackButtonHidden(true)
             .navigationViewStyle(.stack)
             .task {
-                viewStore.send(.loadReqeustConfig)
+                viewStore.send(.loadChatConfig)
                 viewStore.send(.loadLocalMessages)
             }
             .sheet(store: store.scope(state: \.$modelSetup,
@@ -222,7 +221,7 @@ struct MessageSenderCell: View {
 struct MessageInputContentView: View {
     let store: StoreOf<MessageListFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { _ in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             ZStack(alignment: .center, content: {
                 VStack(alignment: .center, spacing: 0, content: {
                     HStack(alignment: .center, spacing: 0, content: {
@@ -234,12 +233,12 @@ struct MessageInputContentView: View {
                         })
                         .buttonStyle(.plain)
 
-                        MsgTextInputView(text: "MsgTextInputView")
-                            .minHeight(30)
-                            .maxHeight(100)
-                            .padding(.all, 10)
+                        MsgTextInputView(text: viewStore.$inputText)
+                            .fixedSize(horizontal: false, vertical: true)
 
-                        Button(action: {}, label: {
+                        Button(action: {
+                            viewStore.send(.sendMessage)
+                        }, label: {
                             Image(.inputIconSend)
                                 .scaledToFit()
                                 .frame(width: 40, height: 30)
@@ -281,22 +280,28 @@ struct MessageInputContentView: View {
 
     // 文本输入
     struct MsgTextInputView: View {
-        var text: String
+        @Binding var text: String
+        var maxHeight: CGFloat = 120
         var body: some View {
-            TextEditor(text: .constant(text))
-                .padding(6)
-                .font(.system(size: 14))
-                .foregroundColor(.black)
-                .frame(minHeight: 120)
-                .background(.white)
-                .cornerRadius(10)
-            if text.isEmpty {
-                Text("问点什么吧")
+            ZStack(alignment: .topLeading) {
+                TextEditor(text: $text)
+                    .padding(6)
                     .font(.system(size: 14))
-                    .foregroundColor(Color(hexadecimal6: 0x999999))
-                    .padding(.horizontal, 11)
-                    .padding(.vertical, 14)
+                    .foregroundColor(.black)
+                    .frame(minHeight: 35)
+                    .cornerRadius(10)
+                    .fixedSize(horizontal: false, vertical: true)
+//                    .maxHeight(maxHeight)
+
+                if text.isEmpty {
+                    Text("问点什么吧")
+                        .font(.system(size: 14))
+                        .foregroundColor(Color(hexadecimal6: 0x999999))
+                        .padding(.horizontal, 11)
+                        .padding(.vertical, 14)
+                }
             }
+//            .maxHeight(maxHeight)
         }
     }
 }

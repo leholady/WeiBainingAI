@@ -16,7 +16,19 @@ import UIKit
 
 actor HttpRequestHandler {
     /// 用户信息
-    private var userProfile: UserProfileModel?
+    var userProfile: UserProfileModel? {
+        didSet {
+            let saveData = try? JSONEncoder().encode(userProfile)
+            UserDefaults.standard.set(saveData, forKey: "CachedUserConfig")
+        }
+    }
+
+    init() {
+        if let data = UserDefaults.standard.data(forKey: "CachedUserConfig") {
+            userProfile = try? JSONDecoder().decode(UserProfileModel.self, from: data)
+        }
+    }
+
     /// 时间戳
     private var timestamp: (serverTime: Int, awakTime: Int) = (0, 0)
 
@@ -82,6 +94,7 @@ actor HttpRequestHandler {
             }
         #else
         #endif
+
         let dataTask = session
             .request(
                 HttpConst.hostApi,
@@ -156,7 +169,7 @@ actor HttpRequestHandler {
             throw HttpErrorHandler.failure(error)
         }
     }
-    
+
     /// 基础类请求
     private func requestTask<T: Codable>(cmd: String, parameters: [String: Any] = [:]) async throws -> T {
         var params = parameters
@@ -177,11 +190,48 @@ actor HttpRequestHandler {
         case .success where taskRespons.res != nil:
             return taskRespons.res!
         case .needLogin:
-//            WebConnectorBridger.profileModel = try await loginUserAccount()
             return try await requestTask(cmd: cmd, parameters: params)
         default:
             throw HttpErrorHandler.failedWithServer(taskRespons.errUserMsg)
         }
+    }
+
+    /// 基础流类请求
+    private func requestStreamTask(cmd: String, parameters: [String: Any] = [:]) async throws -> DataStreamTask {
+        var params = parameters
+        params.updateValue(cmd, forKey: "cmd")
+        params.updateValue(UUID().uuidString.md5(), forKey: "_nonce")
+
+        let serverTime = timestamp.serverTime
+        if serverTime == 0 {
+            let serverTime = try await getServerTimestamp()
+            timestamp = (serverTime, Int(Date().timeIntervalSince1970))
+            params.updateValue(serverTime, forKey: "_time")
+        } else {
+            params.updateValue(serverTime + (Int(Date().timeIntervalSince1970) - timestamp.awakTime), forKey: "_time")
+        }
+
+        let finalParameters: [String: String] = basicParameters(parameters: parameters).compactMapValues {
+            "\($0)"
+        }
+        #if DEBUG
+            if let jsonData = try? JSONSerialization.data(withJSONObject: finalParameters, options: .prettyPrinted),
+               let jsonString = String(data: jsonData, encoding: .utf8)?.trimmingCharacters(in: .whitespacesAndNewlines) {
+                Logger(label: "Request").info("请求参数===>\(jsonString)")
+            }
+        #else
+        #endif
+        let streamTask = session
+            .streamRequest(
+                HttpConst.chatApi,
+                method: .post,
+                parameters: finalParameters
+
+            ) { urlRequest in
+                urlRequest.timeoutInterval = 15
+            }
+            .streamTask()
+        return streamTask
     }
 }
 
@@ -189,7 +239,7 @@ actor HttpRequestHandler {
 
 extension HttpRequestHandler {
     /// 获取时间戳
-     func getServerTimestamp() async throws -> Int {
+    func getServerTimestamp() async throws -> Int {
         let response: HttpResponseHandler<HttpResponseTimestamp> = try await baseRequest(
             parameters: [
                 "cmd": HttpConst.getServerTime,
@@ -230,7 +280,7 @@ extension HttpRequestHandler {
             throw HttpErrorHandler.failedWithServer("获取用户信息失败")
         }
     }
-    
+
     /// 上传图片获取Sign
     func uploadImageSign(_ imgData: Data) async throws -> String {
         let model: UploadImageModel = try await baseUpload(
@@ -239,7 +289,7 @@ extension HttpRequestHandler {
         )
         return model.sign
     }
-    
+
     /// 生成AI自动创作图像任务-异步
     func txtToImageTask(_ configure: TextImageTaskConfigureModel) async throws -> TextImageTaskResultModel {
         var parame = ["server": configure.server.rawValue]
@@ -248,10 +298,35 @@ extension HttpRequestHandler {
         return try await requestTask(cmd: HttpConst.genTxt2imgTask,
                                      parameters: parame)
     }
-    
+
     /// 获取AI自动创作图像结果
     func txtToImageResult(_ transcationId: String) async throws -> TextImageTaskResultModel {
         return try await requestTask(cmd: HttpConst.getTxt2imgResult,
                                      parameters: ["transcationId": transcationId])
+    }
+
+    /// 请求首页的配置内容
+    func requestHomeConfig() async throws -> [SuggestionsModel] {
+        return try await requestTask(cmd: HttpConst.getLoginInfo)
+    }
+
+    /// 发送消息
+    func seedMessage(_ message: String, _ config: ChatRequestConfigMacro) async throws -> DataStreamTask {
+        let messages = [
+            MessageDialogModel(content: message, role: .user)
+        ]
+        let encoder = JSONEncoder()
+        let jsonData = try encoder.encode(messages)
+        let jsonString = String(data: jsonData, encoding: .utf8)!
+
+        let parameters: [String: Any] = [
+            "ownerUserId": config.userId,
+            "conversationId": config.conversationId,
+            "maxtokens": config.maxtokens,
+            "model": config.model.code,
+            "temperature": config.temperature,
+            "messages": jsonString
+        ]
+        return try await requestStreamTask(cmd: HttpConst.requestChat, parameters: parameters)
     }
 }
