@@ -31,7 +31,8 @@ struct MessagingHubViewFeature {
         case didTapSuggestion
     }
 
-    @Dependency(\.messageAPIClient) var messageAPIClient
+    @Dependency(\.msgAPIClient) var msgAPIClient
+    @Dependency(\.msgListClient) var msgListClient
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
@@ -39,10 +40,10 @@ struct MessagingHubViewFeature {
             case .loadDefaultData:
                 return .run { send in
                     await send(.updateDefaultData(TaskResult {
-                        try await messageAPIClient.requestHomeProfile()
+                        try await msgAPIClient.requestHomeProfile()
                     }))
                     await send(.updateTopicData(TaskResult {
-                        try await messageAPIClient.loadHistoryTopic()
+                         await msgListClient.loadLocalTopics(0)
                     }))
                 }
             case let .updateDefaultData(.success(items)):

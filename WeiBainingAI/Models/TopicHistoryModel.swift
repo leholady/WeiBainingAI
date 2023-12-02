@@ -7,23 +7,27 @@
 
 import UIKit
 
+/// 会话单项
 struct TopicHistoryModel: Codable, Equatable, Hashable, Identifiable {
     let id: String
+    var userId: Int
     var timestamp: Date
     var topic: String
     var reply: String
 
-    init(id: String = UUID().uuidString, timestamp: Date, topic: String, reply: String) {
+    init(id: String = UUID().uuidString, userId: Int, timestamp: Date, topic: String, reply: String) {
         self.id = id
+        self.userId = userId
         self.timestamp = timestamp
         self.topic = topic
         self.reply = reply
     }
 }
 
+/// 消息单项
 struct MessageItemModel: Codable, Equatable, Hashable, Identifiable {
     let id: String
-    var userId: Int
+    var topicId: String
     var isSender: Bool
     var content: String
     var msgState: MessageState // 0、发送中， 1、成功， 2、失败
@@ -36,9 +40,9 @@ struct MessageItemModel: Codable, Equatable, Hashable, Identifiable {
         case failed = 3
     }
 
-    init(id: String = UUID().uuidString, userId: Int, isSender: Bool, content: String, msgState: MessageState, timestamp: Date) {
+    init(id: String = UUID().uuidString, topicId: String, isSender: Bool, content: String, msgState: MessageState, timestamp: Date) {
         self.id = id
-        self.userId = userId
+        self.topicId = topicId
         self.isSender = isSender
         self.content = content
         self.msgState = msgState

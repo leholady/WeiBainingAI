@@ -87,7 +87,7 @@ struct ChatModelSelectionView: View {
 
     struct ChatModelSelectionItem: View {
         var isSelect: Bool
-        var modelItem: ChatModelItemMacro
+        var modelItem: ChatModelConfig
 
         var body: some View {
             ZStack {

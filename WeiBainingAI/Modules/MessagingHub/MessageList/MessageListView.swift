@@ -5,13 +5,13 @@
 //  Created by Daniel ° on 2023/11/28.
 //
 
+import ComposableArchitecture
 import SwiftUI
 import SwiftUIX
-import ComposableArchitecture
 
 struct MessageListView: View {
     let store: StoreOf<MessageListFeature>
-    
+
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack(alignment: .center, spacing: 0, content: {
@@ -28,7 +28,7 @@ struct MessageListView: View {
                 }
                 .listStyle(.plain)
 
-                MessageInputView()
+                MessageInputContentView(store: store)
             })
             .toolbar {
                 ToolbarItem(placement: .topBarLeading, content: {
@@ -61,9 +61,11 @@ struct MessageListView: View {
                 })
             }
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
             .navigationViewStyle(.stack)
             .task {
-                viewStore.send(.loadMessageList)
+                viewStore.send(.loadReqeustConfig)
+                viewStore.send(.loadLocalMessages)
             }
             .sheet(store: store.scope(state: \.$modelSetup,
                                       action: \.presentationModelSetup)) { store in
@@ -91,7 +93,6 @@ struct MessageTimestampCell: View {
 
 /// 消息接收方
 struct MessageReceiveCell: View {
-    
     var msg: MessageItemModel
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -155,7 +156,6 @@ struct MessageReceiveCell: View {
 
 /// 消息发送方
 struct MessageSenderCell: View {
-    
     var msg: MessageItemModel
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
@@ -219,62 +219,89 @@ struct MessageSenderCell: View {
 // MARK: - 消息输入
 
 /// 消息输入
-struct MessageInputView: View {
+struct MessageInputContentView: View {
+    let store: StoreOf<MessageListFeature>
     var body: some View {
-        ZStack(alignment: .center, content: {
-            VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
-                HStack(alignment: .center, spacing: 0, content: {
-                    Button(action: {}, label: {
-                        Image(.inputIconSpeaker)
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
+        WithViewStore(store, observe: { $0 }) { _ in
+            ZStack(alignment: .center, content: {
+                VStack(alignment: .center, spacing: 0, content: {
+                    HStack(alignment: .center, spacing: 0, content: {
+                        Button(action: {}, label: {
+                            Image(.inputIconSpeaker)
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                .padding(.all, 10)
+                        })
+                        .buttonStyle(.plain)
+
+                        MsgTextInputView(text: "MsgTextInputView")
+                            .minHeight(30)
+                            .maxHeight(100)
                             .padding(.all, 10)
+
+                        Button(action: {}, label: {
+                            Image(.inputIconSend)
+                                .scaledToFit()
+                                .frame(width: 40, height: 30)
+                                .padding(.all, 10)
+                        })
+                        .buttonStyle(.plain)
                     })
-                    .buttonStyle(.plain)
 
-                    TextEditor(text: .constant(""))
-                        .lineLimit(5)
-                        .height(30)
+                    HStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 16, content: {
+                        Text("历史")
+                            .font(.system(size: 10, weight: .regular))
+                            .foregroundColor(.black)
+                            .padding(EdgeInsets(top: 6, leading: 10, bottom: 6, trailing: 10))
+                            .border(Color(hexadecimal6: 0xE9E9E9), width: 1, cornerRadius: 35)
 
-                    Button(action: {}, label: {
-                        Image(.inputIconSend)
-                            .scaledToFit()
-                            .frame(width: 40, height: 30)
-                            .padding(.all, 10)
+                        Text("诗歌")
+                            .font(.system(size: 10, weight: .regular))
+                            .foregroundColor(.black)
+                            .padding(EdgeInsets(top: 6, leading: 10, bottom: 6, trailing: 10))
+                            .border(Color(hexadecimal6: 0xE9E9E9), width: 1, cornerRadius: 35)
+
+                        Text("散文")
+                            .font(.system(size: 10, weight: .regular))
+                            .foregroundColor(.black)
+                            .padding(EdgeInsets(top: 6, leading: 10, bottom: 6, trailing: 10))
+                            .border(Color(hexadecimal6: 0xE9E9E9), width: 1, cornerRadius: 35)
+
+                        Spacer()
                     })
-                    .buttonStyle(.plain)
+                    .padding(.all, 10)
                 })
-
-                HStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 16, content: {
-                    Text("历史")
-                        .font(.system(size: 10, weight: .regular))
-                        .foregroundColor(.black)
-                        .padding(EdgeInsets(top: 6, leading: 10, bottom: 6, trailing: 10))
-                        .border(Color(hexadecimal6: 0xE9E9E9), width: 1, cornerRadius: 35)
-
-                    Text("诗歌")
-                        .font(.system(size: 10, weight: .regular))
-                        .foregroundColor(.black)
-                        .padding(EdgeInsets(top: 6, leading: 10, bottom: 6, trailing: 10))
-                        .border(Color(hexadecimal6: 0xE9E9E9), width: 1, cornerRadius: 35)
-
-                    Text("散文")
-                        .font(.system(size: 10, weight: .regular))
-                        .foregroundColor(.black)
-                        .padding(EdgeInsets(top: 6, leading: 10, bottom: 6, trailing: 10))
-                        .border(Color(hexadecimal6: 0xE9E9E9), width: 1, cornerRadius: 35)
-
-                    Spacer()
-                })
-                .padding(.all, 10)
             })
-        })
-        .maxWidth(.infinity)
-        .background(Color(hexadecimal6: 0xF6F6F6))
-        .cornerRadius(10)
-        .padding(.horizontal, 10)
+            .maxWidth(.infinity)
+            .background(Color(hexadecimal6: 0xF6F6F6))
+            .cornerRadius(10)
+            .padding(.horizontal, 10)
+        }
+    }
+
+    // 文本输入
+    struct MsgTextInputView: View {
+        var text: String
+        var body: some View {
+            TextEditor(text: .constant(text))
+                .padding(6)
+                .font(.system(size: 14))
+                .foregroundColor(.black)
+                .frame(minHeight: 120)
+                .background(.white)
+                .cornerRadius(10)
+            if text.isEmpty {
+                Text("问点什么吧")
+                    .font(.system(size: 14))
+                    .foregroundColor(Color(hexadecimal6: 0x999999))
+                    .padding(.horizontal, 11)
+                    .padding(.vertical, 14)
+            }
+        }
     }
 }
+
+// 语音输入
 
 #Preview {
     MessageListView(store: Store(

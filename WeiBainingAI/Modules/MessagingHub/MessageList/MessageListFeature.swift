@@ -15,16 +15,19 @@ struct MessageListFeature {
         var messageList: [MessageItemModel] = []
         /// 输入提示词
         var inputTips: [String] = []
-        var chatModel: ChatModelItemMacro?
-
+        /// 聊天配置信息
+        var chatConfig: ChatRequestConfigMacro = .defaultConfig()
+        /// 编辑框输入内容
+        @BindingState var inputText: String = ""
+        /// 偏好设置feature
         @PresentationState var modelSetup: ChatModelSetupFeature.State?
     }
 
     enum Action: Equatable {
-        /// 从数据库加载消息数据
-        case loadMessageList
-        /// 加载当前聊天模型配置
-        case loadChatModel
+        /// 读取历史配置
+        case loadReqeustConfig
+        /// 读取聊天消息
+        case loadLocalMessages
         /// 更新消息列表
         case updateMessageList([MessageItemModel])
         case updateInputTips([String])
@@ -36,15 +39,20 @@ struct MessageListFeature {
         case presentationModelSetup(PresentationAction<ChatModelSetupFeature.Action>)
     }
 
-    @Dependency(\.messageAPIClient) var messageAPIClient
+    @Dependency(\.msgAPIClient) var msgAPIClient
+    @Dependency(\.msgListClient) var msgListClient
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
-            case .loadMessageList:
+            case .loadLocalMessages:
                 return .run { send in
-                    try await send(.updateMessageList(await messageAPIClient.loadMsgList(0)))
-                    try await send(.updateInputTips(await messageAPIClient.loadInputTips()))
+                    await send(.updateMessageList(
+                        await msgListClient.loadLocalMessages(TopicHistoryModel(userId: 0, timestamp: Date(), topic: "", reply: ""))
+                    ))
+                    try await send(.updateInputTips(
+                        await msgAPIClient.loadInputTips()
+                    ))
                 }
             case let .updateMessageList(items):
                 state.messageList = items
@@ -56,7 +64,7 @@ struct MessageListFeature {
                 state.modelSetup = ChatModelSetupFeature.State()
                 return .none
             case let .presentationModelSetup(.presented(.delegate(.updateChatModel(model)))):
-                state.chatModel = model
+                state.chatConfig.model = model
                 return .none
 
             default:

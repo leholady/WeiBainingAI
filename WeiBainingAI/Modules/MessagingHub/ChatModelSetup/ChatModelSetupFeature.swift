@@ -16,9 +16,9 @@ struct ChatModelSetupFeature {
         /// 选择风格
         @BindingState var selectStyleIndex: Int = 0
 
-        var chatModelList: [ChatModelItemMacro] = [
-            ChatModelItemMacro(id: 1, title: "GPT-3.5 Turbo", desc: "Turbo 针对对话进行了优化"),
-            ChatModelItemMacro(id: 2, title: "GPT-4", desc: "GPT-4可以遵循复杂的指令并准确地解决难题。")
+        var chatModelList: [ChatModelConfig] = [
+            ChatModelConfig(id: 1, title: "GPT-3.5 Turbo", desc: "Turbo 针对对话进行了优化"),
+            ChatModelConfig(id: 2, title: "GPT-4", desc: "GPT-4可以遵循复杂的指令并准确地解决难题。")
         ]
         var chatStyleItem: [ChatStyleType] = [.creativity, .balance, .accurate]
     }
@@ -32,8 +32,9 @@ struct ChatModelSetupFeature {
         case dismissConfig
 
         case delegate(Delegate)
+        
         enum Delegate: Equatable {
-            case updateChatModel(ChatModelItemMacro)
+            case updateChatModel(ChatModelConfig)
         }
     }
 

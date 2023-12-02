@@ -19,6 +19,9 @@
 		655D36062B16D85C004A5308 /* MessageListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36042B16D85C004A5308 /* MessageListFeature.swift */; };
 		655D36082B16D864004A5308 /* MessagingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36072B16D864004A5308 /* MessagingClient.swift */; };
 		655D360A2B171299004A5308 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36092B171299004A5308 /* Date+Ex.swift */; };
+		6561317C2B1AE323004FCAEF /* MessageListClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561317B2B1AE323004FCAEF /* MessageListClient.swift */; };
+		656131802B1AE32C004FCAEF /* HistoryChatTopicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561317E2B1AE32C004FCAEF /* HistoryChatTopicsView.swift */; };
+		656131812B1AE32C004FCAEF /* HistoryChatTopicsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561317F2B1AE32C004FCAEF /* HistoryChatTopicsFeature.swift */; };
 		65876EC02B0F86BF00DFFE0C /* DeviceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 65876EBF2B0F86BF00DFFE0C /* DeviceKit */; };
 		65876EC32B0F873D00DFFE0C /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 65876EC22B0F873D00DFFE0C /* CryptoSwift */; };
 		65876EC62B0F880400DFFE0C /* HttpRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65876EC52B0F880400DFFE0C /* HttpRequestHandler.swift */; };
@@ -97,6 +100,9 @@
 		655D36042B16D85C004A5308 /* MessageListFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListFeature.swift; sourceTree = "<group>"; };
 		655D36072B16D864004A5308 /* MessagingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingClient.swift; sourceTree = "<group>"; };
 		655D36092B171299004A5308 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
+		6561317B2B1AE323004FCAEF /* MessageListClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListClient.swift; sourceTree = "<group>"; };
+		6561317E2B1AE32C004FCAEF /* HistoryChatTopicsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryChatTopicsView.swift; sourceTree = "<group>"; };
+		6561317F2B1AE32C004FCAEF /* HistoryChatTopicsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryChatTopicsFeature.swift; sourceTree = "<group>"; };
 		65876EC52B0F880400DFFE0C /* HttpRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestHandler.swift; sourceTree = "<group>"; };
 		65876EC72B0F881100DFFE0C /* HttpResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpResponseHandler.swift; sourceTree = "<group>"; };
 		65876ECB2B0F885200DFFE0C /* HttpErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpErrorHandler.swift; sourceTree = "<group>"; };
@@ -114,7 +120,6 @@
 		659A55152B0EFE0600B2BF9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		659A55172B0EFE0600B2BF9B /* WeiBainingAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeiBainingAI.entitlements; sourceTree = "<group>"; };
 		659A55192B0EFE0600B2BF9B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		65EAFBCF2B18BF3F0055ABEA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65EAFBD02B18C5150055ABEA /* LaunchConfigClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchConfigClient.swift; sourceTree = "<group>"; };
 		65EAFBD22B18C5800055ABEA /* ImagePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		65EAFBD42B18C59B0055ABEA /* MessagingHubViewFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingHubViewFeature.swift; sourceTree = "<group>"; };
@@ -201,9 +206,19 @@
 			isa = PBXGroup;
 			children = (
 				655D36032B16D85C004A5308 /* MessageListView.swift */,
+				6561317B2B1AE323004FCAEF /* MessageListClient.swift */,
 				655D36042B16D85C004A5308 /* MessageListFeature.swift */,
 			);
 			path = MessageList;
+			sourceTree = "<group>";
+		};
+		6561317D2B1AE32C004FCAEF /* ChatTopicsList */ = {
+			isa = PBXGroup;
+			children = (
+				6561317E2B1AE32C004FCAEF /* HistoryChatTopicsView.swift */,
+				6561317F2B1AE32C004FCAEF /* HistoryChatTopicsFeature.swift */,
+			);
+			path = ChatTopicsList;
 			sourceTree = "<group>";
 		};
 		65876EC42B0F87ED00DFFE0C /* HttpRequest */ = {
@@ -327,6 +342,7 @@
 				65EAFBD42B18C59B0055ABEA /* MessagingHubViewFeature.swift */,
 				6553F6F62B18ABCB00C77C29 /* ChatModelSetup */,
 				65081C592B18DC05004F4C47 /* ChatMsgShare */,
+				6561317D2B1AE32C004FCAEF /* ChatTopicsList */,
 				655D36022B16D85C004A5308 /* MessageList */,
 			);
 			path = MessagingHub;
@@ -512,29 +528,22 @@
 				7EE7CA2E2B1732C7003A1B4A /* SupportAssistantResultFeature.swift in Sources */,
 				65EAFBD92B18C5E90055ABEA /* MoreOptionsView.swift in Sources */,
 				65876EDC2B0F948B00DFFE0C /* LaunchLoadView.swift in Sources */,
+				6561317C2B1AE323004FCAEF /* MessageListClient.swift in Sources */,
 				659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */,
 				7E645C842B19D19700D7E589 /* MoreOptionsSectionView.swift in Sources */,
 				7EE7CA2C2B1732A4003A1B4A /* SupportAssistantResultView.swift in Sources */,
 				7E645C792B199EC700D7E589 /* MoreOptionsHeaderView.swift in Sources */,
-				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
-				7EA68D102B15EDD100958343 /* ImagePickerView.swift in Sources */,
 				7E645C772B19892500D7E589 /* MoreOptionsGroupModel.swift in Sources */,
-				D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */,
 				7EE7CA242B172510003A1B4A /* TextImageTaskResultModel.swift in Sources */,
-				65876ECA2B0F884700DFFE0C /* HttpParserHandler.swift in Sources */,
-				D310AC292B10A6AE00E48A66 /* SupportAssistantView.swift in Sources */,
 				7E645C7B2B19BC3600D7E589 /* MoreOptionsItemCell.swift in Sources */,
 				7E645C822B19CA2A00D7E589 /* MoreOptionsClient.swift in Sources */,
-				D310AC2B2B10A6B500E48A66 /* MoreOptionsView.swift in Sources */,
 				7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */,
 				7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */,
 				655D36062B16D85C004A5308 /* MessageListFeature.swift in Sources */,
-				65876ED22B0F89F400DFFE0C /* LaunchConfigClient.swift in Sources */,
 				7E645C862B19D86B00D7E589 /* MoreSafariView.swift in Sources */,
 				7E645C7D2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift in Sources */,
-				7EA68D102B15EDD100958343 /* ImagePickerView.swift in Sources */,
-				D310AC2D2B10A6BE00E48A66 /* MessagingHubViewFeature.swift in Sources */,
 				7EE7CA242B172510003A1B4A /* TextImageTaskResultModel.swift in Sources */,
+				656131802B1AE32C004FCAEF /* HistoryChatTopicsView.swift in Sources */,
 				65EAFBDB2B18C6050055ABEA /* SupportAssistantView.swift in Sources */,
 				7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */,
 				7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */,
@@ -542,6 +551,7 @@
 				65081C582B18CE91004F4C47 /* SegmentControlStyleView.swift in Sources */,
 				655D36052B16D85C004A5308 /* MessageListView.swift in Sources */,
 				655D35FF2B16D82F004A5308 /* SuggestionsModel.swift in Sources */,
+				656131812B1AE32C004FCAEF /* HistoryChatTopicsFeature.swift in Sources */,
 				65EAFBD12B18C5150055ABEA /* LaunchConfigClient.swift in Sources */,
 				65876ED02B0F89DA00DFFE0C /* LaunchConfigReducer.swift in Sources */,
 				65EAFBD72B18C5B60055ABEA /* HttpParserHandler.swift in Sources */,
