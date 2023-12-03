@@ -8,8 +8,8 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct HistoryChatTopicsView: View {
-    let store: StoreOf<HistoryChatTopicsFeature>
+struct ChatTopicsListView: View {
+    let store: StoreOf<ChatTopicsListFeature>
 
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
@@ -217,8 +217,8 @@ struct HistoryChatTopicsCell: View {
 }
 
 #Preview {
-    HistoryChatTopicsView(store: Store(
-        initialState: HistoryChatTopicsFeature.State(),
-        reducer: { HistoryChatTopicsFeature() }
+    ChatTopicsListView(store: Store(
+        initialState: ChatTopicsListFeature.State(),
+        reducer: { ChatTopicsListFeature() }
     ))
 }

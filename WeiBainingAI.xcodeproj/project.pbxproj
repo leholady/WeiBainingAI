@@ -7,20 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4856D2923569A8D01A71AA65 /* Pods_WeiBainingAI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 523C5C697BD31355C7987B81 /* Pods_WeiBainingAI.framework */; };
 		65081C582B18CE91004F4C47 /* SegmentControlStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C572B18CE91004F4C47 /* SegmentControlStyleView.swift */; };
 		65081C5B2B18DC29004F4C47 /* ChatMsgShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */; };
 		65081C5D2B18ED9E004F4C47 /* ChatConfigUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C5C2B18ED9E004F4C47 /* ChatConfigUnit.swift */; };
 		6553F6F92B18AC0D00C77C29 /* ChatModelSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */; };
 		6553F6FB2B18AC1B00C77C29 /* ChatModelSetupFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6FA2B18AC1B00C77C29 /* ChatModelSetupFeature.swift */; };
-		6553F6FD2B18AC2500C77C29 /* ChatModelSetupClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6FC2B18AC2500C77C29 /* ChatModelSetupClient.swift */; };
 		655D35FF2B16D82F004A5308 /* SuggestionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */; };
 		655D36002B16D82F004A5308 /* TopicHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */; };
 		655D36052B16D85C004A5308 /* MessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36032B16D85C004A5308 /* MessageListView.swift */; };
 		655D36082B16D864004A5308 /* MessagingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36072B16D864004A5308 /* MessagingClient.swift */; };
 		655D360A2B171299004A5308 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36092B171299004A5308 /* Date+Ex.swift */; };
 		6561317C2B1AE323004FCAEF /* MessageListClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561317B2B1AE323004FCAEF /* MessageListClient.swift */; };
-		656131802B1AE32C004FCAEF /* HistoryChatTopicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561317E2B1AE32C004FCAEF /* HistoryChatTopicsView.swift */; };
-		656131812B1AE32C004FCAEF /* HistoryChatTopicsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561317F2B1AE32C004FCAEF /* HistoryChatTopicsFeature.swift */; };
+		656131802B1AE32C004FCAEF /* ChatTopicsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561317E2B1AE32C004FCAEF /* ChatTopicsListView.swift */; };
+		656131812B1AE32C004FCAEF /* ChatTopicsListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6561317F2B1AE32C004FCAEF /* ChatTopicsListFeature.swift */; };
 		65876EC02B0F86BF00DFFE0C /* DeviceKit in Frameworks */ = {isa = PBXBuildFile; productRef = 65876EBF2B0F86BF00DFFE0C /* DeviceKit */; };
 		65876EC32B0F873D00DFFE0C /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 65876EC22B0F873D00DFFE0C /* CryptoSwift */; };
 		65876EC62B0F880400DFFE0C /* HttpRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65876EC52B0F880400DFFE0C /* HttpRequestHandler.swift */; };
@@ -97,20 +97,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C36261B3541D55F3F082F0A /* Pods-WeiBainingAI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeiBainingAI.release.xcconfig"; path = "Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI.release.xcconfig"; sourceTree = "<group>"; };
+		523C5C697BD31355C7987B81 /* Pods_WeiBainingAI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeiBainingAI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65081C572B18CE91004F4C47 /* SegmentControlStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlStyleView.swift; sourceTree = "<group>"; };
 		65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMsgShareView.swift; sourceTree = "<group>"; };
 		65081C5C2B18ED9E004F4C47 /* ChatConfigUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConfigUnit.swift; sourceTree = "<group>"; };
 		6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModelSetupView.swift; sourceTree = "<group>"; };
 		6553F6FA2B18AC1B00C77C29 /* ChatModelSetupFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModelSetupFeature.swift; sourceTree = "<group>"; };
-		6553F6FC2B18AC2500C77C29 /* ChatModelSetupClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModelSetupClient.swift; sourceTree = "<group>"; };
 		655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionsModel.swift; sourceTree = "<group>"; };
 		655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicHistoryModel.swift; sourceTree = "<group>"; };
 		655D36032B16D85C004A5308 /* MessageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListView.swift; sourceTree = "<group>"; };
 		655D36072B16D864004A5308 /* MessagingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingClient.swift; sourceTree = "<group>"; };
 		655D36092B171299004A5308 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		6561317B2B1AE323004FCAEF /* MessageListClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListClient.swift; sourceTree = "<group>"; };
-		6561317E2B1AE32C004FCAEF /* HistoryChatTopicsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryChatTopicsView.swift; sourceTree = "<group>"; };
-		6561317F2B1AE32C004FCAEF /* HistoryChatTopicsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryChatTopicsFeature.swift; sourceTree = "<group>"; };
+		6561317E2B1AE32C004FCAEF /* ChatTopicsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTopicsListView.swift; sourceTree = "<group>"; };
+		6561317F2B1AE32C004FCAEF /* ChatTopicsListFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTopicsListFeature.swift; sourceTree = "<group>"; };
 		65876EC52B0F880400DFFE0C /* HttpRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestHandler.swift; sourceTree = "<group>"; };
 		65876EC72B0F881100DFFE0C /* HttpResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpResponseHandler.swift; sourceTree = "<group>"; };
 		65876ECB2B0F885200DFFE0C /* HttpErrorHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpErrorHandler.swift; sourceTree = "<group>"; };
@@ -177,6 +178,7 @@
 		D310AC262B10A69D00E48A66 /* MessagingHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubView.swift; sourceTree = "<group>"; };
 		D310AC302B10A8C600E48A66 /* MoreOptionsFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsFeature.swift; sourceTree = "<group>"; };
 		D310AC342B10AB9700E48A66 /* TabHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHubView.swift; sourceTree = "<group>"; };
+		F341ED39878EAC468D4A66CE /* Pods-WeiBainingAI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeiBainingAI.debug.xcconfig"; path = "Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,12 +196,30 @@
 				659A55342B0F009A00B2BF9B /* Logging in Frameworks */,
 				659A55312B0F007400B2BF9B /* SwiftUIX in Frameworks */,
 				659A552B2B0F003600B2BF9B /* KeychainSwift in Frameworks */,
+				4856D2923569A8D01A71AA65 /* Pods_WeiBainingAI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		015CA8572CC0E0D7138B9C56 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F341ED39878EAC468D4A66CE /* Pods-WeiBainingAI.debug.xcconfig */,
+				2C36261B3541D55F3F082F0A /* Pods-WeiBainingAI.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		499C0D4CA842FA109CCFCF35 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				523C5C697BD31355C7987B81 /* Pods_WeiBainingAI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		65081C592B18DC05004F4C47 /* ChatMsgShare */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,7 +234,6 @@
 				65081C572B18CE91004F4C47 /* SegmentControlStyleView.swift */,
 				6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */,
 				6553F6FA2B18AC1B00C77C29 /* ChatModelSetupFeature.swift */,
-				6553F6FC2B18AC2500C77C29 /* ChatModelSetupClient.swift */,
 				65081C5C2B18ED9E004F4C47 /* ChatConfigUnit.swift */,
 			);
 			path = ChatModelSetup;
@@ -234,8 +253,8 @@
 		6561317D2B1AE32C004FCAEF /* ChatTopicsList */ = {
 			isa = PBXGroup;
 			children = (
-				6561317E2B1AE32C004FCAEF /* HistoryChatTopicsView.swift */,
-				6561317F2B1AE32C004FCAEF /* HistoryChatTopicsFeature.swift */,
+				6561317E2B1AE32C004FCAEF /* ChatTopicsListView.swift */,
+				6561317F2B1AE32C004FCAEF /* ChatTopicsListFeature.swift */,
 			);
 			path = ChatTopicsList;
 			sourceTree = "<group>";
@@ -308,6 +327,8 @@
 				D310AC202B10A1CE00E48A66 /* .swiftlint.yml */,
 				659A55102B0EFE0500B2BF9B /* WeiBainingAI */,
 				659A550F2B0EFE0500B2BF9B /* Products */,
+				015CA8572CC0E0D7138B9C56 /* Pods */,
+				499C0D4CA842FA109CCFCF35 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -421,10 +442,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 659A551D2B0EFE0600B2BF9B /* Build configuration list for PBXNativeTarget "WeiBainingAI" */;
 			buildPhases = (
+				E7940EA7EAFAF839FA8600BC /* [CP] Check Pods Manifest.lock */,
 				659A550A2B0EFE0500B2BF9B /* Sources */,
 				659A550B2B0EFE0500B2BF9B /* Frameworks */,
 				659A550C2B0EFE0500B2BF9B /* Resources */,
 				D310AC1F2B10A19E00E48A66 /* SwiftLint */,
+				6FD7BB9362756C636D4E721B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -472,7 +495,7 @@
 			);
 			mainGroup = 659A55052B0EFE0500B2BF9B;
 			packageReferences = (
-				659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability" */,
+				659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability.swift" */,
 				659A55292B0F003600B2BF9B /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				659A552C2B0F004700B2BF9B /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
 				659A552F2B0F007400B2BF9B /* XCRemoteSwiftPackageReference "SwiftUIX" */,
@@ -511,6 +534,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6FD7BB9362756C636D4E721B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D310AC1F2B10A19E00E48A66 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -530,6 +570,28 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		E7940EA7EAFAF839FA8600BC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WeiBainingAI-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -546,7 +608,6 @@
 				7E6747EF2B1ADC2F001D95FB /* PremiumMemberFeature.swift in Sources */,
 				7E6747FF2B1B452C001D95FB /* PremiumMemberClient.swift in Sources */,
 				65081C5B2B18DC29004F4C47 /* ChatMsgShareView.swift in Sources */,
-				6553F6FD2B18AC2500C77C29 /* ChatModelSetupClient.swift in Sources */,
 				6553F6F92B18AC0D00C77C29 /* ChatModelSetupView.swift in Sources */,
 				655D360A2B171299004A5308 /* Date+Ex.swift in Sources */,
 				65876EC82B0F881100DFFE0C /* HttpResponseHandler.swift in Sources */,
@@ -575,13 +636,13 @@
 				65D0744D2B1AFD19004A4E0F /* TextImageTaskResultModel.swift in Sources */,
 				7E645C862B19D86B00D7E589 /* MoreSafariView.swift in Sources */,
 				7E645C7D2B19BD5100D7E589 /* MoreOptionsBalanceCell.swift in Sources */,
-				656131802B1AE32C004FCAEF /* HistoryChatTopicsView.swift in Sources */,
+				656131802B1AE32C004FCAEF /* ChatTopicsListView.swift in Sources */,
 				65EAFBDB2B18C6050055ABEA /* SupportAssistantView.swift in Sources */,
 				65D0744B2B1AFD09004A4E0F /* UploadImageModel.swift in Sources */,
 				65081C582B18CE91004F4C47 /* SegmentControlStyleView.swift in Sources */,
 				655D36052B16D85C004A5308 /* MessageListView.swift in Sources */,
 				655D35FF2B16D82F004A5308 /* SuggestionsModel.swift in Sources */,
-				656131812B1AE32C004FCAEF /* HistoryChatTopicsFeature.swift in Sources */,
+				656131812B1AE32C004FCAEF /* ChatTopicsListFeature.swift in Sources */,
 				65EAFBD12B18C5150055ABEA /* LaunchConfigClient.swift in Sources */,
 				65876ED02B0F89DA00DFFE0C /* LaunchConfigReducer.swift in Sources */,
 				65EAFBD72B18C5B60055ABEA /* HttpParserHandler.swift in Sources */,
@@ -728,6 +789,7 @@
 		};
 		659A551E2B0EFE0600B2BF9B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F341ED39878EAC468D4A66CE /* Pods-WeiBainingAI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -778,6 +840,7 @@
 		};
 		659A551F2B0EFE0600B2BF9B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2C36261B3541D55F3F082F0A /* Pods-WeiBainingAI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -874,7 +937,7 @@
 				minimumVersion = 5.8.1;
 			};
 		};
-		659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability" */ = {
+		659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
 			requirement = {
@@ -950,7 +1013,7 @@
 		};
 		659A55212B0EFE2C00B2BF9B /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability" */;
+			package = 659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability.swift" */;
 			productName = Reachability;
 		};
 		659A552A2B0F003600B2BF9B /* KeychainSwift */ = {

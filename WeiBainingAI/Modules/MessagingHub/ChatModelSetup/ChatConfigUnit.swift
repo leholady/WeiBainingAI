@@ -7,10 +7,10 @@
 
 import UIKit
 
-enum ChatStyleType: Int, Equatable, Hashable {
-    case creativity = 1
-    case balance = 2
-    case accurate = 3
+enum ChatTemperatureType: Double, Codable, Equatable, Hashable {
+    case creativity = 0.5
+    case balance = 1
+    case accurate = 1.5
 
     var title: String {
         switch self {
@@ -55,17 +55,9 @@ enum ChatModelType: Int, Codable, Equatable, Hashable {
         }
     }
 }
-
-/// 聊天模型
-struct ChatModelConfig: Equatable, Codable, Identifiable, Hashable {
-    var id: Int
-    var title: String
-    var desc: String
-}
-
 /// 聊天配置
 struct ChatRequestConfigMacro: Equatable, Codable {
-    var temperature: Double
+    var temperature: ChatTemperatureType
     var model: ChatModelType
     var maxtokens: Int
     var msgCount: Int
@@ -73,11 +65,13 @@ struct ChatRequestConfigMacro: Equatable, Codable {
     var userId: String
 
     static func defaultConfig() -> ChatRequestConfigMacro {
-        return ChatRequestConfigMacro(temperature: 1,
-                                      model: .gpt3_5,
-                                      maxtokens: 2000,
-                                      msgCount: 1,
-                                      conversationId: 1,
-                                      userId: "")
+        return ChatRequestConfigMacro(
+            temperature: .balance,
+            model: .gpt3_5,
+            maxtokens: 2000,
+            msgCount: 2,
+            conversationId: 1,
+            userId: ""
+        )
     }
 }

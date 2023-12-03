@@ -46,8 +46,8 @@ extension MessageListClient: TestDependencyKey {
             } else {
                 return ChatRequestConfigMacro.defaultConfig()
             }
-        } saveReqeustConfig: { requestConfig in
-            let saveData = try JSONEncoder().encode(requestConfig)
+        } saveReqeustConfig: { config in
+            let saveData = try JSONEncoder().encode(config)
             UserDefaults.standard.set(saveData, forKey: "CachedChatRequestConfig")
             return true
         } loadLocalTopics: { userId in

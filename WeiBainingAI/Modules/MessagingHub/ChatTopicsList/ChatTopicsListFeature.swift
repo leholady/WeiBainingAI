@@ -9,7 +9,7 @@ import ComposableArchitecture
 import Logging
 import UIKit
 
-struct HistoryChatTopicsFeature: Reducer {
+struct ChatTopicsListFeature: Reducer {
     struct State: Equatable {
         var topicList: [TopicHistoryModel] = []
     }
@@ -17,10 +17,12 @@ struct HistoryChatTopicsFeature: Reducer {
     enum Action: Equatable {
         case loadChatTopics
         case chatTopicsLoaded(TaskResult<[TopicHistoryModel]>)
+        case dismissTopics
     }
 
     @Dependency(\.msgAPIClient) var msgAPIClient
     @Dependency(\.msgListClient) var msgListClient
+    @Dependency(\.dismiss) var dismiss
 
     var body: some Reducer<State, Action> {
         Reduce { state, action in
@@ -40,6 +42,11 @@ struct HistoryChatTopicsFeature: Reducer {
                 Logger(label: "HistoryChatTopicsFeature").error("\(error)")
                 state.topicList = []
                 return .none
+
+            case .dismissTopics:
+                return .run { _ in
+                    await dismiss()
+                }
             }
         }
     }

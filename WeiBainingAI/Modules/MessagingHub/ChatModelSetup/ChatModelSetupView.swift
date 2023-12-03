@@ -31,7 +31,7 @@ struct ChatModelSetupView: View {
                     VStack(alignment: .center, spacing: 0, content: {
                         ChatModelSelectionView(store: store)
                         ChatStyleSelectionView(store: store)
-                        ChatTokenSelectionView()
+                        ChatTokenSelectionView(store: store)
                     })
                 }
 
@@ -51,6 +51,9 @@ struct ChatModelSetupView: View {
 
             })
             .background(Color(hexadecimal6: 0xF6F6F6))
+            .task {
+                viewStore.send(.loadChatConfig)
+            }
         }
     }
 }
@@ -70,12 +73,14 @@ struct ChatModelSelectionView: View {
                     .padding(.bottom, 10)
 
                 HStack(alignment: .center, spacing: 20, content: {
-                    ForEach(viewStore.chatModelList, id: \.self) { model in
-                        ChatModelSelectionItem(isSelect: viewStore.selectModelId == model.id,
-                                               modelItem: model)
-                            .onTapGesture {
-                                viewStore.send(.selectChatModel(index: model.id))
-                            }
+                    ForEach(0 ..< viewStore.chatModelList.count) { index in
+                        ChatModelSelectionItem(
+                            isSelect: viewStore.selectModelId == index,
+                            modelItem: viewStore.chatModelList[index]
+                        )
+                        .onTapGesture {
+                            viewStore.send(.selectChatModel(index: index))
+                        }
                     }
                 })
 
@@ -87,7 +92,7 @@ struct ChatModelSelectionView: View {
 
     struct ChatModelSelectionItem: View {
         var isSelect: Bool
-        var modelItem: ChatModelConfig
+        var modelItem: ChatModelType
 
         var body: some View {
             ZStack {
@@ -147,83 +152,86 @@ struct ChatStyleSelectionView: View {
 // MARK: - 聊天Token调整
 
 struct ChatTokenSelectionView: View {
+    let store: StoreOf<ChatModelSetupFeature>
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 0) {
-                VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 10, content: {
-                    Text("附加消息计数")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(Color(hexadecimal6: 0x666666))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
+        WithViewStore(store, observe: { $0 }) { viewStore in
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .top, spacing: 0) {
+                    VStack(alignment: .center, spacing: 10, content: {
+                        Text("附加消息计数")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(Color(hexadecimal6: 0x666666))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
 
-                    Text("每个请求附加的已发送消息数")
-                        .font(.system(size: 11, weight: .regular))
-                        .foregroundColor(Color(hexadecimal6: 0x666666))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
+                        Text("每个请求附加的已发送消息数")
+                            .font(.system(size: 11, weight: .regular))
+                            .foregroundColor(Color(hexadecimal6: 0x666666))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
 
-                    ZStack(alignment: .bottom, content: {
-                        RoundedRectangle(cornerRadius: 20)
-                            .frame(width: 64, height: 150, alignment: .center)
-                            .foregroundColor(Color(hexadecimal6: 0xFFFFFF))
+                        ZStack(alignment: .bottom, content: {
+                            RoundedRectangle(cornerRadius: 20)
+                                .frame(width: 64, height: 150, alignment: .center)
+                                .foregroundColor(Color(hexadecimal6: 0xFFFFFF))
 
-                        Rectangle()
-                            .frame(width: 64, height: 20, alignment: .center)
-                            .foregroundColor(Color(hexadecimal6: 0x027AFF))
+                            Rectangle()
+                                .frame(width: 64, height: 20, alignment: .center)
+                                .foregroundColor(Color(hexadecimal6: 0x027AFF))
+                        })
+                        .padding(.top, 10)
+                        .cornerRadius(20)
+
+                        Text("\(viewStore.chatConfig.msgCount)")
+                            .font(.custom("DOUYINSANSBOLD-GB", size: 14))
+                            .foregroundColor(.black)
+
+                        Text("GPT4通过尽可能不使用附加消息，显着减少了Token的浪费")
+                            .font(.system(size: 10, weight: .regular))
+                            .foregroundColor(Color(hexadecimal6: 0x007AFF))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
                     })
-                    .padding(.top, 10)
-                    .cornerRadius(20)
 
-                    Text("2")
-                        .font(.custom("DOUYINSANSBOLD-GB", size: 14))
-                        .foregroundColor(.black)
+                    VStack(alignment: .center, spacing: 10, content: {
+                        Text("附加消息计数")
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(Color(hexadecimal6: 0x666666))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
 
-                    Text("GPT4通过尽可能不使用附加消息，显着减少了Token的浪费")
-                        .font(.system(size: 10, weight: .regular))
-                        .foregroundColor(Color(hexadecimal6: 0x007AFF))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
-                })
+                        Text("每个请求附加的已发送消息数")
+                            .font(.system(size: 11, weight: .regular))
+                            .foregroundColor(Color(hexadecimal6: 0x666666))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .multilineTextAlignment(.leading)
 
-                VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 10, content: {
-                    Text("附加消息计数")
-                        .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(Color(hexadecimal6: 0x666666))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
+                        ZStack(alignment: .bottom, content: {
+                            RoundedRectangle(cornerRadius: 20)
+                                .frame(width: 64, height: 150, alignment: .center)
+                                .foregroundColor(Color(hexadecimal6: 0xFFFFFF))
 
-                    Text("每个请求附加的已发送消息数")
-                        .font(.system(size: 11, weight: .regular))
-                        .foregroundColor(Color(hexadecimal6: 0x666666))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
+                            Rectangle()
+                                .frame(width: 64, height: 100, alignment: .center)
+                                .foregroundColor(Color(hexadecimal6: 0x027AFF))
+                        })
+                        .padding(.top, 10)
+                        .cornerRadius(20)
 
-                    ZStack(alignment: .bottom, content: {
-                        RoundedRectangle(cornerRadius: 20)
-                            .frame(width: 64, height: 150, alignment: .center)
-                            .foregroundColor(Color(hexadecimal6: 0xFFFFFF))
-
-                        Rectangle()
-                            .frame(width: 64, height: 100, alignment: .center)
-                            .foregroundColor(Color(hexadecimal6: 0x027AFF))
+                        Text("\(viewStore.chatConfig.maxtokens)")
+                            .font(.custom("DOUYINSANSBOLD-GB", size: 14))
+                            .foregroundColor(.black)
                     })
-                    .padding(.top, 10)
-                    .cornerRadius(20)
-
-                    Text("2000")
-                        .font(.custom("DOUYINSANSBOLD-GB", size: 14))
-                        .foregroundColor(.black)
-                })
+                }
             }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 30)
         }
-        .padding(.horizontal, 20)
-        .padding(.bottom, 30)
     }
 }
 
 #Preview {
-    ChatModelSetupView(store: Store(initialState: ChatModelSetupFeature.State(), reducer: {
+    ChatModelSetupView(store: Store(initialState: ChatModelSetupFeature.State(chatConfig: ChatRequestConfigMacro.defaultConfig()), reducer: {
         ChatModelSetupFeature()
     }))
 }

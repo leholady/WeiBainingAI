@@ -37,7 +37,7 @@ struct SegmentControlStyleView: View {
                         isSource: true
                     )
                     .onTapGesture {
-                        withAnimation(.easeInOut(duration: 0.2)) {
+                        withAnimation(.easeInOut(duration: 0.1)) {
                             selectedIndex = index
                         }
                     }

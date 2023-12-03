@@ -19,7 +19,7 @@ struct MessagingHubViewFeature {
         /// 跳转到聊天列表
         @PresentationState var msgItem: MessageListFeature.State?
         /// 跳转到历史记录
-        @PresentationState var historyItem: HistoryChatTopicsFeature.State?
+        @PresentationState var historyItem: ChatTopicsListFeature.State?
 //        @PresentationState var topicItem: TopicListFeature.State?
     }
 
@@ -36,7 +36,7 @@ struct MessagingHubViewFeature {
         case updateTopicData(TaskResult<[TopicHistoryModel]>)
         /// 点击历史消息
         case didTapHistoryMsg
-        case presentationHistoryMsg(PresentationAction<HistoryChatTopicsFeature.Action>)
+        case presentationHistoryMsg(PresentationAction<ChatTopicsListFeature.Action>)
         /// 点击发起新聊天
         case didTapStartNewChat
         case presentationNewChat(PresentationAction<MessageListFeature.Action>)
@@ -96,7 +96,7 @@ struct MessagingHubViewFeature {
                 return .none
                 
             case .didTapHistoryMsg:
-                state.historyItem = HistoryChatTopicsFeature.State()
+                state.historyItem = ChatTopicsListFeature.State()
                 return .none
 
             default:
@@ -107,7 +107,7 @@ struct MessagingHubViewFeature {
             MessageListFeature()
         }
         .ifLet(\.$historyItem, action: \.presentationHistoryMsg) {
-            HistoryChatTopicsFeature()
+            ChatTopicsListFeature()
         }
     }
 }

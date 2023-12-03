@@ -61,7 +61,7 @@ struct MessagingHubView: View {
             }
             .fullScreenCover(store: store.scope(state: \.$historyItem,
                                                 action: \.presentationHistoryMsg)) { store in
-                HistoryChatTopicsView(store: store)
+                ChatTopicsListView(store: store)
             }
             .task {
                 viewStore.send(.loadDefaultData)

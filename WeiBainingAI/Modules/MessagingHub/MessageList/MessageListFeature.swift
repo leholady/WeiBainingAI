@@ -19,7 +19,12 @@ struct MessageListFeature {
         /// 输入提示词
         var inputTips: [String] = []
         /// 聊天配置信息
-        var chatConfig: ChatRequestConfigMacro = .defaultConfig()
+        var chatConfig: ChatRequestConfigMacro = .defaultConfig() {
+            didSet {
+                debugPrint("chatConfig => \(chatConfig)")
+            }
+        }
+
         /// 用户配置信息
         var userConfig: UserProfileModel?
         /// 偏好设置feature
@@ -84,12 +89,6 @@ struct MessageListFeature {
                         await msgListClient.loadReqeustConfig()
                     ))
                 }
-            case let .updateChatConfig(result):
-                state.chatConfig = result
-                if let user = state.userConfig {
-                    state.chatConfig.userId = user.userId ?? ""
-                }
-                return .none
 
             case let .updateUserConfig(.success(result)):
                 state.userConfig = result
@@ -99,6 +98,13 @@ struct MessageListFeature {
                 Logger(label: "v").error("\(error)")
                 return .none
 
+            case let .updateChatConfig(result):
+                state.chatConfig = result
+                if let user = state.userConfig {
+                    state.chatConfig.userId = user.userId ?? ""
+                }
+                return .none
+                
             case .loadLocalMessages:
                 return .run { send in
                     await send(.updateMessageList(
@@ -124,14 +130,15 @@ struct MessageListFeature {
                         await send(.sendMessageResult(message))
                     }
                 } catch: { error, _ in
-                    Logger(label: "v").error("\(error)")
+                    Logger(label: "sendMessage").error("\(error)")
                 }
             case let .sendMessageResult(result):
                 Logger(label: "sendMessageResult =>").info("\(result)")
                 return .none
 
             case .chatModelSetupTapped:
-                state.modelSetup = ChatModelSetupFeature.State()
+                let config = state.chatConfig
+                state.modelSetup = ChatModelSetupFeature.State(chatConfig: config)
                 return .none
 
             case let .presentationModelSetup(.presented(.delegate(.updateChatModel(model)))):
