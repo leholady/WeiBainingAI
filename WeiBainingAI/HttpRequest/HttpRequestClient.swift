@@ -63,9 +63,11 @@ extension HttpRequestClient: DependencyKey {
                                     case ChatErrorMacro.success.rawValue:
                                         continution.finish()
                                     case ChatErrorMacro.loginNeed.rawValue:
-                                        continution.finish(throwing: HttpErrorHandler.failedWithServer(ChatErrorMacro.invalidSign.description))
+                                        continution.yield(ChatErrorMacro.loginNeed.description)
+                                        continution.finish()
                                     case ChatErrorMacro.notEnoughUsed.rawValue:
-                                        continution.finish(throwing: HttpErrorHandler.failedWithServer(ChatErrorMacro.invalidRequest.description))
+                                        continution.yield(ChatErrorMacro.notEnoughUsed.description)
+                                        continution.finish()
                                     case ChatErrorMacro.invalidSign.rawValue,
                                          ChatErrorMacro.invalidRequest.rawValue,
                                          ChatErrorMacro.qpsLimit.rawValue,
@@ -74,18 +76,18 @@ extension HttpRequestClient: DependencyKey {
                                          ChatErrorMacro.msgParamNumInvalid.rawValue,
                                          ChatErrorMacro.msgRoleInvalid.rawValue,
                                          ChatErrorMacro.unknownError.rawValue:
-                                        let errorMacro = ChatErrorMacro(rawValue: value.value ?? "")
-                                        continution.finish(throwing: HttpErrorHandler.failedWithServer(errorMacro?.description))
+                                        continution.yield("请求错误，请重试")
+                                        continution.finish()
                                     default:
                                         // 每次发送消息到流中
                                         continution.yield(message)
                                     }
                                 } else {
-                                    continution.finish(throwing: HttpErrorHandler.failedWithServer(nil))
+                                    continution.finish(throwing: HttpErrorHandler.chatError(ChatErrorMacro.unknownError))
                                 }
                             }
                         } catch {
-                            continution.finish(throwing: error)
+                            continution.finish(throwing: HttpErrorHandler.chatError(ChatErrorMacro.unknownError))
                         }
                     }
                 }

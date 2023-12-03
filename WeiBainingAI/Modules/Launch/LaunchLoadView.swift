@@ -25,7 +25,7 @@ struct LaunchLoadView: View {
                             store.send(.loadConfig)
                         }, label: {
                             Text("请点击页面重试")
-                                .foregroundColor(.black)
+                                .foregroundColor(.blue)
                                 .font(.system(size: 16, weight: .medium))
                                 .padding(.all, 20)
                         })

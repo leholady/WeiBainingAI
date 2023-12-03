@@ -61,8 +61,8 @@ struct ChatRequestConfigMacro: Equatable, Codable {
     var model: ChatModelType
     var maxtokens: Int
     var msgCount: Int
-    var conversationId: Int
     var userId: String
+    var conversationId: Int
 
     static func defaultConfig() -> ChatRequestConfigMacro {
         return ChatRequestConfigMacro(
@@ -70,8 +70,8 @@ struct ChatRequestConfigMacro: Equatable, Codable {
             model: .gpt3_5,
             maxtokens: 2000,
             msgCount: 2,
-            conversationId: 1,
-            userId: ""
+            userId: "",
+            conversationId: 0
         )
     }
 }

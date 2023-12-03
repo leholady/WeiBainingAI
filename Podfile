@@ -7,6 +7,7 @@ platform :ios, '15.0'
 
 target 'WeiBainingAI' do
     pod 'WCDB.swift'
+    pod 'WoodPeckeriOS', :configurations => ['Debug']
 end
 
 post_install do |installer|

@@ -17,7 +17,7 @@ struct MessageListView: View {
                 VStack(alignment: .center, spacing: 0, content: {
                     List {
                         ForEach(viewStore.messageList, id: \.self) { message in
-                            if message.isSender {
+                            if message.roleType == .user {
                                 MessageSenderCell(msg: message)
                             } else {
                                 MessageReceiveCell(msg: message)
@@ -25,6 +25,7 @@ struct MessageListView: View {
                         }
                         .listRowSeparator(.hidden)
                         .listRowInsets(.zero)
+                        .listSectionSeparator(.hidden)
                     }
                     .listStyle(.plain)
                     MessageInputContentView(store: store)
@@ -67,7 +68,6 @@ struct MessageListView: View {
             .navigationViewStyle(.stack)
             .task {
                 viewStore.send(.loadChatConfig)
-                viewStore.send(.loadLocalMessages)
             }
             .sheet(store: store.scope(state: \.$modelSetup,
                                       action: \.presentationModelSetup)) { store in
@@ -95,7 +95,7 @@ struct MessageTimestampCell: View {
 
 /// 消息接收方
 struct MessageReceiveCell: View {
-    var msg: MessageItemModel
+    var msg: MessageItemWCDB
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
             Image(.homeIconBubble)
@@ -158,7 +158,7 @@ struct MessageReceiveCell: View {
 
 /// 消息发送方
 struct MessageSenderCell: View {
-    var msg: MessageItemModel
+    var msg: MessageItemWCDB
     var body: some View {
         HStack(alignment: .top, spacing: 0) {
             Spacer()
@@ -244,7 +244,7 @@ struct MessageInputContentView: View {
                             .fixedSize(horizontal: false, vertical: true)
 
                         Button(action: {
-                            viewStore.send(.sendMessage)
+                            viewStore.send(.loadConversation)
                         }, label: {
                             Image(.inputIconSend)
                                 .scaledToFit()
@@ -252,6 +252,7 @@ struct MessageInputContentView: View {
                                 .padding(.all, 10)
                         })
                         .buttonStyle(.plain)
+                        .disabled(viewStore.inputText.isEmpty)
                     })
                     .padding(.horizontal, 10)
 

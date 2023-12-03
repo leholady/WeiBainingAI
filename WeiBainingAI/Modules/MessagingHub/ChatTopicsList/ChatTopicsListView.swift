@@ -93,7 +93,7 @@ struct ChatTopicsListView: View {
 
 /// 话题历史单项
 struct TopicChatItemView: View {
-    var topicModel: TopicHistoryModel
+    var topicModel: ConversationItemWCDB
     var isSelect: Bool = false
     var isEditing: Bool = false
 

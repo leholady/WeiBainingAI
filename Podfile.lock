@@ -5,19 +5,23 @@ PODS:
   - WCDB.swift/no-arc (2.0.4):
     - WCDBOptimizedSQLCipher (~> 1.4.2)
   - WCDBOptimizedSQLCipher (1.4.2)
+  - WoodPeckeriOS (1.4.3)
 
 DEPENDENCIES:
   - WCDB.swift
+  - WoodPeckeriOS
 
 SPEC REPOS:
   trunk:
     - WCDB.swift
     - WCDBOptimizedSQLCipher
+    - WoodPeckeriOS
 
 SPEC CHECKSUMS:
   WCDB.swift: 28dd96180d913abadb3ea9cf99bd6e942262379a
   WCDBOptimizedSQLCipher: ef2be79fed278289a309ad0d4d707c55bf166d6d
+  WoodPeckeriOS: d76940519d27513155959a659f0d1142b5ccc081
 
-PODFILE CHECKSUM: 83fa613411e7dbb6acb411e0dbef41e1dbc89c70
+PODFILE CHECKSUM: dbfd4dd2ddfcc1a7030008c9f76528cc4581889e
 
 COCOAPODS: 1.14.3

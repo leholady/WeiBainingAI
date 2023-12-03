@@ -12,6 +12,7 @@ enum HttpErrorHandler: Error {
     case failure(Error)
     case decodingFailed
     case noResponse
+    case chatError(ChatErrorMacro)
 }
 
 enum ChatErrorMacro: String {
@@ -39,7 +40,7 @@ enum ChatErrorMacro: String {
         case .qpsLimit:
             return "qps限制"
         case .notEnoughUsed:
-            return "使用次数不足"
+            return "问答次数超限，请开通会员后重新提问"
         case .msgInvalid:
             return "messages参数不是json 或者成员个数不是基数"
         case .msgParamMissing:

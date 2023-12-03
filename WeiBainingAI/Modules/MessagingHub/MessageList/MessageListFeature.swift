@@ -15,7 +15,7 @@ import SVProgressHUD
 struct MessageListFeature {
     struct State: Equatable {
         /// 消息列表
-        var messageList: [MessageItemModel] = []
+        var messageList: [MessageItemWCDB] = []
         /// 输入提示词
         var inputTips: [String] = []
         /// 聊天配置信息
@@ -27,12 +27,14 @@ struct MessageListFeature {
 
         /// 用户配置信息
         var userConfig: UserProfileModel?
+        /// 当前会话
+        var conversation: ConversationItemWCDB?
+        /// 录音状态
+        var recordState: Bool = false
         /// 偏好设置feature
         @PresentationState var modelSetup: ChatModelSetupFeature.State?
         /// 编辑框输入内容
         @BindingState var inputText: String = ""
-        /// 录音状态
-        var recordState: Bool = false
     }
 
     enum Action: BindableAction, Equatable {
@@ -40,17 +42,22 @@ struct MessageListFeature {
         /// 读取历史配置
         case loadChatConfig
         /// 读取聊天消息
-        case loadLocalMessages
+        case loadLocalMessages(ConversationItemWCDB)
         /// 更新配置信息到界面
         case updateChatConfig(ChatRequestConfigMacro)
         case updateUserConfig(TaskResult<UserProfileModel>)
+
         /// 更新消息列表
-        case updateMessageList([MessageItemModel])
+        case updateMessageList([MessageItemWCDB])
         case updateInputTips([String])
-        /// 发送消息
-        case sendMessage
+
+        /// 加载会话
+        case loadConversation
+        /// 发送消息流请求
+        case sendStreamRequest(ConversationItemWCDB)
         /// 消息发送成功处理
-        case sendMessageResult(String)
+        case sendMessageResult(String, ConversationItemWCDB)
+
         /// 点击消息分享
         case didTapMsgShare
         /// 点击聊天偏好配置
@@ -59,6 +66,7 @@ struct MessageListFeature {
         case presentationModelSetup(PresentationAction<ChatModelSetupFeature.Action>)
         /// 关闭当前页面
         case dismissPage
+
         /// 检查录音识别权限
         case checkSpeechAuth
         /// 点击开始录音
@@ -74,6 +82,7 @@ struct MessageListFeature {
     @Dependency(\.msgAPIClient) var msgAPIClient
     @Dependency(\.httpClient) var httpClient
     @Dependency(\.msgListClient) var msgListClient
+    @Dependency(\.dbClient) var dbClient
     @Dependency(\.dismiss) var dismiss
 
     var body: some Reducer<State, Action> {
@@ -100,18 +109,20 @@ struct MessageListFeature {
 
             case let .updateChatConfig(result):
                 state.chatConfig = result
-                if let user = state.userConfig {
-                    state.chatConfig.userId = user.userId ?? ""
+                state.chatConfig.userId = state.userConfig?.userId ?? ""
+                if let conversation = state.conversation {
+                    return .run { send in
+                        try await send(.updateMessageList(
+                            await dbClient.loadMessages(conversation)
+                        ))
+                    }
                 }
                 return .none
-                
-            case .loadLocalMessages:
+
+            case let .loadLocalMessages(conversation):
                 return .run { send in
-                    await send(.updateMessageList(
-                        await msgListClient.loadLocalMessages(TopicHistoryModel(userId: 0, timestamp: Date(), topic: "", reply: ""))
-                    ))
-                    try await send(.updateInputTips(
-                        await msgAPIClient.loadInputTips()
+                    try await send(.updateMessageList(
+                        await dbClient.loadMessages(conversation)
                     ))
                 }
             case let .updateMessageList(items):
@@ -122,19 +133,67 @@ struct MessageListFeature {
                 state.inputTips = tips
                 return .none
 
-            case .sendMessage:
-                let msg = state.inputText
+            case .loadConversation:
                 let config = state.chatConfig
+                let conversation = state.conversation
                 return .run { send in
-                    for try await message in try await httpClient.sendMessage(msg, config) {
-                        await send(.sendMessageResult(message))
+                    if let existingCon = conversation {
+                        await send(.sendStreamRequest(existingCon))
+                    } else {
+                        let createCon = try await dbClient.createConversation(config.userId)
+                        await send(.sendStreamRequest(createCon))
                     }
                 } catch: { error, _ in
-                    Logger(label: "sendMessage").error("\(error)")
+                    Logger(label: "loadConversation").error("\(error)")
                 }
-            case let .sendMessageResult(result):
-                Logger(label: "sendMessageResult =>").info("\(result)")
-                return .none
+
+            case let .sendStreamRequest(conversation):
+                state.conversation = conversation
+                let config = state.chatConfig
+                let msgText = state.inputText
+                state.inputText = ""
+
+                return .run { send in
+                    let msgItem = MessageItemWCDB(
+                        conversationId: conversation.identifier,
+                        role: MessageSendRole.user.rawValue,
+                        content: msgText,
+                        msgState: MessageSendState.success.rawValue,
+                        timestamp: Date()
+                    )
+                    // 保存用户的消息
+                    try await dbClient.saveSingleMessage(msgItem)
+                    // 更新话题最后一条信息
+                    try await dbClient.updateConversation(conversation, msgItem)
+                    // 刷新列表
+                    try await send(.updateMessageList(
+                        await dbClient.loadMessages(conversation)
+                    ))
+                    // 请求返回的消息
+                    for try await message in try await httpClient.sendMessage(msgText, config) {
+                        await send(.sendMessageResult(message, conversation))
+                    }
+                } catch: { error, _ in
+                    Logger(label: "sendStreamRequest").error("\(error)")
+                    await SVProgressHUD.showError(withStatus: error.localizedDescription)
+                }
+
+            case let .sendMessageResult(result, conversation):
+                let msgItem = MessageItemWCDB(
+                    conversationId: conversation.identifier,
+                    role: MessageSendRole.robot.rawValue,
+                    content: result,
+                    msgState: MessageSendState.success.rawValue,
+                    timestamp: Date()
+                )
+                return .run { send in
+                    try await dbClient.saveSingleMessage(msgItem)
+                    // 更新话题最后一条信息
+                    try await dbClient.updateConversation(conversation, msgItem)
+                    try await send(.updateMessageList(
+                        await dbClient.loadMessages(conversation)
+                    ))
+                }
 
             case .chatModelSetupTapped:
                 let config = state.chatConfig

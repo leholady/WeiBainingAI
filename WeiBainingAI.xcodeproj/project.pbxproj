@@ -36,6 +36,7 @@
 		65876EE62B0FA0A800DFFE0C /* assistant_icon_socializing.gif in Resources */ = {isa = PBXBuildFile; fileRef = 65876EE22B0FA0A800DFFE0C /* assistant_icon_socializing.gif */; };
 		65876EE72B0FA0A800DFFE0C /* assistant_icon_writing.gif in Resources */ = {isa = PBXBuildFile; fileRef = 65876EE32B0FA0A800DFFE0C /* assistant_icon_writing.gif */; };
 		65876EE92B0FA0B400DFFE0C /* DouyinSansBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65876EE82B0FA0B400DFFE0C /* DouyinSansBold.otf */; };
+		6592F99C2B1CC35B003EAE01 /* MessageDbClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6592F99B2B1CC35B003EAE01 /* MessageDbClient.swift */; };
 		659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659A55112B0EFE0500B2BF9B /* WeiBainingAIApp.swift */; };
 		659A55162B0EFE0600B2BF9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659A55152B0EFE0600B2BF9B /* Assets.xcassets */; };
 		659A551A2B0EFE0600B2BF9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659A55192B0EFE0600B2BF9B /* Preview Assets.xcassets */; };
@@ -124,6 +125,7 @@
 		65876EE22B0FA0A800DFFE0C /* assistant_icon_socializing.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = assistant_icon_socializing.gif; sourceTree = "<group>"; };
 		65876EE32B0FA0A800DFFE0C /* assistant_icon_writing.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = assistant_icon_writing.gif; sourceTree = "<group>"; };
 		65876EE82B0FA0B400DFFE0C /* DouyinSansBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DouyinSansBold.otf; sourceTree = "<group>"; };
+		6592F99B2B1CC35B003EAE01 /* MessageDbClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDbClient.swift; sourceTree = "<group>"; };
 		659A550E2B0EFE0500B2BF9B /* WeiBainingAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeiBainingAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		659A55112B0EFE0500B2BF9B /* WeiBainingAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeiBainingAIApp.swift; sourceTree = "<group>"; };
 		659A55152B0EFE0600B2BF9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				655D36032B16D85C004A5308 /* MessageListView.swift */,
 				6561317B2B1AE323004FCAEF /* MessageListClient.swift */,
 				65D074462B1AFCE0004A4E0F /* MessageListFeature.swift */,
+				6592F99B2B1CC35B003EAE01 /* MessageDbClient.swift */,
 				65D0744E2B1B6DC8004A4E0F /* MessageSeedFeature.swift */,
 			);
 			path = MessageList;
@@ -495,7 +498,7 @@
 			);
 			mainGroup = 659A55052B0EFE0500B2BF9B;
 			packageReferences = (
-				659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability.swift" */,
+				659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability" */,
 				659A55292B0F003600B2BF9B /* XCRemoteSwiftPackageReference "keychain-swift" */,
 				659A552C2B0F004700B2BF9B /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
 				659A552F2B0F007400B2BF9B /* XCRemoteSwiftPackageReference "SwiftUIX" */,
@@ -632,6 +635,7 @@
 				7E645C792B199EC700D7E589 /* MoreOptionsHeaderView.swift in Sources */,
 				7E645C772B19892500D7E589 /* MoreOptionsGroupModel.swift in Sources */,
 				7E645C7B2B19BC3600D7E589 /* MoreOptionsItemCell.swift in Sources */,
+				6592F99C2B1CC35B003EAE01 /* MessageDbClient.swift in Sources */,
 				7E645C822B19CA2A00D7E589 /* MoreOptionsClient.swift in Sources */,
 				65D0744D2B1AFD19004A4E0F /* TextImageTaskResultModel.swift in Sources */,
 				7E645C862B19D86B00D7E589 /* MoreSafariView.swift in Sources */,
@@ -805,6 +809,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeiBainingAI/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "当你按下\"录音\"按钮，我们将使用麦克风进行录音";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "允许访问相册, 用于保存生成的图像数据";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允许访问相册, 用于添加参考图像";
@@ -856,6 +861,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeiBainingAI/Info.plist;
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "当你按下\"录音\"按钮，我们将使用麦克风进行录音";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "允许访问相册, 用于保存生成的图像数据";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允许访问相册, 用于添加参考图像";
@@ -937,7 +943,7 @@
 				minimumVersion = 5.8.1;
 			};
 		};
-		659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability.swift" */ = {
+		659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
 			requirement = {
@@ -1013,7 +1019,7 @@
 		};
 		659A55212B0EFE2C00B2BF9B /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability.swift" */;
+			package = 659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability" */;
 			productName = Reachability;
 		};
 		659A552A2B0F003600B2BF9B /* KeychainSwift */ = {

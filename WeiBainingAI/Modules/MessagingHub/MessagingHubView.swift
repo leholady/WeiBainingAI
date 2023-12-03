@@ -64,7 +64,7 @@ struct MessagingHubView: View {
                 ChatTopicsListView(store: store)
             }
             .task {
-                viewStore.send(.loadDefaultData)
+                viewStore.send(.loadDefaultConfig)
             }
         }
     }
@@ -199,7 +199,7 @@ struct TopicHistoryView: View {
 
                 ScrollView(.horizontal, showsIndicators: false, content: {
                     HStack(spacing: 10, content: {
-                        ForEach(viewStore.topicList, id: \.self) { topic in
+                        ForEach(viewStore.conversations, id: \.self) { topic in
                             TopicHistoryItemView(topicModel: topic)
                         }
                     })
@@ -213,7 +213,7 @@ struct TopicHistoryView: View {
     }
 
     struct TopicHistoryItemView: View {
-        var topicModel: TopicHistoryModel
+        var topicModel: ConversationItemWCDB
         var body: some View {
             VStack(alignment: .leading, spacing: 0, content: {
                 HStack(alignment: .center, spacing: 9, content: {

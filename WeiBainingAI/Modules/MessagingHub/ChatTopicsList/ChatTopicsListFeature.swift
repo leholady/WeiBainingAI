@@ -11,17 +11,18 @@ import UIKit
 
 struct ChatTopicsListFeature: Reducer {
     struct State: Equatable {
-        var topicList: [TopicHistoryModel] = []
+        var topicList: [ConversationItemWCDB] = []
     }
 
     enum Action: Equatable {
         case loadChatTopics
-        case chatTopicsLoaded(TaskResult<[TopicHistoryModel]>)
+        case chatTopicsLoaded(TaskResult<[ConversationItemWCDB]>)
         case dismissTopics
     }
 
     @Dependency(\.msgAPIClient) var msgAPIClient
     @Dependency(\.msgListClient) var msgListClient
+    @Dependency(\.dbClient) var dbClient
     @Dependency(\.dismiss) var dismiss
 
     var body: some Reducer<State, Action> {
@@ -30,7 +31,7 @@ struct ChatTopicsListFeature: Reducer {
             case .loadChatTopics:
                 return .run { send in
                     await send(.chatTopicsLoaded(TaskResult {
-                        await msgListClient.loadLocalTopics(0)
+                       try await dbClient.loadConversation("")
                     }))
                 }
 

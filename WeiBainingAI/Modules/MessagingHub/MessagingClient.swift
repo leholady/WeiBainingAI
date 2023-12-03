@@ -16,7 +16,7 @@ struct MessageAPIClient {
     /// 刷新用户信息
     var refreshUserInfo: @Sendable () async throws -> UserProfileModel
     /// 加载输入提示语
-    var loadInputTips: @Sendable () async throws -> [String]
+    var requestInputTips: @Sendable () async throws -> [String]
 }
 
 extension MessageAPIClient: DependencyKey {
@@ -27,6 +27,7 @@ extension MessageAPIClient: DependencyKey {
 
 extension MessageAPIClient: TestDependencyKey {
     static var previewValue: MessageAPIClient {
+        
         @Dependency(\.httpClient) var httpClient
         return Self(
             requestHomeProfile: {
@@ -39,7 +40,7 @@ extension MessageAPIClient: TestDependencyKey {
                 ]
             },
             refreshUserInfo: { try await httpClient.getNewUserProfile() },
-            loadInputTips: {
+            requestInputTips: {
                 [
                     "历史",
                     "诗歌",
@@ -52,7 +53,7 @@ extension MessageAPIClient: TestDependencyKey {
     static var testValue: MessageAPIClient = Self(
         requestHomeProfile: unimplemented("\(Self.self).requestHomeProfile"),
         refreshUserInfo: unimplemented("\(Self.self).refreshUserInfo"),
-        loadInputTips: unimplemented("\(Self.self).loadInputTips")
+        requestInputTips: unimplemented("\(Self.self).requestInputTips")
     )
 }
 
