@@ -16,6 +16,11 @@ struct MessagingHubViewFeature {
         var topicList: [TopicHistoryModel] = []
         /// 用户配置信息
         var userConfig: UserProfileModel?
+        /// 跳转到聊天列表
+        @PresentationState var msgItem: MessageListFeature.State?
+        /// 跳转到历史记录
+        @PresentationState var historyItem: HistoryChatTopicsFeature.State?
+//        @PresentationState var topicItem: TopicListFeature.State?
     }
 
     enum Action: Equatable {
@@ -29,12 +34,16 @@ struct MessagingHubViewFeature {
         case updateDefaultData(TaskResult<[SuggestionsModel]>)
         /// 更新历史话题数据
         case updateTopicData(TaskResult<[TopicHistoryModel]>)
-        /// 点击历史话题
-        case didTapHistoryButton
-        /// 点击话题
-        case startQuestions
+        /// 点击历史消息
+        case didTapHistoryMsg
+        case presentationHistoryMsg(PresentationAction<HistoryChatTopicsFeature.Action>)
+        /// 点击发起新聊天
+        case didTapStartNewChat
+        case presentationNewChat(PresentationAction<MessageListFeature.Action>)
         /// 点击建议
         case didTapSuggestion
+        /// 点击话题
+        case didTapTopicChat
     }
 
     @Dependency(\.msgAPIClient) var msgAPIClient
@@ -82,12 +91,23 @@ struct MessagingHubViewFeature {
                 state.topicList = []
                 return .none
 
-            case .startQuestions:
+            case .didTapStartNewChat:
+                state.msgItem = MessageListFeature.State()
+                return .none
+                
+            case .didTapHistoryMsg:
+                state.historyItem = HistoryChatTopicsFeature.State()
                 return .none
 
             default:
                 return .none
             }
+        }
+        .ifLet(\.$msgItem, action: \.presentationNewChat) {
+            MessageListFeature()
+        }
+        .ifLet(\.$historyItem, action: \.presentationHistoryMsg) {
+            HistoryChatTopicsFeature()
         }
     }
 }

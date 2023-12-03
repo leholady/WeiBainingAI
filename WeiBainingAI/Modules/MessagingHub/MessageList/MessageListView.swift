@@ -11,56 +11,59 @@ import SwiftUIX
 
 struct MessageListView: View {
     let store: StoreOf<MessageListFeature>
-
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            VStack(alignment: .center, spacing: 0, content: {
-                List {
-                    ForEach(viewStore.messageList, id: \.self) { message in
-                        if message.isSender {
-                            MessageSenderCell(msg: message)
-                        } else {
-                            MessageReceiveCell(msg: message)
+            NavigationView {
+                VStack(alignment: .center, spacing: 0, content: {
+                    List {
+                        ForEach(viewStore.messageList, id: \.self) { message in
+                            if message.isSender {
+                                MessageSenderCell(msg: message)
+                            } else {
+                                MessageReceiveCell(msg: message)
+                            }
                         }
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(.zero)
                     }
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(.zero)
-                }
-                .listStyle(.plain)
-                MessageInputContentView(store: store)
-            })
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading, content: {
-                    Image(.iconBack)
-                        .scaledToFit()
-                        .frame(width: 26, height: 26)
+                    .listStyle(.plain)
+                    MessageInputContentView(store: store)
                 })
-
-                ToolbarItem(placement: .principal, content: {
-                    HStack(alignment: .center, spacing: 0, content: {
-                        Text(viewStore.chatConfig.model.title)
-                            .font(.custom("DOUYINSANSBOLD-GB", size: 16))
-
-                        Image(.homeIconTriangledown)
-                            .scaledToFit()
-                            .frame(width: 10, height: 10)
-                            .padding(.leading, 5)
-                    })
-                    .onTapGesture {
-                        viewStore.send(.chatModelSetupTapped)
-                    }
-                })
-
-                ToolbarItem(placement: .topBarTrailing, content: {
-                    NavigationLink(destination: Text("Destination"), label: {
-                        Image(.iconShare)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading, content: {
+                        Image(.iconBack)
                             .scaledToFit()
                             .frame(width: 26, height: 26)
+                            .onTapGesture {
+                                viewStore.send(.dismissPage)
+                            }
                     })
-                })
+
+                    ToolbarItem(placement: .principal, content: {
+                        HStack(alignment: .center, spacing: 0, content: {
+                            Text(viewStore.chatConfig.model.title)
+                                .font(.custom("DOUYINSANSBOLD-GB", size: 16))
+
+                            Image(.homeIconTriangledown)
+                                .scaledToFit()
+                                .frame(width: 10, height: 10)
+                                .padding(.leading, 10)
+                        })
+                        .onTapGesture {
+                            viewStore.send(.chatModelSetupTapped)
+                        }
+                    })
+
+                    ToolbarItem(placement: .topBarTrailing, content: {
+                        NavigationLink(destination: Text("Destination"), label: {
+                            Image(.iconShare)
+                                .scaledToFit()
+                                .frame(width: 26, height: 26)
+                        })
+                    })
+                }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
             .navigationViewStyle(.stack)
             .task {
                 viewStore.send(.loadChatConfig)
@@ -225,13 +228,17 @@ struct MessageInputContentView: View {
             ZStack(alignment: .center, content: {
                 VStack(alignment: .center, spacing: 0, content: {
                     HStack(alignment: .center, spacing: 0, content: {
-                        Button(action: {}, label: {
-                            Image(.inputIconSpeaker)
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                                .padding(.all, 10)
-                        })
-                        .buttonStyle(.plain)
+                        if !viewStore.recordState {
+                            Button(action: {
+                                viewStore.send(.checkSpeechAuth)
+                            }, label: {
+                                Image(.inputIconSpeaker)
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                    .padding(.all, 10)
+                            })
+                            .buttonStyle(.plain)
+                        }
 
                         MsgTextInputView(text: viewStore.$inputText)
                             .fixedSize(horizontal: false, vertical: true)
@@ -246,6 +253,7 @@ struct MessageInputContentView: View {
                         })
                         .buttonStyle(.plain)
                     })
+                    .padding(.horizontal, 10)
 
                     HStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 16, content: {
                         Text("历史")
@@ -268,13 +276,17 @@ struct MessageInputContentView: View {
 
                         Spacer()
                     })
-                    .padding(.all, 10)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 20)
+
+                    if viewStore.recordState {
+                        MsgVoiceInputView(store: store)
+                    }
                 })
             })
             .maxWidth(.infinity)
             .background(Color(hexadecimal6: 0xF6F6F6))
             .cornerRadius(10)
-            .padding(.horizontal, 10)
         }
     }
 
@@ -291,7 +303,6 @@ struct MessageInputContentView: View {
                     .frame(minHeight: 35)
                     .cornerRadius(10)
                     .fixedSize(horizontal: false, vertical: true)
-//                    .maxHeight(maxHeight)
 
                 if text.isEmpty {
                     Text("问点什么吧")
@@ -301,7 +312,42 @@ struct MessageInputContentView: View {
                         .padding(.vertical, 14)
                 }
             }
-//            .maxHeight(maxHeight)
+        }
+    }
+
+    // 语音输入
+    struct MsgVoiceInputView: View {
+        let store: StoreOf<MessageListFeature>
+        var body: some View {
+            VStack(alignment: .center, spacing: 0) {
+                HStack(alignment: .center, spacing: 0) {
+                    Button(action: {
+                        store.send(.finishRecord)
+                    }, label: {
+                        Image(.chatSpeakerIconStop)
+                            .scaledToFit()
+                            .foregroundColor(.white)
+                            .padding(.all, 10)
+                            .frame(width: 100, height: 100)
+                    })
+                    .padding(.vertical, 15)
+
+//                    VStack(alignment:  .center, spacing: 0, content: {
+//
+//                        ProgressView()
+//                            .progressViewStyle(CircularProgressViewStyle(tint: Color(hexadecimal6: 0x027AFF)))
+//                            .frame(width: 30, height: 30)
+//                            .padding(.bottom, 5)
+//
+//                        Text("转换中…")
+//                            .font(.system(size: 14), weight: .medium)
+//                            .foregroundColor(Color(hexadecimal6: 0x027AFF))
+//                            .padding(.bottom, 5)
+//                    })
+                }
+            }
+            .maxWidth(.infinity)
+            .background(Color(hexadecimal6: 0xE8E8E8))
         }
     }
 }

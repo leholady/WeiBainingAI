@@ -38,23 +38,31 @@ struct MessagingHubView: View {
                             .font(.custom("DOUYINSANSBOLD-GB", size: 24))
                     })
                     ToolbarItem(placement: .topBarTrailing, content: {
-                        HStack(content: {
-                            NavigationLink(destination: Text("Destination"), label: {
-                                Image(.homeIconMember)
-                                    .scaledToFit()
-                                    .frame(width: 26, height: 26)
-                            })
+                        HStack(spacing: 10) {
+                            Image(.homeIconMember)
+                                .scaledToFit()
+                                .frame(width: 26, height: 26)
+                                .onTapGesture {}
 
-                            NavigationLink(destination: Text("Destination"), label: {
-                                Image(.homeIconHistory)
-                                    .scaledToFit()
-                                    .frame(width: 26, height: 26)
-                            })
-                        })
+                            Image(.homeIconHistory)
+                                .scaledToFit()
+                                .frame(width: 26, height: 26)
+                                .onTapGesture {
+                                    viewStore.send(.didTapHistoryMsg)
+                                }
+                        }
                     })
                 }
             })
             .navigationViewStyle(.stack)
+            .fullScreenCover(store: store.scope(state: \.$msgItem,
+                                                action: \.presentationNewChat)) { store in
+                MessageListView(store: store)
+            }
+            .fullScreenCover(store: store.scope(state: \.$historyItem,
+                                                action: \.presentationHistoryMsg)) { store in
+                HistoryChatTopicsView(store: store)
+            }
             .task {
                 viewStore.send(.loadDefaultData)
             }
@@ -68,7 +76,7 @@ struct MessagingHubView: View {
 struct NewQuestionView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { _ in
+        WithViewStore(store, observe: { $0 }) { viewStore in
             VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
                 Image(.homeIconPresentation)
                     .scaledToFit()
@@ -79,12 +87,9 @@ struct NewQuestionView: View {
                     .multilineTextAlignment(.center)
                     .lineSpacing(5)
 
-                NavigationLink(destination:
-                    MessageListView(store: Store(
-                        initialState: MessageListFeature.State(),
-                        reducer: { MessageListFeature() }
-                    ))
-                ) {
+                Button(action: {
+                    viewStore.send(.didTapStartNewChat)
+                }, label: {
                     Text("开始提问")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.white)
@@ -92,7 +97,7 @@ struct NewQuestionView: View {
                         .frame(maxWidth: .infinity)
                         .background(Color.black)
                         .cornerRadius(20)
-                }
+                })
                 .buttonStyle(.plain)
                 .padding(.top, 30)
 

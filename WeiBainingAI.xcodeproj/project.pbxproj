@@ -743,8 +743,10 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeiBainingAI/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "当你按下\"录音\"按钮，我们将使用麦克风进行录音";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "允许访问相册, 用于保存生成的图像数据";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允许访问相册, 用于添加参考图像";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "当你对着麦克风说话时，我们将开始语音识别";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -791,8 +793,10 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WeiBainingAI/Info.plist;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "当你按下\"录音\"按钮，我们将使用麦克风进行录音";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "允许访问相册, 用于保存生成的图像数据";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "允许访问相册, 用于添加参考图像";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "当你对着麦克风说话时，我们将开始语音识别";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

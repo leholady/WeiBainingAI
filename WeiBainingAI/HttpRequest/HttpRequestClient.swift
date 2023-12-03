@@ -57,7 +57,7 @@ extension HttpRequestClient: DependencyKey {
                         do {
                             let streamTask = try await handler.seedMessage(message, config)
                             for try await value in streamTask.streamingStrings() {
-                                if let result = value.value {
+                                if value.value != nil {
                                     Logger(label: "stream value ===>").info("\(value.value ?? "")")
                                     switch String(describing: value.value ?? "") {
                                     case ChatErrorMacro.success.rawValue:

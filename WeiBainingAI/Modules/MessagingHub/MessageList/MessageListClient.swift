@@ -5,7 +5,10 @@
 //  Created by Daniel ° on 2023/12/2.
 //
 
+import AVFoundation
 import Dependencies
+import Logging
+import Speech
 import UIKit
 
 struct MessageListClient {
@@ -19,6 +22,10 @@ struct MessageListClient {
     var loadLocalMessages: @Sendable (_ topic: TopicHistoryModel) async -> [MessageItemModel]
     /// 保存单项消息到数据库
     var saveSingleMessage: @Sendable (_ msg: MessageItemModel) async throws -> Bool
+    /// 检测是否有语音权限
+    var checkSpeechAuth: @Sendable () async -> Bool
+    /// 开始语音转文字
+    var startVoiceToText: @Sendable () async throws -> AsyncThrowingStream<String, Error>
 }
 
 extension MessageListClient: DependencyKey {
@@ -85,6 +92,71 @@ extension MessageListClient: TestDependencyKey {
             ]
         } saveSingleMessage: { _ in
             true
+        } checkSpeechAuth: {
+            await withCheckedContinuation { continuation in
+                SFSpeechRecognizer.requestAuthorization { status in
+                    switch status {
+                    case .authorized:
+                        debugPrint("requestAuthorization: authorized")
+                        continuation.resume(returning: true)
+                    default:
+                        debugPrint("requestAuthorization: unknown")
+                        continuation.resume(returning: false)
+                    }
+                }
+            }
+        }
+        startVoiceToText: {
+            let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "zh-CN"))
+            let recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+            let audioEngine = AVAudioEngine()
+            var recognitionTask: SFSpeechRecognitionTask?
+
+            return AsyncThrowingStream<String, Error> { continuation in
+                // 建立一个AVAudioSession 用于录音
+                let audioSession = AVAudioSession.sharedInstance()
+                do {
+                    try audioSession.setCategory(AVAudioSession.Category.record)
+                    try audioSession.setMode(AVAudioSession.Mode.measurement)
+                    try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
+                } catch {
+                    continuation.finish(throwing: NSError(domain: "audioSession properties weren't set because of an error.",
+                                                          code: 0))
+                }
+                // 初始化RecognitionRequest，在后边我们会用它将录音数据转发给苹果服务器
+                let inputNode = audioEngine.inputNode
+                // 在用户说话的同时，将识别结果分批次返回
+                recognitionRequest.shouldReportPartialResults = true
+                // 使用recognitionTask方法开始识别。
+                recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest, resultHandler: { result, error in
+                    if let error = error {
+                        audioEngine.stop()
+                        inputNode.removeTap(onBus: 0)
+                        recognitionTask?.cancel()
+                        continuation.finish(throwing: error)
+                    }
+                    if result?.isFinal == true {
+                        audioEngine.stop()
+                        inputNode.removeTap(onBus: 0)
+                        recognitionTask?.cancel()
+                        continuation.finish()
+                    }
+                    continuation.yield(result?.bestTranscription.formattedString ?? "")
+                })
+
+                // 向recognitionRequest加入一个音频输入
+                let recordingFormat = inputNode.outputFormat(forBus: 0)
+                inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
+                    recognitionRequest.append(buffer)
+                }
+                audioEngine.prepare()
+                do {
+                    // 开始录音
+                    try audioEngine.start()
+                } catch {
+                    print("audioEngine couldn't start because of an error.")
+                }
+            }
         }
     }
 
@@ -94,7 +166,9 @@ extension MessageListClient: TestDependencyKey {
             saveReqeustConfig: unimplemented("\(Self.self).saveReqeustConfig"),
             loadLocalTopics: unimplemented("\(Self.self).loadLocalTopics"),
             loadLocalMessages: unimplemented("\(Self.self).loadLocalMessages"),
-            saveSingleMessage: unimplemented("\(Self.self).saveSingleMessage")
+            saveSingleMessage: unimplemented("\(Self.self).saveSingleMessage"),
+            checkSpeechAuth: unimplemented("\(Self.self).checkSpeechAuth"),
+            startVoiceToText: unimplemented("\(Self.self).startVoiceToText")
         )
     }
 }
