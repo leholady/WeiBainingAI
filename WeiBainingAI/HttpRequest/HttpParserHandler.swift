@@ -23,6 +23,7 @@ struct HttpConst {
     static let getServerTime = "Secret.getServerTime"
     static let getLoginAccount = "Secret.login"
     static let getLoginInfo = "UserQQ.getLoginInfo"
+    static let payConfList = "UserVip.getPayConfList"
     static let payAppStoreV2 = "UserVip.payAppleV2"
     static let chargeVipV2 = "UserVip.chargeVipV2"
     static let uploadImage = "ColorizeServer.uploadImage"

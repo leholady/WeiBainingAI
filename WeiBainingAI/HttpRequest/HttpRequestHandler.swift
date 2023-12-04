@@ -254,4 +254,10 @@ extension HttpRequestHandler {
         return try await requestTask(cmd: HttpConst.getTxt2imgResult,
                                      parameters: ["transcationId": transcationId])
     }
+    
+    func payConfList() async throws -> [PremiumMemberModel] {
+        let model: PremiumMemberResultModel = try await requestTask(cmd: HttpConst.payConfList,
+                                     parameters: ["payConf": "iOS"])
+        return model.datas
+    }
 }
