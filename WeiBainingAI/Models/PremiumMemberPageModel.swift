@@ -7,18 +7,19 @@
 
 import Foundation
 
-enum PremiumMemberPageState: String, Equatable, Hashable, Identifiable {
-    var id: String {
-        rawValue
-    }
-    case premium = "Premium"
-    case quota = "Quota"
-}
-
-struct PremiumMemberPageModel: Equatable, Hashable, Identifiable {
+struct PremiumMemberPageModel: Codable, Equatable, Hashable, Identifiable {
     var id: String {
         pageState.rawValue
     }
     var pageState: PremiumMemberPageState
     var pageItems: [PremiumMemberModel]
+    
+    struct PremiumMemberPageState: Codable, RawRepresentable, Equatable, Hashable {
+        var id: String {
+            rawValue
+        }
+        let rawValue: String
+        static let premium = PremiumMemberPageState(rawValue: "Premium")
+        static let quota = PremiumMemberPageState(rawValue: "Quota")
+    }
 }
