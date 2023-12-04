@@ -12,7 +12,7 @@ import Logging
 @Reducer
 struct MessagingHubViewFeature {
     struct State: Equatable {
-        var suggestions: [SuggestionsModel] = []
+        var suggestions: [String] = []
         var conversations: [ConversationItemWCDB] = []
         /// 用户配置信息
         var userConfig: UserProfileModel?
@@ -28,9 +28,9 @@ struct MessagingHubViewFeature {
         /// 更新用户配置
         case updateUserConfig(TaskResult<UserProfileModel>)
         /// 更新首页建议数据
-        case updateSuggestionsData(TaskResult<[SuggestionsModel]>)
+        case updateSuggestionsData(TaskResult<HomeConfigModel>)
         /// 更新历史话题数据
-        case updateConversationData(TaskResult<[ConversationItemWCDB]>)
+        case updateConversationData([ConversationItemWCDB])
         /// 点击历史消息
         case didTapHistoryMsg
         case presentationHistoryMsg(PresentationAction<ConversationListFeature.Action>)
@@ -38,7 +38,7 @@ struct MessagingHubViewFeature {
         case didTapStartNewChat(ConversationItemWCDB?)
         case presentationNewChat(PresentationAction<MessageListFeature.Action>)
         /// 点击建议
-        case didTapSuggestion
+        case didTapSuggestion(String)
         /// 点击话题
         case didTapTopicChat
     }
@@ -57,23 +57,25 @@ struct MessagingHubViewFeature {
                         try await httpClient.currentUserProfile()
                     }))
                     await send(.updateSuggestionsData(TaskResult {
-                        try await msgAPIClient.requestHomeProfile()
+                        try await httpClient.requestHomeConfig()
                     }))
                 }
             case let .updateUserConfig(.success(result)):
                 state.userConfig = result
                 return .run { send in
                     _ = try await dbClient.initDatabase()
-                    await send(.updateConversationData(TaskResult {
-                        try await dbClient.loadConversation(result.userId)
-                    }))
+                    try await send(.updateConversationData(
+                        await dbClient.loadConversation(result.userId)
+                    ))
+                } catch: { _, send in
+                    await send(.updateConversationData([]))
                 }
             case let .updateUserConfig(.failure(error)):
                 Logger(label: "v").error("\(error)")
                 return .none
 
             case let .updateSuggestionsData(.success(items)):
-                state.suggestions = items
+                state.suggestions = items.suggestion
                 return .none
 
             case let .updateSuggestionsData(.failure(error)):
@@ -81,19 +83,21 @@ struct MessagingHubViewFeature {
                 state.suggestions = []
                 return .none
 
-            case let .updateConversationData(.success(items)):
-                state.conversations = items
-                return .none
-
-            case let .updateConversationData(.failure(error)):
-                Logger(label: "MessagingHubViewFeature").error("\(error)")
-                state.conversations = []
+            case let .updateConversationData(results):
+                state.conversations = results
                 return .none
 
             case let .didTapStartNewChat(result):
                 state.msgItem = MessageListFeature.State(
                     userConfig: state.userConfig,
                     conversation: result
+                )
+                return .none
+                
+            case let .didTapSuggestion(result):
+                state.msgItem = MessageListFeature.State(
+                    userConfig: state.userConfig,
+                    inputText: result
                 )
                 return .none
 
@@ -105,9 +109,9 @@ struct MessagingHubViewFeature {
 
             case let .presentationHistoryMsg(.presented(.delegate(.updateConversationList(config)))):
                 return .run { send in
-                    await send(.updateConversationData(TaskResult {
-                        try await dbClient.loadConversation(config.userId)
-                    }))
+                    try await send(.updateConversationData(
+                        await dbClient.loadConversation(config.userId)
+                    ))
                 }
             default:
                 return .none

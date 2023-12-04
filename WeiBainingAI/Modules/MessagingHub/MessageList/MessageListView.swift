@@ -15,19 +15,27 @@ struct MessageListView: View {
         WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessageListFeature>) in
             NavigationView {
                 VStack(alignment: .center, spacing: 0, content: {
-                    List {
-                        ForEach(viewStore.messageList, id: \.self) { message in
-                            if message.roleType == .user {
-                                MessageSenderCell(msg: message)
-                            } else {
-                                MessageReceiveCell(msg: message)
+                    ScrollViewReader { proxy in
+                        List {
+                            ForEach(viewStore.messageList, id: \.identifier) { message in
+                                if message.roleType == .user {
+                                    MessageSenderCell(msg: message)
+                                        .id(message.identifier)
+                                } else {
+                                    MessageReceiveCell(msg: message)
+                                        .id(message.identifier)
+                                }
                             }
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(.zero)
+                            .listSectionSeparator(.hidden)
                         }
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(.zero)
-                        .listSectionSeparator(.hidden)
+                        .listStyle(.plain)
+                        .onAppear {
+                            proxy.scrollTo(viewStore.messageList.last?.identifier)
+                        }
                     }
-                    .listStyle(.plain)
+
                     MessageInputContentView(store: store)
                 })
                 .toolbar {
@@ -56,11 +64,12 @@ struct MessageListView: View {
                     })
 
                     ToolbarItem(placement: .topBarTrailing, content: {
-                        NavigationLink(destination: Text("Destination"), label: {
-                            Image(.iconShare)
-                                .scaledToFit()
-                                .frame(width: 26, height: 26)
-                        })
+                        Image(.iconShare)
+                            .scaledToFit()
+                            .frame(width: 26, height: 26)
+                            .onTapGesture {
+                                viewStore.send(.msgShareTapped)
+                            }
                     })
                 }
             }
@@ -69,9 +78,13 @@ struct MessageListView: View {
             .task {
                 viewStore.send(.loadChatConfig)
             }
-            .sheet(store: store.scope(state: \.$modelSetup,
+            .sheet(store: store.scope(state: \.$setupPage,
                                       action: \.presentationModelSetup)) { store in
                 ChatModelSetupView(store: store)
+            }
+            .sheet(store: store.scope(state: \.$sharePage,
+                                      action: \.presentationMsgShare)) { store in
+                ChatMsgShareView(store: store)
             }
         }
     }
@@ -206,7 +219,7 @@ struct MessageSenderCell: View {
 
             })
 
-            Image(.homeIconBubble)
+            Image(.avatarUser)
                 .scaledToFit()
                 .frame(width: 30, height: 30)
                 .background(Color(hexadecimal6: 0xF77955))
@@ -215,6 +228,7 @@ struct MessageSenderCell: View {
         }
         .padding(.leading, Screen.width * 0.25)
         .padding(.vertical, 10)
+        .buttonStyle(.plain)
     }
 }
 
@@ -288,6 +302,7 @@ struct MessageInputContentView: View {
             .maxWidth(.infinity)
             .background(Color(hexadecimal6: 0xF6F6F6))
             .cornerRadius(10)
+            .buttonStyle(.plain)
         }
     }
 
@@ -332,19 +347,6 @@ struct MessageInputContentView: View {
                             .frame(width: 100, height: 100)
                     })
                     .padding(.vertical, 15)
-
-//                    VStack(alignment:  .center, spacing: 0, content: {
-//
-//                        ProgressView()
-//                            .progressViewStyle(CircularProgressViewStyle(tint: Color(hexadecimal6: 0x027AFF)))
-//                            .frame(width: 30, height: 30)
-//                            .padding(.bottom, 5)
-//
-//                        Text("转换中…")
-//                            .font(.system(size: 14), weight: .medium)
-//                            .foregroundColor(Color(hexadecimal6: 0x027AFF))
-//                            .padding(.bottom, 5)
-//                    })
                 }
             }
             .maxWidth(.infinity)

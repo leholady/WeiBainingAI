@@ -11,9 +11,10 @@
 		65081C582B18CE91004F4C47 /* SegmentControlStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C572B18CE91004F4C47 /* SegmentControlStyleView.swift */; };
 		65081C5B2B18DC29004F4C47 /* ChatMsgShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */; };
 		65081C5D2B18ED9E004F4C47 /* ChatConfigUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C5C2B18ED9E004F4C47 /* ChatConfigUnit.swift */; };
+		6508F3222B1E2A2B00834430 /* ChatMsgShareFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508F3212B1E2A2B00834430 /* ChatMsgShareFeature.swift */; };
 		6553F6F92B18AC0D00C77C29 /* ChatModelSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */; };
 		6553F6FB2B18AC1B00C77C29 /* ChatModelSetupFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6FA2B18AC1B00C77C29 /* ChatModelSetupFeature.swift */; };
-		655D35FF2B16D82F004A5308 /* SuggestionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */; };
+		655D35FF2B16D82F004A5308 /* HomeConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FD2B16D82F004A5308 /* HomeConfigModel.swift */; };
 		655D36002B16D82F004A5308 /* TopicHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */; };
 		655D36052B16D85C004A5308 /* MessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36032B16D85C004A5308 /* MessageListView.swift */; };
 		655D36082B16D864004A5308 /* MessagingClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36072B16D864004A5308 /* MessagingClient.swift */; };
@@ -103,9 +104,10 @@
 		65081C572B18CE91004F4C47 /* SegmentControlStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlStyleView.swift; sourceTree = "<group>"; };
 		65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMsgShareView.swift; sourceTree = "<group>"; };
 		65081C5C2B18ED9E004F4C47 /* ChatConfigUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConfigUnit.swift; sourceTree = "<group>"; };
+		6508F3212B1E2A2B00834430 /* ChatMsgShareFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMsgShareFeature.swift; sourceTree = "<group>"; };
 		6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModelSetupView.swift; sourceTree = "<group>"; };
 		6553F6FA2B18AC1B00C77C29 /* ChatModelSetupFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModelSetupFeature.swift; sourceTree = "<group>"; };
-		655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionsModel.swift; sourceTree = "<group>"; };
+		655D35FD2B16D82F004A5308 /* HomeConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeConfigModel.swift; sourceTree = "<group>"; };
 		655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicHistoryModel.swift; sourceTree = "<group>"; };
 		655D36032B16D85C004A5308 /* MessageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListView.swift; sourceTree = "<group>"; };
 		655D36072B16D864004A5308 /* MessagingClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingClient.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */,
+				6508F3212B1E2A2B00834430 /* ChatMsgShareFeature.swift */,
 			);
 			path = ChatMsgShare;
 			sourceTree = "<group>";
@@ -301,7 +304,7 @@
 				65D0744A2B1AFD09004A4E0F /* UploadImageModel.swift */,
 				7EE7CA212B1724FB003A1B4A /* TextImageTaskConfigureModel.swift */,
 				65D0744C2B1AFD19004A4E0F /* TextImageTaskResultModel.swift */,
-				655D35FD2B16D82F004A5308 /* SuggestionsModel.swift */,
+				655D35FD2B16D82F004A5308 /* HomeConfigModel.swift */,
 				655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */,
 				7E645C762B19892500D7E589 /* MoreOptionsGroupModel.swift */,
 				7E645C7F2B19C40000D7E589 /* MoreBalanceItemModel.swift */,
@@ -644,8 +647,9 @@
 				65EAFBDB2B18C6050055ABEA /* SupportAssistantView.swift in Sources */,
 				65D0744B2B1AFD09004A4E0F /* UploadImageModel.swift in Sources */,
 				65081C582B18CE91004F4C47 /* SegmentControlStyleView.swift in Sources */,
+				6508F3222B1E2A2B00834430 /* ChatMsgShareFeature.swift in Sources */,
 				655D36052B16D85C004A5308 /* MessageListView.swift in Sources */,
-				655D35FF2B16D82F004A5308 /* SuggestionsModel.swift in Sources */,
+				655D35FF2B16D82F004A5308 /* HomeConfigModel.swift in Sources */,
 				656131812B1AE32C004FCAEF /* ConversationListFeature.swift in Sources */,
 				65EAFBD12B18C5150055ABEA /* LaunchConfigClient.swift in Sources */,
 				65876ED02B0F89DA00DFFE0C /* LaunchConfigReducer.swift in Sources */,

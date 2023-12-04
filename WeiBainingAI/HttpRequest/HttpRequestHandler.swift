@@ -306,8 +306,8 @@ extension HttpRequestHandler {
     }
 
     /// 请求首页的配置内容
-    func requestHomeConfig() async throws -> [SuggestionsModel] {
-        return try await requestTask(cmd: HttpConst.getLoginInfo)
+    func requestHomeConfig() async throws -> HomeConfigModel {
+        return try await requestTask(cmd: HttpConst.getHomeAll)
     }
 
     /// 发送消息

@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import UIKit
 
+@Reducer
 struct MessageSeedFeature {
     struct State: Equatable {
         /// 聊天配置信息

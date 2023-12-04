@@ -24,7 +24,9 @@ struct HttpRequestClient {
     /// 获取AI自动创作图像结果
     var txtToImageResult: @Sendable (String) async throws -> TextImageTaskResultModel
     /// 发送聊天消息
-    var sendMessage: @Sendable (String, _ config: ChatRequestConfigMacro) async throws -> AsyncThrowingStream<String, Error>
+    var sendMessage: @Sendable (String, _ config: ChatRequestConfigMacro) async throws -> DataStreamTask
+    /// 请求首页的配置接口
+    var requestHomeConfig: @Sendable () async throws -> HomeConfigModel
     /// 获取本地缓存用户信息
     var currentUserProfile: @Sendable () async throws -> UserProfileModel
 }
@@ -52,48 +54,10 @@ extension HttpRequestClient: DependencyKey {
                 try await handler.txtToImageResult($0)
             },
             sendMessage: { message, config in
-                AsyncThrowingStream<String, Error> { continution in
-                    Task {
-                        do {
-                            let streamTask = try await handler.seedMessage(message, config)
-                            for try await value in streamTask.streamingStrings() {
-                                if value.value != nil {
-                                    switch String(describing: value.value ?? "") {
-                                    case ChatErrorMacro.success.rawValue:
-                                        continution.yield(ChatErrorMacro.success.rawValue)
-                                        continution.finish()
-                                    case ChatErrorMacro.loginNeed.rawValue:
-                                        continution.yield(ChatErrorMacro.loginNeed.description)
-                                        continution.finish()
-                                    case ChatErrorMacro.notEnoughUsed.rawValue:
-                                        continution.yield(ChatErrorMacro.notEnoughUsed.description)
-                                        continution.finish()
-                                    case ChatErrorMacro.invalidSign.rawValue,
-                                         ChatErrorMacro.invalidRequest.rawValue,
-                                         ChatErrorMacro.qpsLimit.rawValue,
-                                         ChatErrorMacro.msgInvalid.rawValue,
-                                         ChatErrorMacro.msgParamMissing.rawValue,
-                                         ChatErrorMacro.msgParamNumInvalid.rawValue,
-                                         ChatErrorMacro.msgRoleInvalid.rawValue,
-                                         ChatErrorMacro.paramModleInvalid.rawValue,
-                                         ChatErrorMacro.unknownError.rawValue:
-                                        continution.yield(ChatErrorMacro.unknownError.rawValue)
-                                        continution.finish()
-                                    default:
-                                        // 每次发送消息到流中
-                                        continution.yield(value.value ?? "")
-                                    }
-                                } else {
-                                    continution.yield(ChatErrorMacro.unknownError.rawValue)
-                                    continution.finish()
-                                }
-                            }
-                        } catch {
-                            continution.yield(ChatErrorMacro.unknownError.rawValue)
-                            continution.finish()
-                        }
-                    }
-                }
+                try await handler.seedMessage(message, config)
+            },
+            requestHomeConfig: {
+                try await handler.requestHomeConfig()
             },
             currentUserProfile: {
                 if let profile = await handler.userProfile {

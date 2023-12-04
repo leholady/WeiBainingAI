@@ -21,10 +21,14 @@ struct MessageListClient {
     var checkSpeechAuth: @Sendable () async -> Bool
     /// 开始语音转文字
     var startVoiceToText: @Sendable () async throws -> AsyncThrowingStream<String, Error>
+    /// 处理流返回的数据
+    var handleStreamData: @Sendable (String, _ config: ChatRequestConfigMacro) async throws -> AsyncThrowingStream<String, Error>
 }
 
 extension MessageListClient: DependencyKey {
     static var liveValue: MessageListClient {
+        @Dependency(\.httpClient) var httpClient
+
         return Self {
             if let saveData = UserDefaults.standard.data(forKey: "CachedChatRequestConfig") {
                 if let loadConfig = try? JSONDecoder().decode(ChatRequestConfigMacro.self, from: saveData) {
@@ -103,6 +107,49 @@ extension MessageListClient: DependencyKey {
                     print("audioEngine couldn't start because of an error.")
                 }
             }
+        } handleStreamData: { msg, config in
+            AsyncThrowingStream<String, Error> { continution in
+                Task {
+                    do {
+                        let streamTask = try await httpClient.sendMessage(msg, config)
+                        for try await value in streamTask.streamingStrings() {
+                            if value.value != nil {
+                                switch String(describing: value.value ?? "") {
+                                case ChatErrorMacro.success.rawValue:
+                                    continution.yield(ChatErrorMacro.success.rawValue)
+                                    continution.finish()
+                                case ChatErrorMacro.loginNeed.rawValue:
+                                    continution.yield(ChatErrorMacro.loginNeed.description)
+                                    continution.finish()
+                                case ChatErrorMacro.notEnoughUsed.rawValue:
+                                    continution.yield(ChatErrorMacro.notEnoughUsed.description)
+                                    continution.finish()
+                                case ChatErrorMacro.invalidSign.rawValue,
+                                     ChatErrorMacro.invalidRequest.rawValue,
+                                     ChatErrorMacro.qpsLimit.rawValue,
+                                     ChatErrorMacro.msgInvalid.rawValue,
+                                     ChatErrorMacro.msgParamMissing.rawValue,
+                                     ChatErrorMacro.msgParamNumInvalid.rawValue,
+                                     ChatErrorMacro.msgRoleInvalid.rawValue,
+                                     ChatErrorMacro.paramModleInvalid.rawValue,
+                                     ChatErrorMacro.unknownError.rawValue:
+                                    continution.yield(ChatErrorMacro.unknownError.rawValue)
+                                    continution.finish()
+                                default:
+                                    // 每次发送消息到流中
+                                    continution.yield(value.value ?? "")
+                                }
+                            } else {
+                                continution.yield(ChatErrorMacro.unknownError.rawValue)
+                                continution.finish()
+                            }
+                        }
+                    } catch {
+                        continution.yield(ChatErrorMacro.unknownError.rawValue)
+                        continution.finish()
+                    }
+                }
+            }
         }
     }
 }
@@ -124,6 +171,12 @@ extension MessageListClient: TestDependencyKey {
                     continuation.yield("我是语音转文字的结果")
                     continuation.finish()
                 }
+            }, handleStreamData: { _, _ in
+                AsyncThrowingStream<String, Error> { continuation in
+                    continuation.yield("我是聊天结果")
+                    continuation.yield(ChatErrorMacro.success.rawValue)
+                    continuation.finish()
+                }
             }
         )
     }
@@ -133,7 +186,8 @@ extension MessageListClient: TestDependencyKey {
             loadReqeustConfig: unimplemented("\(Self.self).loadReqeustConfig"),
             saveReqeustConfig: unimplemented("\(Self.self).saveReqeustConfig"),
             checkSpeechAuth: unimplemented("\(Self.self).checkSpeechAuth"),
-            startVoiceToText: unimplemented("\(Self.self).startVoiceToText")
+            startVoiceToText: unimplemented("\(Self.self).startVoiceToText"),
+            handleStreamData: unimplemented("\(Self.self).handleStreamData")
         )
     }
 }

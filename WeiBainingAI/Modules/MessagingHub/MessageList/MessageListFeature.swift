@@ -33,8 +33,12 @@ struct MessageListFeature {
         var recordState: Bool = false
         /// 响应状态
         var responding: Bool = false
+        /// 滚动到底部
+        var scrollToBottom: Bool = false
         /// 偏好设置feature
-        @PresentationState var modelSetup: ChatModelSetupFeature.State?
+        @PresentationState var setupPage: ChatModelSetupFeature.State?
+        /// 分享内容
+        @PresentationState var sharePage: ChatMsgShareFeature.State?
         /// 编辑框输入内容
         @BindingState var inputText: String = ""
         /// 流返回数据
@@ -56,6 +60,9 @@ struct MessageListFeature {
         case loadMessageList([MessageItemWCDB])
         case updateInputTips([String])
 
+        /// 滚动到视图底部
+        case scrollToBottom
+
         /// 加载会话
         case loadConversation
         /// 发送消息流请求
@@ -66,7 +73,9 @@ struct MessageListFeature {
         case saveStreamResult(String, ConversationItemWCDB)
 
         /// 点击消息分享
-        case didTapMsgShare
+        case msgShareTapped
+        /// 跳转聊天偏好配置
+        case presentationMsgShare(PresentationAction<ChatMsgShareFeature.Action>)
         /// 点击聊天偏好配置
         case chatModelSetupTapped
         /// 跳转聊天偏好配置
@@ -136,6 +145,10 @@ struct MessageListFeature {
                 state.messageList = items
                 return .none
 
+            case .scrollToBottom:
+                state.scrollToBottom = true
+                return .none
+
             case let .updateInputTips(tips):
                 state.inputTips = tips
                 return .none
@@ -177,7 +190,7 @@ struct MessageListFeature {
                         await dbClient.loadMessages(conversation)
                     ))
                     // 请求返回的消息
-                    for try await message in try await httpClient.sendMessage(msgText, config) {
+                    for try await message in try await msgListClient.handleStreamData(msgText, config) {
                         await send(.receiveStreamResult(message, conversation))
                     }
                 } catch: { error, _ in
@@ -224,10 +237,14 @@ struct MessageListFeature {
                         await dbClient.loadMessages(conversation)
                     ))
                 }
+                
+            case .msgShareTapped:
+                state.sharePage = ChatMsgShareFeature.State()
+                return .none
 
             case .chatModelSetupTapped:
                 let config = state.chatConfig
-                state.modelSetup = ChatModelSetupFeature.State(chatConfig: config)
+                state.setupPage = ChatModelSetupFeature.State(chatConfig: config)
                 return .none
 
             case let .presentationModelSetup(.presented(.delegate(.updateChatModel(model)))):
@@ -266,8 +283,11 @@ struct MessageListFeature {
                 return .none
             }
         }
-        .ifLet(\.$modelSetup, action: \.presentationModelSetup) {
+        .ifLet(\.$setupPage, action: \.presentationModelSetup) {
             ChatModelSetupFeature()
+        }
+        .ifLet(\.$sharePage, action: \.presentationMsgShare) {
+            ChatMsgShareFeature()
         }
     }
 }

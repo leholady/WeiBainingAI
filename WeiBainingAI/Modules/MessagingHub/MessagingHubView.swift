@@ -23,12 +23,12 @@ struct MessagingHubView: View {
                         SuggestQuestionListView(store: store)
                             .frame(maxWidth: .infinity)
                             .background(Color(hexadecimal6: 0xF7F7F7))
-                            .height(300)
-
+                          
                         TopicHistoryView(store: store)
                             .frame(maxWidth: .infinity)
                             .background(Color(hexadecimal6: 0xF7F7F7))
                     })
+                    .padding(.bottom, 20)
                 }
                 .listStyle(.plain)
                 .navigationBarTitleDisplayMode(.inline)
@@ -134,23 +134,22 @@ struct SuggestQuestionListView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 40)
 
-                List {
+                VStack(alignment: .center, spacing: 10, content: {
                     ForEach(viewStore.suggestions, id: \.self) { suggestion in
                         SuggestQuestionListItemView(suggestion: suggestion)
+                            .onTapGesture {
+                                viewStore.send(.didTapSuggestion(suggestion))
+                            }
                     }
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-                    .listRowBackground(Color.clear)
-                }
-                .listStyle(.plain)
-                .listRowSpacing(10)
+                })
+                .padding(.horizontal, 20)
             })
             .background(.white)
         }
     }
 
     struct SuggestQuestionListItemView: View {
-        var suggestion: SuggestionsModel
+        var suggestion: String
 
         var body: some View {
             HStack {
@@ -159,7 +158,7 @@ struct SuggestQuestionListView: View {
                     .frame(width: 26, height: 26)
                     .padding(.leading, 16)
 
-                Text(suggestion.title)
+                Text(suggestion)
                     .font(.system(size: 14, weight: .regular))
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
