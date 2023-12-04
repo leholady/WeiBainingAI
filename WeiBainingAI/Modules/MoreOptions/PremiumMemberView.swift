@@ -38,10 +38,10 @@ struct PremiumMemberView: View {
                                 .frame(width: 160)
                             }
                             TabView(selection: viewStore.$pageSelect) {
-                                ForEach(viewStore.pageItems) { item in
+                                ForEach(0..<viewStore.pageItems.count, id: \.self) { index in
                                     ScrollView {
                                         VStack {
-                                            ForEach(item.pageItems) { _ in
+                                            ForEach(viewStore.pageItems[index].pageItems) { _ in
                                                 PremiumMemberSelectItemView(isSelect: true)
                                             }
                                         }
