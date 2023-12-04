@@ -11,7 +11,7 @@ import SwiftUI
 struct ChatModelSetupView: View {
     let store: StoreOf<ChatModelSetupFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ChatModelSetupFeature>) in
             VStack(alignment: .center, spacing: 0, content: {
                 Divider()
                     .frame(width: 30, height: 3)
@@ -63,7 +63,7 @@ struct ChatModelSetupView: View {
 struct ChatModelSelectionView: View {
     let store: StoreOf<ChatModelSetupFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ChatModelSetupFeature>) in
             VStack(alignment: .center, spacing: 0, content: {
                 Text("聊天模型")
                     .font(.system(size: 12, weight: .medium))
@@ -131,7 +131,7 @@ struct ChatModelSelectionView: View {
 struct ChatStyleSelectionView: View {
     let store: StoreOf<ChatModelSetupFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ChatModelSetupFeature>) in
             VStack(alignment: .leading, spacing: 0) {
                 Text("聊天风格")
                     .font(.system(size: 12, weight: .medium))
@@ -154,7 +154,7 @@ struct ChatStyleSelectionView: View {
 struct ChatTokenSelectionView: View {
     let store: StoreOf<ChatModelSetupFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ChatModelSetupFeature>) in
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {
                     VStack(alignment: .center, spacing: 10, content: {

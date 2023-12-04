@@ -6,6 +6,7 @@
 //
 
 import Dependencies
+import Logging
 import UIKit
 import WCDBSwift
 
@@ -23,6 +24,8 @@ struct MessageDbClient {
     var loadMessages: @Sendable (_ conversation: ConversationItemWCDB) async throws -> [MessageItemWCDB]
     /// 保存单项消息到数据库
     var saveSingleMessage: @Sendable (_ msg: MessageItemWCDB) async throws -> Void
+    /// 传入会话数据，删除会话
+    var deleteConversation: @Sendable (_ conversations: [ConversationItemWCDB]) async throws -> Void
 }
 
 extension MessageDbClient: DependencyKey {
@@ -36,13 +39,12 @@ extension MessageDbClient: DependencyKey {
             return true
         } createConversation: {
             var topic = ConversationItemWCDB(userId: $0, timestamp: Date(), topic: "", reply: "")
-            try database.insert([topic], intoTable: ConversationItemWCDB.tableName)
-            let list: [ConversationItemWCDB] = try database.getObjects(on: ConversationItemWCDB.Properties.all,
-                                                                       fromTable: ConversationItemWCDB.tableName,
-                                                                       where: ConversationItemWCDB.Properties.userId == $0)
-            if let item = list.last?.identifier {
-                topic.identifier = item
-            }
+            try database.insert(topic, intoTable: ConversationItemWCDB.tableName)
+            Logger(label: "createConversation").info("create conversation: \(topic.lastInsertedRowID)")
+            // 获取 identifier 的最大值
+            let maxIdentifier = try database.getValue(on: ConversationItemWCDB.Properties.identifier.max(),
+                                                      fromTable: ConversationItemWCDB.tableName)
+            topic.identifier = Int(maxIdentifier.int64Value)
             return topic
         } updateConversation: {
             var conversation = $0
@@ -78,6 +80,11 @@ extension MessageDbClient: DependencyKey {
             return messages
         } saveSingleMessage: {
             try database.insert([$0], intoTable: MessageItemWCDB.tableName)
+        } deleteConversation: {
+            try $0.forEach { conversation in
+                try database.delete(fromTable: ConversationItemWCDB.tableName,
+                                    where: ConversationItemWCDB.Properties.identifier == conversation.identifier)
+            }
         }
     }
 }
@@ -139,7 +146,8 @@ extension MessageDbClient: TestDependencyKey {
                                     timestamp: Date())
                 ]
             },
-            saveSingleMessage: { _ in }
+            saveSingleMessage: { _ in },
+            deleteConversation: { _ in }
         )
     }
 
@@ -150,7 +158,8 @@ extension MessageDbClient: TestDependencyKey {
             updateConversation: unimplemented("\(Self.self).updateConversation"),
             loadConversation: unimplemented("\(Self.self).loadConversation"),
             loadMessages: unimplemented("\(Self.self).loadMessages"),
-            saveSingleMessage: unimplemented("\(Self.self).saveSingleMessage")
+            saveSingleMessage: unimplemented("\(Self.self).saveSingleMessage"),
+            deleteConversation: unimplemented("\(Self.self).deleteConversation")
         )
     }
 }

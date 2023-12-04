@@ -36,7 +36,9 @@ struct ConversationItemWCDB: TableCodable, Equatable, Hashable {
 
     var isAutoIncrement: Bool { return true }
     var lastInsertedRowID: Int64 = 0 // 用于获取自增插入后的主键值
+    var isSelected: Bool = false // 用于标记选中状态
 
+    /// 用于 WCDBSwift 的表名
     enum CodingKeys: String, CodingTableKey {
         typealias Root = ConversationItemWCDB
         case identifier

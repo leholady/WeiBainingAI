@@ -25,9 +25,6 @@ struct MessageListClient {
 
 extension MessageListClient: DependencyKey {
     static var liveValue: MessageListClient {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let database = Database(at: "\(documentsPath)/WeiBainingAI.db")
-
         return Self {
             if let saveData = UserDefaults.standard.data(forKey: "CachedChatRequestConfig") {
                 if let loadConfig = try? JSONDecoder().decode(ChatRequestConfigMacro.self, from: saveData) {

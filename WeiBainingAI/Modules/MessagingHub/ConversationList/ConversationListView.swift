@@ -8,57 +8,37 @@
 import ComposableArchitecture
 import SwiftUI
 
-struct ChatTopicsListView: View {
-    let store: StoreOf<ChatTopicsListFeature>
+struct ConversationListView: View {
+    let store: StoreOf<ConversationListFeature>
 
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ConversationListFeature>) in
             NavigationView(content: {
                 VStack(alignment: .center, spacing: 0, content: {
-                    List {
-                        ForEach(viewStore.topicList, id: \.self) { topic in
-                            TopicChatItemView(topicModel: topic, isEditing: true)
+                    if viewStore.conversationList.isEmpty {
+                        ConversationEmptyView()
+                    } else {
+                        List {
+                            ForEach(viewStore.conversationList, id: \.identifier) { topic in
+                                ConversationItemView(topicModel: topic,
+                                                     isEditing: viewStore.$isEditing)
+                                    .onTapGesture {
+                                        viewStore.send(.didSelectConversation(topic))
+                                    }
+                            }
+                            .listRowSeparator(.hidden)
+                            .listSectionSeparator(.hidden)
+                            .listRowBackground(Color.clear)
+                            .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
                         }
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                        .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                        .listStyle(.plain)
+                        .listRowSpacing(10)
                     }
-                    .listStyle(.plain)
-                    .listRowSpacing(10)
 
-                    RoundedRectangle(cornerRadius: 10)
-                        .frame(height: 52)
-                        .overlay {
-                            HStack(alignment: .center, spacing: 0, content: {
-                                Button(action: {}, label: {
-                                    HStack(alignment: .center, spacing: 5, content: {
-                                        Image(.topicIconSel)
-                                            .scaledToFit()
-                                            .frame(width: 26, height: 26)
-
-                                        Text("全选")
-                                            .font(.system(size: 14, weight: .semibold))
-                                            .foregroundColor(Color(hexadecimal6: 0x007AFF))
-                                    })
-                                })
-
-                                Spacer()
-
-                                Button(action: {}, label: {
-                                    RoundedRectangle(cornerRadius: 15)
-                                        .frame(width: 65, height: 32)
-                                        .foregroundColor(Color(hexadecimal6: 0x007AFF))
-                                        .overlay {
-                                            Text("删除")
-                                                .font(.system(size: 14, weight: .semibold))
-                                                .foregroundColor(.white)
-                                        }
-                                })
-                            })
-                            .padding(.horizontal, 16)
-                        }
-                        .padding(.horizontal, 16)
-                        .foregroundColor(.white)
+                    // 编辑悬浮按钮
+                    if viewStore.isEditing == true {
+                        ConversationEditModeView(store: store)
+                    }
                 })
                 .background(Color(hexadecimal6: 0xF6F6F6))
                 .toolbar(content: {
@@ -69,21 +49,30 @@ struct ChatTopicsListView: View {
                     })
 
                     ToolbarItem(placement: .topBarLeading, content: {
-                        Button(action: {}, label: {
+                        Button(action: {
+                            viewStore.send(.dismissTopics)
+                        }, label: {
                             Image(.iconCancel)
                                 .scaledToFit()
                         })
                     })
 
                     ToolbarItem(placement: .topBarTrailing, content: {
-                        Button(action: {}, label: {
-                            Text("编辑")
+                        Button(action: {
+                            viewStore.send(.didSelectEdit)
+                        }, label: {
+                            Text(viewStore.isEditing ? "完成" : "编辑")
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(Color(hexadecimal6: 0x007AFF))
                         })
+                        .buttonStyle(.plain)
                     })
                 })
             })
+            .fullScreenCover(store: store.scope(state: \.$chatPage,
+                                                action: \.presentationNewChat)) { store in
+                MessageListView(store: store)
+            }
             .task {
                 viewStore.send(.loadChatTopics)
             }
@@ -92,17 +81,18 @@ struct ChatTopicsListView: View {
 }
 
 /// 话题历史单项
-struct TopicChatItemView: View {
+struct ConversationItemView: View {
     var topicModel: ConversationItemWCDB
-    var isSelect: Bool = false
-    var isEditing: Bool = false
+    @Binding var isEditing: Bool
 
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
-            Image(.topicIconSel)
-                .scaledToFit()
-                .frame(width: 26, height: 26)
-                .padding(.leading, 16)
+            if isEditing {
+                Image(topicModel.isSelected ? .iconSel : .iconUnsel)
+                    .scaledToFit()
+                    .frame(width: 26, height: 26)
+                    .padding(.leading, 16)
+            }
 
             VStack(alignment: .leading, spacing: 0, content: {
                 HStack(alignment: .center, spacing: 9, content: {
@@ -130,7 +120,6 @@ struct TopicChatItemView: View {
                 Text(topicModel.reply)
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(.black)
-                    //                .frame(maxWidth: Screen.width - 86, alignment: .leading)
                     .padding(EdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16))
                     .lineLimit(3)
 
@@ -169,7 +158,7 @@ struct TopicChatItemView: View {
 }
 
 /// 空白视图
-struct HistoryChatTopicsEmptyView: View {
+struct ConversationEmptyView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             Image(.historyDefault)
@@ -216,9 +205,57 @@ struct HistoryChatTopicsCell: View {
     }
 }
 
+/// 编辑模式
+struct ConversationEditModeView: View {
+    let store: StoreOf<ConversationListFeature>
+    var body: some View {
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ConversationListFeature>) in
+            RoundedRectangle(cornerRadius: 10)
+                .frame(height: 52)
+                .overlay {
+                    HStack(alignment: .center, spacing: 0, content: {
+                        Button(action: {
+                            viewStore.send(.didSelectAllConversation)
+                        }, label: {
+                            HStack(alignment: .center, spacing: 5, content: {
+                                Image(viewStore.isAllSelected ? .iconSel : .iconUnsel)
+                                    .scaledToFit()
+                                    .frame(width: 26, height: 26)
+
+                                Text(viewStore.isAllSelected ? "取消全选" : "全选")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundColor(Color(hexadecimal6: 0x007AFF))
+                            })
+                        })
+                        .buttonStyle(.plain)
+
+                        Spacer()
+
+                        Button(action: {
+                            viewStore.send(.didTapDeleteConversation)
+                        }, label: {
+                            RoundedRectangle(cornerRadius: 15)
+                                .frame(width: 65, height: 32)
+                                .foregroundColor(Color(hexadecimal6: 0x007AFF))
+                                .overlay {
+                                    Text("删除")
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(.white)
+                                }
+                        })
+                        .buttonStyle(.plain)
+                    })
+                    .padding(.horizontal, 16)
+                }
+                .padding(.horizontal, 16)
+                .foregroundColor(.white)
+        }
+    }
+}
+
 #Preview {
-    ChatTopicsListView(store: Store(
-        initialState: ChatTopicsListFeature.State(),
-        reducer: { ChatTopicsListFeature() }
+    ConversationListView(store: Store(
+        initialState: ConversationListFeature.State(userConfig: UserProfileModel(userId: "")),
+        reducer: { ConversationListFeature() }
     ))
 }

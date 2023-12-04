@@ -26,6 +26,7 @@ enum ChatErrorMacro: String {
     case msgParamMissing = "[messages.paramMissing]" // messages参数缺少 content或缺少 role
     case msgParamNumInvalid = "[messages.paramNumInvalid]" // messages参数成员数量不能大2
     case msgRoleInvalid = "[messages.roleInvalid]" // messages参数中角色不正确。 依次为 user、assistant
+    case paramModleInvalid = "[paramModleInvalid]" // 参数模型无效
     case unknownError = "[error]" // 异常错误
     case success = "[DONE]" // 响应完毕
 
@@ -49,6 +50,8 @@ enum ChatErrorMacro: String {
             return "messages参数成员数量不能大2"
         case .msgRoleInvalid:
             return "messages参数中角色不正确。 依次为 user、assistant"
+        case .paramModleInvalid:
+            return "参数模型无效"
         case .unknownError:
             return "异常错误"
         case .success:

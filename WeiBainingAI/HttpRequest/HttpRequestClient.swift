@@ -58,9 +58,9 @@ extension HttpRequestClient: DependencyKey {
                             let streamTask = try await handler.seedMessage(message, config)
                             for try await value in streamTask.streamingStrings() {
                                 if value.value != nil {
-                                    Logger(label: "stream value ===>").info("\(value.value ?? "")")
                                     switch String(describing: value.value ?? "") {
                                     case ChatErrorMacro.success.rawValue:
+                                        continution.yield(ChatErrorMacro.success.rawValue)
                                         continution.finish()
                                     case ChatErrorMacro.loginNeed.rawValue:
                                         continution.yield(ChatErrorMacro.loginNeed.description)
@@ -75,19 +75,22 @@ extension HttpRequestClient: DependencyKey {
                                          ChatErrorMacro.msgParamMissing.rawValue,
                                          ChatErrorMacro.msgParamNumInvalid.rawValue,
                                          ChatErrorMacro.msgRoleInvalid.rawValue,
+                                         ChatErrorMacro.paramModleInvalid.rawValue,
                                          ChatErrorMacro.unknownError.rawValue:
-                                        continution.yield("请求错误，请重试")
+                                        continution.yield(ChatErrorMacro.unknownError.rawValue)
                                         continution.finish()
                                     default:
                                         // 每次发送消息到流中
-                                        continution.yield(message)
+                                        continution.yield(value.value ?? "")
                                     }
                                 } else {
-                                    continution.finish(throwing: HttpErrorHandler.chatError(ChatErrorMacro.unknownError))
+                                    continution.yield(ChatErrorMacro.unknownError.rawValue)
+                                    continution.finish()
                                 }
                             }
                         } catch {
-                            continution.finish(throwing: HttpErrorHandler.chatError(ChatErrorMacro.unknownError))
+                            continution.yield(ChatErrorMacro.unknownError.rawValue)
+                            continution.finish()
                         }
                     }
                 }

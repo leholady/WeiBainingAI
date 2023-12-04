@@ -12,7 +12,7 @@ import SwiftUIX
 struct MessagingHubView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessagingHubViewFeature>) in
             NavigationView(content: {
                 ScrollView {
                     VStack(alignment: .center, spacing: 0, content: {
@@ -61,7 +61,7 @@ struct MessagingHubView: View {
             }
             .fullScreenCover(store: store.scope(state: \.$historyItem,
                                                 action: \.presentationHistoryMsg)) { store in
-                ChatTopicsListView(store: store)
+                ConversationListView(store: store)
             }
             .task {
                 viewStore.send(.loadDefaultConfig)
@@ -76,7 +76,7 @@ struct MessagingHubView: View {
 struct NewQuestionView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessagingHubViewFeature>) in
             VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
                 Image(.homeIconPresentation)
                     .scaledToFit()
@@ -88,7 +88,7 @@ struct NewQuestionView: View {
                     .lineSpacing(5)
 
                 Button(action: {
-                    viewStore.send(.didTapStartNewChat)
+                    viewStore.send(.didTapStartNewChat(nil))
                 }, label: {
                     Text("开始提问")
                         .font(.system(size: 16, weight: .semibold))
@@ -118,7 +118,7 @@ struct NewQuestionView: View {
 struct SuggestQuestionListView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessagingHubViewFeature>) in
             VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 20, content: {
                 VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 5, content: {
                     Text("建议问题")
@@ -181,7 +181,7 @@ struct SuggestQuestionListView: View {
 struct TopicHistoryView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessagingHubViewFeature>) in
             VStack(alignment: .leading, spacing: 0, content: {
                 VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 5, content: {
                     Text("话题历史")
@@ -201,6 +201,9 @@ struct TopicHistoryView: View {
                     HStack(spacing: 10, content: {
                         ForEach(viewStore.conversations, id: \.self) { topic in
                             TopicHistoryItemView(topicModel: topic)
+                                .onTapGesture {
+                                    viewStore.send(.didTapStartNewChat(topic))
+                                }
                         }
                     })
                     .padding(.horizontal, 20)

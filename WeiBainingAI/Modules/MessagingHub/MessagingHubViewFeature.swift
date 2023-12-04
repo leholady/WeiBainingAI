@@ -19,7 +19,7 @@ struct MessagingHubViewFeature {
         /// 跳转到聊天列表
         @PresentationState var msgItem: MessageListFeature.State?
         /// 跳转到历史记录
-        @PresentationState var historyItem: ChatTopicsListFeature.State?
+        @PresentationState var historyItem: ConversationListFeature.State?
     }
 
     enum Action: Equatable {
@@ -33,9 +33,9 @@ struct MessagingHubViewFeature {
         case updateConversationData(TaskResult<[ConversationItemWCDB]>)
         /// 点击历史消息
         case didTapHistoryMsg
-        case presentationHistoryMsg(PresentationAction<ChatTopicsListFeature.Action>)
+        case presentationHistoryMsg(PresentationAction<ConversationListFeature.Action>)
         /// 点击发起新聊天
-        case didTapStartNewChat
+        case didTapStartNewChat(ConversationItemWCDB?)
         case presentationNewChat(PresentationAction<MessageListFeature.Action>)
         /// 点击建议
         case didTapSuggestion
@@ -62,17 +62,12 @@ struct MessagingHubViewFeature {
                 }
             case let .updateUserConfig(.success(result)):
                 state.userConfig = result
-                if let userId = result.userId {
-                    return .run { send in
-                        _ = try await dbClient.initDatabase()
-                        await send(.updateConversationData(TaskResult {
-                            try await dbClient.loadConversation(userId)
-                        }))
-                    }
-                } else {
-                    return .none
+                return .run { send in
+                    _ = try await dbClient.initDatabase()
+                    await send(.updateConversationData(TaskResult {
+                        try await dbClient.loadConversation(result.userId)
+                    }))
                 }
-
             case let .updateUserConfig(.failure(error)):
                 Logger(label: "v").error("\(error)")
                 return .none
@@ -95,14 +90,25 @@ struct MessagingHubViewFeature {
                 state.conversations = []
                 return .none
 
-            case .didTapStartNewChat:
-                state.msgItem = MessageListFeature.State()
+            case let .didTapStartNewChat(result):
+                state.msgItem = MessageListFeature.State(
+                    userConfig: state.userConfig,
+                    conversation: result
+                )
                 return .none
 
             case .didTapHistoryMsg:
-                state.historyItem = ChatTopicsListFeature.State()
+                if let userConfig = state.userConfig {
+                    state.historyItem = ConversationListFeature.State(userConfig: userConfig)
+                }
                 return .none
 
+            case let .presentationHistoryMsg(.presented(.delegate(.updateConversationList(config)))):
+                return .run { send in
+                    await send(.updateConversationData(TaskResult {
+                        try await dbClient.loadConversation(config.userId)
+                    }))
+                }
             default:
                 return .none
             }
@@ -111,7 +117,7 @@ struct MessagingHubViewFeature {
             MessageListFeature()
         }
         .ifLet(\.$historyItem, action: \.presentationHistoryMsg) {
-            ChatTopicsListFeature()
+            ConversationListFeature()
         }
     }
 }

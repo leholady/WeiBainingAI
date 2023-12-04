@@ -31,10 +31,14 @@ struct MessageListFeature {
         var conversation: ConversationItemWCDB?
         /// 录音状态
         var recordState: Bool = false
+        /// 响应状态
+        var responding: Bool = false
         /// 偏好设置feature
         @PresentationState var modelSetup: ChatModelSetupFeature.State?
         /// 编辑框输入内容
         @BindingState var inputText: String = ""
+        /// 流返回数据
+        @BindingState var streamMsg = ""
     }
 
     enum Action: BindableAction, Equatable {
@@ -48,15 +52,18 @@ struct MessageListFeature {
         case updateUserConfig(TaskResult<UserProfileModel>)
 
         /// 更新消息列表
-        case updateMessageList([MessageItemWCDB])
+        case updateMessageList(MessageItemWCDB)
+        case loadMessageList([MessageItemWCDB])
         case updateInputTips([String])
 
         /// 加载会话
         case loadConversation
         /// 发送消息流请求
         case sendStreamRequest(ConversationItemWCDB)
+        /// 处理返回流
+        case receiveStreamResult(String, ConversationItemWCDB)
         /// 消息发送成功处理
-        case sendMessageResult(String, ConversationItemWCDB)
+        case saveStreamResult(String, ConversationItemWCDB)
 
         /// 点击消息分享
         case didTapMsgShare
@@ -112,7 +119,7 @@ struct MessageListFeature {
                 state.chatConfig.userId = state.userConfig?.userId ?? ""
                 if let conversation = state.conversation {
                     return .run { send in
-                        try await send(.updateMessageList(
+                        try await send(.loadMessageList(
                             await dbClient.loadMessages(conversation)
                         ))
                     }
@@ -121,11 +128,11 @@ struct MessageListFeature {
 
             case let .loadLocalMessages(conversation):
                 return .run { send in
-                    try await send(.updateMessageList(
+                    try await send(.loadMessageList(
                         await dbClient.loadMessages(conversation)
                     ))
                 }
-            case let .updateMessageList(items):
+            case let .loadMessageList(items):
                 state.messageList = items
                 return .none
 
@@ -152,7 +159,7 @@ struct MessageListFeature {
                 let config = state.chatConfig
                 let msgText = state.inputText
                 state.inputText = ""
-
+                state.streamMsg = "思考中..."
                 return .run { send in
                     let msgItem = MessageItemWCDB(
                         conversationId: conversation.identifier,
@@ -166,19 +173,40 @@ struct MessageListFeature {
                     // 更新话题最后一条信息
                     try await dbClient.updateConversation(conversation, msgItem)
                     // 刷新列表
-                    try await send(.updateMessageList(
+                    try await send(.loadMessageList(
                         await dbClient.loadMessages(conversation)
                     ))
                     // 请求返回的消息
                     for try await message in try await httpClient.sendMessage(msgText, config) {
-                        await send(.sendMessageResult(message, conversation))
+                        await send(.receiveStreamResult(message, conversation))
                     }
                 } catch: { error, _ in
                     Logger(label: "sendStreamRequest").error("\(error)")
                     await SVProgressHUD.showError(withStatus: error.localizedDescription)
                 }
 
-            case let .sendMessageResult(result, conversation):
+            case let .receiveStreamResult(result, conversation):
+                if !state.responding {
+                    state.streamMsg = ""
+                    state.responding = true
+                }
+                if result == ChatErrorMacro.success.rawValue {
+                    state.responding = false
+                    let msg = state.streamMsg
+                    return .run { send in
+                        await send(.saveStreamResult(msg, conversation))
+                    }
+                } else if result == ChatErrorMacro.unknownError.rawValue {
+                    state.responding = false
+                    return .run { send in
+                        await send(.saveStreamResult("请求错误，请重试", conversation))
+                    }
+                } else {
+                    state.streamMsg += result
+                }
+                return .none
+
+            case let .saveStreamResult(result, conversation):
                 let msgItem = MessageItemWCDB(
                     conversationId: conversation.identifier,
                     role: MessageSendRole.robot.rawValue,
@@ -186,11 +214,13 @@ struct MessageListFeature {
                     msgState: MessageSendState.success.rawValue,
                     timestamp: Date()
                 )
+                // 保存机器人的消息
+                Logger(label: "saveStreamResult").info("\(msgItem)")
                 return .run { send in
                     try await dbClient.saveSingleMessage(msgItem)
                     // 更新话题最后一条信息
                     try await dbClient.updateConversation(conversation, msgItem)
-                    try await send(.updateMessageList(
+                    try await send(.loadMessageList(
                         await dbClient.loadMessages(conversation)
                     ))
                 }

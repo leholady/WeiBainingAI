@@ -211,7 +211,7 @@ actor HttpRequestHandler {
             params.updateValue(serverTime + (Int(Date().timeIntervalSince1970) - timestamp.awakTime), forKey: "_time")
         }
 
-        let finalParameters: [String: String] = basicParameters(parameters: parameters).compactMapValues {
+        let finalParameters: [String: String] = basicParameters(parameters: params).compactMapValues {
             "\($0)"
         }
         #if DEBUG
@@ -324,7 +324,7 @@ extension HttpRequestHandler {
             "conversationId": config.conversationId,
             "maxtokens": config.maxtokens,
             "model": config.model.code,
-            "temperature": config.temperature,
+            "temperature": config.temperature.rawValue,
             "messages": jsonString
         ]
         return try await requestStreamTask(cmd: HttpConst.requestChat, parameters: parameters)

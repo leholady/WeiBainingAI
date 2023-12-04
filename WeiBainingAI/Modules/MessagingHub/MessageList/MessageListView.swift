@@ -12,7 +12,7 @@ import SwiftUIX
 struct MessageListView: View {
     let store: StoreOf<MessageListFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessageListFeature>) in
             NavigationView {
                 VStack(alignment: .center, spacing: 0, content: {
                     List {
@@ -224,7 +224,7 @@ struct MessageSenderCell: View {
 struct MessageInputContentView: View {
     let store: StoreOf<MessageListFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessageListFeature>) in
             ZStack(alignment: .center, content: {
                 VStack(alignment: .center, spacing: 0, content: {
                     HStack(alignment: .center, spacing: 0, content: {
