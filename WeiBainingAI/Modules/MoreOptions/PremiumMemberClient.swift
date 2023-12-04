@@ -7,29 +7,47 @@
 
 import ComposableArchitecture
 import Foundation
+import StoreKit
 
 struct PremiumMemberClient {
-    var premiumMemberPageItems: @Sendable () async throws -> [PremiumMemberPageModel]
-}
-
-extension PremiumMemberClient: TestDependencyKey {
-    static var previewValue: PremiumMemberClient {
-        Self {
-            [PremiumMemberPageModel(pageState: .premium,
-                                    pageItems: [PremiumMemberModel(productId: UUID().uuidString, title: ""),
-                                                PremiumMemberModel(productId: UUID().uuidString, title: ""),
-                                                PremiumMemberModel(productId: UUID().uuidString, title: "")]),
-             PremiumMemberPageModel(pageState: .premium,
-                                     pageItems: [PremiumMemberModel(productId: UUID().uuidString, title: ""),
-                                                 PremiumMemberModel(productId: UUID().uuidString, title: "")])]
-        }
-    }
+    /// 获取支付所有配置列表
+    var payConfList: @Sendable () async throws -> [PremiumMemberPageModel]
 }
 
 extension PremiumMemberClient: DependencyKey {
     static var liveValue: PremiumMemberClient {
-        Self {
-            throw Unimplemented("moreBalanceItems not implemented")
-        }
+        let handler = HttpRequestHandler()
+        return Self(
+            payConfList: {
+                var models = try await handler.payConfList()
+                let products = try await Product.products(for: Set(models.map { $0.productId }))
+                models = models.compactMap { item in
+                    guard let product = products.first(where: { $0.id == item.productId }) else {
+                        return nil
+                    }
+                    return item.newModelTo(product)
+                }
+                var pages: [PremiumMemberPageModel] = []
+                for model in models {
+                    switch model.state {
+                    case .quota:
+                        if let index = pages.firstIndex(where: { $0.pageState == .quota }) {
+                            pages[index].pageItems.append(model)
+                        } else {
+                            pages.append(PremiumMemberPageModel(pageState: .quota, pageItems: [model]))
+                        }
+                    case .premium:
+                        if let index = pages.firstIndex(where: { $0.pageState == .premium }) {
+                            pages[index].pageItems.append(model)
+                        } else {
+                            pages.append(PremiumMemberPageModel(pageState: .premium, pageItems: [model]))
+                        }
+                    default:
+                        break
+                    }
+                }
+                return pages
+            }
+        )
     }
 }

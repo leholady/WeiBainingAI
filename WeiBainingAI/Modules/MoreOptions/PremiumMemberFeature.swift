@@ -16,8 +16,7 @@ struct PremiumMemberFeature {
         @BindingState var pageSelect: Int = 0
         var pageItems: [PremiumMemberPageModel] = []
         @PresentationState var safariState: MoreSafariFeature.State?
-//        @BindingState var premiumModel: PremiumMemberModel?
-//        @BindingState var quotaModel: PremiumMemberModel?
+        @BindingState var itemSelects: [Int]?
     }
     
     enum Action: BindableAction, Equatable {
@@ -27,6 +26,7 @@ struct PremiumMemberFeature {
         case binding(BindingAction<State>)
         case dismissSafari(URL)
         case fullScreenCoverSafari(PresentationAction<MoreSafariFeature.Action>)
+        case cellDidAt(Int, Int)
     }
     
     @Dependency(\.dismiss) var dismiss
@@ -44,15 +44,19 @@ struct PremiumMemberFeature {
                 return .run { send in
                     await send(.pageItemsUpdate(
                         TaskResult {
-                            try await memberClient.premiumMemberPageItems()
+                            try await memberClient.payConfList()
                         }
                     ))
                 }
             case let .pageItemsUpdate(.success(items)):
                 state.pageItems = items
+                state.itemSelects = items.compactMap { _ in 0 }
                 return .none
             case let .dismissSafari(url):
                 state.safariState = MoreSafariFeature.State(url: url)
+                return .none
+            case let .cellDidAt(pageIndex, itemIndex):
+                state.itemSelects?[pageIndex] = itemIndex
                 return .none
             default:
                 return .none
