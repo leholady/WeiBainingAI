@@ -260,4 +260,9 @@ extension HttpRequestHandler {
                                      parameters: ["payConf": "iOS"])
         return model.datas
     }
+    
+    func payAppStoreV2(_ transactionId: String) async throws -> Bool {
+        return try await requestTask(cmd: HttpConst.payAppStoreV2,
+                                     parameters: ["transactionId": transactionId])
+    }
 }
