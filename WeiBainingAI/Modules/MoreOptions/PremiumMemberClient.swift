@@ -10,17 +10,29 @@ import Foundation
 import StoreKit
 
 struct PremiumMemberClient {
-    /// 获取支付所有配置列表
-    var payConfList: @Sendable () async throws -> [PremiumMemberPageModel]
+    var updates: @Sendable () async -> Transaction.Transactions
+    var payConfList: @Sendable () async throws -> [PremiumMemberModel]
+    var memberProducts: @Sendable ([String]) async throws -> [Product]
+    var memberPageModels: @Sendable ([PremiumMemberModel], [Product]) async throws -> [PremiumMemberPageModel]
+    var memberPurchase: @Sendable (Product) async throws -> Transaction
 }
 
 extension PremiumMemberClient: DependencyKey {
     static var liveValue: PremiumMemberClient {
         let handler = HttpRequestHandler()
         return Self(
+            updates: {
+                Transaction.updates
+            },
             payConfList: {
-                var models = try await handler.payConfList()
-                let products = try await Product.products(for: Set(models.map { $0.productId }))
+                try await handler.payConfList()
+            },
+            memberProducts: {
+                try await Product.products(for: Set($0))
+            },
+            memberPageModels: {
+                var models = $0
+                let products = $1
                 models = models.compactMap { item in
                     guard let product = products.first(where: { $0.id == item.productId }) else {
                         return nil
@@ -47,7 +59,32 @@ extension PremiumMemberClient: DependencyKey {
                     }
                 }
                 return pages
+            },
+            memberPurchase: {
+                let result = try await $0.purchase()
+                switch result {
+                case .success(let verification):
+                    switch verification {
+                    case .unverified:
+                        throw StoreError.validationFailed
+                    case .verified(let signed):
+                        return signed
+                    }
+                case .userCancelled:
+                    throw StoreError.canceled
+                case .pending:
+                    throw StoreError.determined
+                default:
+                    throw StoreError.unowned
+                }
             }
         )
     }
+}
+
+enum StoreError: Error {
+    case unowned
+    case canceled
+    case determined
+    case validationFailed
 }

@@ -7,12 +7,14 @@
 
 import Foundation
 import ComposableArchitecture
+import StoreKit
 
 @Reducer
 struct PremiumMemberFeature {
 
     struct State: Equatable {
         var headerItems: [MemberHeaderItemModel] = [.gtp3, .gtp4, .assistant, .server, .ads, .update]
+        var products: [Product] = []
         @BindingState var pageSelect: Int = 0
         var pageItems: [PremiumMemberPageModel] = []
         @PresentationState var safariState: MoreSafariFeature.State?
@@ -21,6 +23,8 @@ struct PremiumMemberFeature {
     
     enum Action: BindableAction, Equatable {
         case premiumDismiss
+        case uploadProducts
+        case productsUpdate(TaskResult<[Product]>)
         case uploadPageItems
         case pageItemsUpdate(TaskResult<[PremiumMemberPageModel]>)
         case binding(BindingAction<State>)
@@ -40,11 +44,17 @@ struct PremiumMemberFeature {
                 return .run { _ in
                     await self.dismiss()
                 }
+            case let .productsUpdate(.success(products)):
+                state.products = products
+                return .none
             case .uploadPageItems:
                 return .run { send in
+                    let items = try await memberClient.payConfList()
+                    let products = try await memberClient.memberProducts(items.map { $0.productId })
+                    await send(.productsUpdate(TaskResult { products }))
                     await send(.pageItemsUpdate(
                         TaskResult {
-                            try await memberClient.payConfList()
+                            try await memberClient.memberPageModels(items, products)
                         }
                     ))
                 }
