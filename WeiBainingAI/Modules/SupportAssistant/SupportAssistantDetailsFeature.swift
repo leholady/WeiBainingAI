@@ -18,7 +18,7 @@ struct SupportAssistantDetailsFeature {
         @BindingState var editorText: String = ""
         var aspectRatios: [SupportAssistantDetailsModel.AssistantDetailsProportion] = [.one, .two, .three, .four, .five, .six]
         @BindingState var selectRatios: Int = 0
-        var aspectStyles: [SupportAssistantDetailsModel.AssistantDetailsStyle] = [.automatic, .style1, .style2, .style3, .style4, .style5]
+        var aspectStyles: [SupportAssistantDetailsModel.AssistantDetailsStyle] = [.automatic, .style1, .style2, .style3, .style4]
         @BindingState var selectStyle: Int = 0
         var aspectImageFactors: [SupportAssistantDetailsModel.AssistantDetailsImageFactor] = [.low, .middle, .high, .forced]
         @BindingState var selectImageFactor: Int = 0

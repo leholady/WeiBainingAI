@@ -57,8 +57,6 @@ struct SupportAssistantDetailsModel: Codable, Equatable {
                 return "卡通"
             case .style4:
                 return "水彩"
-            case .style5:
-                return "足球宝贝"
             default:
                 return "智能"
             }
@@ -68,7 +66,6 @@ struct SupportAssistantDetailsModel: Codable, Equatable {
         static let style2 = AssistantDetailsStyle(rawValue: 3)
         static let style3 = AssistantDetailsStyle(rawValue: 4)
         static let style4 = AssistantDetailsStyle(rawValue: 5)
-        static let style5 = AssistantDetailsStyle(rawValue: 6)
     }
     
     struct AssistantDetailsProportion: RawRepresentable, Codable, Equatable, Hashable {
