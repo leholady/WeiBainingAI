@@ -12,6 +12,11 @@ struct PremiumMemberResultModel: Codable {
     var datas: [PremiumMemberModel]
 }
 
+struct PremiumValidationResponse: Equatable {
+    let transaction: Transaction
+    let result: Bool
+}
+
 struct PremiumMemberModel: Codable, Equatable, Identifiable, Hashable {
     var id: String {
         productId

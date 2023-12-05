@@ -8,6 +8,7 @@
 import ComposableArchitecture
 import Reachability
 import UIKit
+import StoreKit
 
 struct LaunchConfigReducer: Reducer {
     struct State: Equatable {
@@ -18,6 +19,7 @@ struct LaunchConfigReducer: Reducer {
 
     @Dependency(\.launchClient) var launchClient
     @Dependency(\.httpClient) var httpClient
+    @Dependency(\.memberClient) var memberClient
 
     enum Action {
         case launchApp
@@ -25,6 +27,10 @@ struct LaunchConfigReducer: Reducer {
         case loadConfig
         case loadConfigSuccess(userProfile: UserProfileModel)
         case loadConfigFailure
+        
+        case mamberUpdates
+        case transactionValidation(TaskResult<Transaction>)
+        case validationResponse(TaskResult<PremiumValidationResponse>)
     }
 
     var body: some ReducerOf<Self> {
@@ -56,6 +62,28 @@ struct LaunchConfigReducer: Reducer {
                 return .none
             case .loadConfigFailure:
                 state.loadError = true
+                return .none
+            case .mamberUpdates:
+                return .run { send in
+                    for await result in await memberClient.updates() {
+                        await send(.transactionValidation(TaskResult { try memberClient.verification(result) }))
+                    }
+                }
+            case let .transactionValidation(.success(transaction)):
+                return .run { send in
+                    await send(.validationResponse(TaskResult {
+                        .init(transaction: transaction, 
+                              result: try await memberClient.payAppStore("\(transaction.id)"))
+                    }))
+                }
+            case let .validationResponse(.success(response)):
+                return .run { send in
+                    if response.result {
+                        await response.transaction.finish()
+                        await send(.loadConfig)
+                    }
+                }
+            default:
                 return .none
             }
         }

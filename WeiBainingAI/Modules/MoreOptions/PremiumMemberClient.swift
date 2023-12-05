@@ -15,6 +15,8 @@ struct PremiumMemberClient {
     var memberProducts: @Sendable ([String]) async throws -> [Product]
     var memberPageModels: @Sendable ([PremiumMemberModel], [Product]) async throws -> [PremiumMemberPageModel]
     var memberPurchase: @Sendable (Product) async throws -> Transaction
+    var verification: @Sendable (VerificationResult<Transaction>) throws -> Transaction
+    var payAppStore: @Sendable (String) async throws -> Bool
 }
 
 extension PremiumMemberClient: DependencyKey {
@@ -77,8 +79,26 @@ extension PremiumMemberClient: DependencyKey {
                 default:
                     throw StoreError.unowned
                 }
+            },
+            verification: {
+                switch $0 {
+                case .unverified:
+                    throw StoreError.validationFailed
+                case .verified(let signed):
+                    return signed
+                }
+            },
+            payAppStore: {
+                return try await handler.payAppStoreV2($0)
             }
         )
+    }
+}
+
+extension DependencyValues {
+    var memberClient: PremiumMemberClient {
+        get { self[PremiumMemberClient.self] }
+        set { self[PremiumMemberClient.self] = newValue }
     }
 }
 

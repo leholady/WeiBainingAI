@@ -8,10 +8,11 @@
 import Foundation
 import ComposableArchitecture
 import StoreKit
+import SVProgressHUD
 
 @Reducer
 struct PremiumMemberFeature {
-
+    
     struct State: Equatable {
         var headerItems: [MemberHeaderItemModel] = [.gtp3, .gtp4, .assistant, .server, .ads, .update]
         var products: [Product] = []
@@ -31,10 +32,14 @@ struct PremiumMemberFeature {
         case dismissSafari(URL)
         case fullScreenCoverSafari(PresentationAction<MoreSafariFeature.Action>)
         case cellDidAt(Int, Int)
+        case memberStartBuy
+        case startBuy(Product)
+        case uploadUserProfile
     }
     
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.memberClient) var memberClient
+    @Dependency(\.httpClient) var httpClient
     
     var body: some Reducer<State, Action> {
         BindingReducer()
@@ -68,6 +73,53 @@ struct PremiumMemberFeature {
             case let .cellDidAt(pageIndex, itemIndex):
                 state.itemSelects?[pageIndex] = itemIndex
                 return .none
+            case .memberStartBuy:
+                guard state.pageSelect < state.pageItems.count,
+                      let itemSelects = state.itemSelects,
+                      state.pageSelect < itemSelects.count,
+                      itemSelects[state.pageSelect] < state.pageItems[state.pageSelect].pageItems.count,
+                      let product = state.products.first(where: { $0.id == state.pageItems[state.pageSelect].pageItems[itemSelects[state.pageSelect]].productId }) else {
+                    SVProgressHUD.showError(withStatus: "当前商品不可用, 请选择其他商品")
+                    return .none
+                }
+                return .run { send in
+                    await send(.startBuy(product))
+                }
+            case let .startBuy(product):
+                return .run { send in
+                    do {
+                        await SVProgressHUD.show()
+                        let transaction = try await memberClient.memberPurchase(product)
+                        let result = try await memberClient.payAppStore("\(transaction.id)")
+                        await SVProgressHUD.dismiss()
+                        if result {
+                            await transaction.finish()
+                            await send(.uploadUserProfile)
+                            await SVProgressHUD.showSuccess(withStatus: "未完成购买")
+                        } else {
+                            await SVProgressHUD.showInfo(withStatus: "未完成购买")
+                        }
+                    } catch {
+                        await SVProgressHUD.dismiss()
+                        switch error {
+                        case let storeError as StoreError:
+                            switch storeError {
+                            case .canceled:
+                                await SVProgressHUD.showInfo(withStatus: "已取消购买")
+                            case .validationFailed:
+                                await SVProgressHUD.showError(withStatus: "验证检查未通过, 请稍候再试")
+                            default:
+                                break
+                            }
+                        default:
+                            await SVProgressHUD.showError(withStatus: error.localizedDescription)
+                        }
+                    }
+                }
+            case .uploadUserProfile:
+                return .run { _ in
+                    _ = try await httpClient.getNewUserProfile()
+                }
             default:
                 return .none
             }
@@ -75,12 +127,5 @@ struct PremiumMemberFeature {
         .ifLet(\.$safariState, action: \.fullScreenCoverSafari) {
             MoreSafariFeature()
         }
-    }
-}
-
-extension DependencyValues {
-    var memberClient: PremiumMemberClient {
-        get { self[PremiumMemberClient.self] }
-        set { self[PremiumMemberClient.self] = newValue }
     }
 }

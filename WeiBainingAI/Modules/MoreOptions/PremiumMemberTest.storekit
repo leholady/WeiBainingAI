@@ -20,7 +20,7 @@
       "type" : "NonConsumable"
     },
     {
-      "displayPrice" : "0.99",
+      "displayPrice" : "2.99",
       "familyShareable" : false,
       "internalID" : "B2F81D5E",
       "localizations" : [
@@ -35,7 +35,7 @@
       "type" : "NonConsumable"
     },
     {
-      "displayPrice" : "0.99",
+      "displayPrice" : "10.99",
       "familyShareable" : false,
       "internalID" : "DE43BB5F",
       "localizations" : [
@@ -50,7 +50,7 @@
       "type" : "NonConsumable"
     },
     {
-      "displayPrice" : "0.99",
+      "displayPrice" : "3",
       "familyShareable" : false,
       "internalID" : "461A3831",
       "localizations" : [
@@ -65,7 +65,7 @@
       "type" : "NonConsumable"
     },
     {
-      "displayPrice" : "0.99",
+      "displayPrice" : "9",
       "familyShareable" : false,
       "internalID" : "CE0A56E0",
       "localizations" : [
@@ -80,7 +80,7 @@
       "type" : "NonConsumable"
     },
     {
-      "displayPrice" : "0.99",
+      "displayPrice" : "18",
       "familyShareable" : false,
       "internalID" : "8252FF06",
       "localizations" : [
