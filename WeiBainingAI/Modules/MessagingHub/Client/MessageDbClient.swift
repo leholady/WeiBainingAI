@@ -165,17 +165,17 @@ extension MessageDbClient: TestDependencyKey {
         )
     }
 
-//    static var testValue: MessageDbClient {
-//        Self(
-//            initDatabase: unimplemented("\(Self.self).initDatabase"),
-//            createConversation: unimplemented("\(Self.self).createConversation"),
-//            updateConversation: unimplemented("\(Self.self).updateConversation"),
-//            loadConversation: unimplemented("\(Self.self).loadConversation"),
-//            loadMessages: unimplemented("\(Self.self).loadMessages"),
-//            saveSingleMessage: unimplemented("\(Self.self).saveSingleMessage"),
-//            deleteConversation: unimplemented("\(Self.self).deleteConversation")
-//        )
-//    }
+    static var testValue: MessageDbClient {
+        Self(
+            initDatabase: unimplemented("\(Self.self).initDatabase"),
+            createConversation: unimplemented("\(Self.self).createConversation"),
+            updateConversation: unimplemented("\(Self.self).updateConversation"),
+            loadConversation: unimplemented("\(Self.self).loadConversation"),
+            loadMessages: unimplemented("\(Self.self).loadMessages"),
+            saveSingleMessage: unimplemented("\(Self.self).saveSingleMessage"),
+            deleteConversation: unimplemented("\(Self.self).deleteConversation")
+        )
+    }
 }
 
 extension DependencyValues {

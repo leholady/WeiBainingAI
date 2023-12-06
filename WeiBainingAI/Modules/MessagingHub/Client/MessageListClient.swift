@@ -23,6 +23,8 @@ struct MessageListClient {
     var checkSpeechAuth: @Sendable () async -> Bool
     /// 开始语音转文字
     var startVoiceToText: @Sendable () async throws -> AsyncThrowingStream<String, Error>
+    /// 停止语音转文字
+    var stopVoiceRecognition: @Sendable () async -> Void
     /// 处理流返回的数据
     var handleStreamData: @Sendable (String, _ config: ChatRequestConfigMacro) async throws -> AsyncThrowingStream<String, Error>
 }
@@ -30,6 +32,8 @@ struct MessageListClient {
 extension MessageListClient: DependencyKey {
     static var liveValue: MessageListClient {
         @Dependency(\.httpClient) var httpClient
+
+        let speechEngine = SpeechEngineActor()
 
         return Self {
             if let saveData = UserDefaults.standard.data(forKey: "CachedChatRequestConfig") {
@@ -46,8 +50,18 @@ extension MessageListClient: DependencyKey {
             UserDefaults.standard.set(saveData, forKey: "CachedChatRequestConfig")
             return true
         } checkSpeechAuth: {
-            
-            await withCheckedContinuation { continuation in
+            let recordingPermission = await withCheckedContinuation { continuation in
+                AVAudioSession.sharedInstance().requestRecordPermission { granted in
+                    if granted {
+                        debugPrint("requestRecordPermission: granted")
+                        continuation.resume(returning: true)
+                    } else {
+                        debugPrint("requestRecordPermission: unknown")
+                        continuation.resume(returning: false)
+                    }
+                }
+            }
+            let speechPermission = await withCheckedContinuation { continuation in
                 SFSpeechRecognizer.requestAuthorization { status in
                     switch status {
                     case .authorized:
@@ -59,57 +73,12 @@ extension MessageListClient: DependencyKey {
                     }
                 }
             }
+            return recordingPermission && speechPermission
+
         } startVoiceToText: {
-            let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "zh-CN"))
-            let recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-            let audioEngine = AVAudioEngine()
-            var recognitionTask: SFSpeechRecognitionTask?
-
-            return AsyncThrowingStream<String, Error> { continuation in
-                // 建立一个AVAudioSession 用于录音
-                let audioSession = AVAudioSession.sharedInstance()
-                do {
-                    try audioSession.setCategory(AVAudioSession.Category.record)
-                    try audioSession.setMode(AVAudioSession.Mode.measurement)
-                    try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
-                } catch {
-                    continuation.finish(throwing: NSError(domain: "audioSession properties weren't set because of an error.",
-                                                          code: 0))
-                }
-                // 初始化RecognitionRequest，在后边我们会用它将录音数据转发给苹果服务器
-                let inputNode = audioEngine.inputNode
-                // 在用户说话的同时，将识别结果分批次返回
-                recognitionRequest.shouldReportPartialResults = true
-                // 使用recognitionTask方法开始识别。
-                recognitionTask = speechRecognizer?.recognitionTask(with: recognitionRequest, resultHandler: { result, error in
-                    if let error = error {
-                        audioEngine.stop()
-                        inputNode.removeTap(onBus: 0)
-                        recognitionTask?.cancel()
-                        continuation.finish(throwing: error)
-                    }
-                    if result?.isFinal == true {
-                        audioEngine.stop()
-                        inputNode.removeTap(onBus: 0)
-                        recognitionTask?.cancel()
-                        continuation.finish()
-                    }
-                    continuation.yield(result?.bestTranscription.formattedString ?? "")
-                })
-
-                // 向recognitionRequest加入一个音频输入
-                let recordingFormat = inputNode.outputFormat(forBus: 0)
-                inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
-                    recognitionRequest.append(buffer)
-                }
-                audioEngine.prepare()
-                do {
-                    // 开始录音
-                    try audioEngine.start()
-                } catch {
-                    print("audioEngine couldn't start because of an error.")
-                }
-            }
+            await speechEngine.startVoiceToText()
+        } stopVoiceRecognition: {
+            await speechEngine.stopVoiceRecognition()
         } handleStreamData: { msg, config in
             AsyncThrowingStream<String, Error> { continution in
                 Task {
@@ -174,7 +143,7 @@ extension MessageListClient: TestDependencyKey {
                     continuation.yield("我是语音转文字的结果")
                     continuation.finish()
                 }
-            }, handleStreamData: { _, _ in
+            }, stopVoiceRecognition: {}, handleStreamData: { _, _ in
                 AsyncThrowingStream<String, Error> { continuation in
                     continuation.yield("我是聊天结果")
                     continuation.yield(ChatErrorMacro.success.rawValue)
@@ -190,6 +159,7 @@ extension MessageListClient: TestDependencyKey {
             saveReqeustConfig: unimplemented("\(Self.self).saveReqeustConfig"),
             checkSpeechAuth: unimplemented("\(Self.self).checkSpeechAuth"),
             startVoiceToText: unimplemented("\(Self.self).startVoiceToText"),
+            stopVoiceRecognition: unimplemented("\(Self.self).stopVoiceRecognition"),
             handleStreamData: unimplemented("\(Self.self).handleStreamData")
         )
     }

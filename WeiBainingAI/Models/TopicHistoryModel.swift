@@ -31,6 +31,7 @@ struct ConversationItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
     var id: Int {
         return identifier
     }
+
     var identifier: Int
     var userId: String
     var timestamp: Date
@@ -49,7 +50,7 @@ struct ConversationItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
         case timestamp
         case topic
         case reply
-        
+
         static let objectRelationalMapping = TableBinding(CodingKeys.self) {
             BindColumnConstraint(identifier, isPrimary: true, isAutoIncrement: true)
         }
@@ -68,7 +69,10 @@ struct ConversationItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
     }
 }
 
-struct MessageItemWCDB: TableCodable, Equatable, Hashable {
+struct MessageItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
+    var id: Int {
+        identifier
+    }
     var identifier: Int
     var conversationId: Int
     var role: String // user, assistant

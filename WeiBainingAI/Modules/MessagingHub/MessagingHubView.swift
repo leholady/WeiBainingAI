@@ -205,6 +205,7 @@ struct TopicHistoryView: View {
                                 }
                                 .minHeight(175)
                                 .minWidth(Screen.width - 70)
+                                .maxWidth(Screen.width - 70)
                         }
                     })
                     .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))

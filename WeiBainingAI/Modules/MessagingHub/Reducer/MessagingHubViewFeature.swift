@@ -43,7 +43,6 @@ struct MessagingHubViewFeature {
         case didTapTopicChat
     }
 
-    @Dependency(\.msgAPIClient) var msgAPIClient
     @Dependency(\.httpClient) var httpClient
     @Dependency(\.dbClient) var dbClient
     @Dependency(\.msgListClient) var msgListClient
