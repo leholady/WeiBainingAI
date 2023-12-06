@@ -20,32 +20,31 @@ struct MessageSeedFeature {
     }
 
     enum Action: Equatable {
+        /// 加载会话
+        case loadConversation
+        /// 发送消息流请求
+        case sendStreamRequest(ConversationItemWCDB)
+        /// 处理返回流
+        case receiveStreamResult(String, ConversationItemWCDB)
+        /// 消息发送成功处理
+        case saveStreamResult(String, ConversationItemWCDB)
+
+        /// 检查录音识别权限
+        case checkSpeechAuth
         /// 点击开始录音
         case startRecord
         /// 正在录音
-        case recording
+        case recordingResult(String)
         /// 点击完成录音
         case finishRecord
-        /// 录音转换为文字
-        case recordToText
-        /// 发送文字
-        case sendText
+        /// 没有录音权限
+        case noRecordAuth
     }
 
     var body: some Reducer<State, Action> {
-        Reduce { state, action in
+        Reduce { _, action in
             switch action {
-            case .startRecord:
-                state.isRecording = true
-                return .none
-            case .recording:
-                return .none
-            case .finishRecord:
-                state.isRecording = false
-                return .none
-            case .recordToText:
-                return .none
-            case .sendText:
+            default:
                 return .none
             }
         }

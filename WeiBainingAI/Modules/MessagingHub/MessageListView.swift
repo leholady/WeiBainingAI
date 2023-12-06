@@ -32,11 +32,6 @@ struct MessageListView: View {
                             ForEach(viewStore.messageList, id: \.identifier) { message in
                                 if message.roleType == .user {
                                     MessageSenderCell(store: store, msg: message)
-                                        .onTapGesture {
-                                            withAnimation {
-                                                proxy.scrollTo("scrollToBottom")
-                                            }
-                                        }
                                 } else {
                                     MessageReceiveCell(store: store, msg: message)
                                 }
@@ -48,7 +43,7 @@ struct MessageListView: View {
 
                             Divider()
                                 .listRowInsets(.zero)
-                                .frame(width: .zero, height: 0, alignment: .center)
+                                .frame(width: .zero, height: .zero, alignment: .center)
                                 .id("scrollToBottom")
                                 .listSectionSeparator(.hidden)
                                 .listRowSeparator(.hidden)
@@ -56,11 +51,8 @@ struct MessageListView: View {
                         .listStyle(.plain)
                         // 设置最小行高，隐藏列表两端的视图
                         .environment(\.defaultMinListRowHeight, 0)
-                        .onReceive(keyboardWillShowPublisher) { keyboard in
-                            debugPrint(keyboard)
-                            // 延时一小段时间，确保键盘已经完全展开
+                        .onReceive(keyboardWillShowPublisher) { _ in
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                // 滚动到当前激活的TextField
                                 withAnimation {
                                     proxy.scrollTo("scrollToBottom")
                                 }
@@ -69,6 +61,9 @@ struct MessageListView: View {
                     }
 
                     MessageInputContentView(store: store)
+                })
+                .onTapGesture(perform: {
+                    UIApplication.shared.endEditing()
                 })
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading, content: {
@@ -145,7 +140,7 @@ struct MessageReceiveCell: View {
     var body: some View {
         WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessageListFeature>) in
             HStack(alignment: .top, spacing: 0) {
-                Image(.homeIconBubble)
+                Image(.chatavatar)
                     .scaledToFit()
                     .frame(width: 30, height: 30)
                     .background(Color(hexadecimal6: 0xF77955))
@@ -248,7 +243,6 @@ struct MessageSenderCell: View {
                             })
 
                             Button(action: {
-//                                viewStore.send(.deleteMessage(index: msg.identifier))
                                 debugPrint("deleteMessage")
                             }, label: {
                                 Image(.chatIconDeleteWhite)
@@ -350,6 +344,7 @@ struct MessageInputContentView: View {
             .background(Color(hexadecimal6: 0xF6F6F6))
             .cornerRadius(10)
             .buttonStyle(.plain)
+            .padding(.horizontal, 10)
         }
     }
 
@@ -360,11 +355,11 @@ struct MessageInputContentView: View {
         var body: some View {
             ZStack(alignment: .topLeading) {
                 TextEditor(text: $text)
-                    .padding(6)
                     .font(.system(size: 14))
                     .foregroundColor(.black)
                     .frame(minHeight: 35)
                     .cornerRadius(10)
+                    .padding(6)
                     .fixedSize(horizontal: false, vertical: true)
 
                 if text.isEmpty {

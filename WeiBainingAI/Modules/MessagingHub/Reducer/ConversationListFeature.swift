@@ -48,7 +48,7 @@ struct ConversationListFeature {
         Reduce { state, action in
             switch action {
             case .loadChatTopics:
-                let userId = state.userConfig.userId
+                let userId = state.userConfig.userId ?? ""
                 return .run { send in
                     try await send(.chatTopicsLoaded(
                         await dbClient.loadConversation(userId)

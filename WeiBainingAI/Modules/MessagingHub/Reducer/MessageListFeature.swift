@@ -264,32 +264,6 @@ struct MessageListFeature {
             case .dismissPage:
                 return .run { _ in await dismiss() }
 
-            case .checkSpeechAuth:
-                return .run { send in
-                    await msgListClient.checkSpeechAuth() ? await send(.startRecord) : await send(.noRecordAuth)
-                }
-
-            case .startRecord:
-                state.recordState = true
-                return .run { send in
-                    for try await text in try await msgListClient.startVoiceToText() {
-                        await send(.recordingResult(text))
-                    }
-                }
-            case let .recordingResult(result):
-                Logger(label: "recordingResult =>").info("\(result)")
-                state.inputText = result
-                return .none
-
-            case .finishRecord:
-                state.recordState = false
-                return .none
-
-            case .noRecordAuth:
-                SVProgressHUD.showError(withStatus: "没有语音权限")
-                SVProgressHUD.dismiss(withDelay: 1.5)
-                return .none
-
             case let .copyTextToClipboard(message):
                 UIPasteboard.general.string = message
                 SVProgressHUD.showSuccess(withStatus: "已复制到剪切板")

@@ -41,7 +41,7 @@ struct ChatMsgShareView: View {
                              applicationActivities: nil)
             }
             .background(
-                clearBackground(true)
+                BackgroundCleanerView()
                     .onTapGesture {
                         viewStore.send(.dismissPage)
                     }
@@ -146,6 +146,7 @@ struct SharePlatformItemView: View {
                     Divider()
                         .frame(width: 30, height: 4)
                         .background(Color(hexadecimal6: 0xDDDDDD))
+                        .foregroundColor(.clear)
                         .cornerRadius(2)
                         .padding(.top, 10)
                         .padding(.bottom, 30)

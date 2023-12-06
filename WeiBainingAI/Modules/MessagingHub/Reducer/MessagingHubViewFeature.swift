@@ -65,7 +65,7 @@ struct MessagingHubViewFeature {
                 return .run { send in
                     _ = try await dbClient.initDatabase()
                     try await send(.updateConversationData(
-                        await dbClient.loadConversation(result.userId)
+                        await dbClient.loadConversation(result.userId ?? "")
                     ))
                 } catch: { _, send in
                     await send(.updateConversationData([]))
@@ -110,7 +110,7 @@ struct MessagingHubViewFeature {
             case let .presentationHistoryMsg(.presented(.delegate(.updateConversationList(config)))):
                 return .run { send in
                     try await send(.updateConversationData(
-                        await dbClient.loadConversation(config.userId)
+                        await dbClient.loadConversation(config.userId ?? "")
                     ))
                 }
             default:

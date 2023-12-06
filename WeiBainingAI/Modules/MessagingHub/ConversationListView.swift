@@ -96,7 +96,7 @@ struct ConversationItemView: View {
 
             VStack(alignment: .leading, spacing: 0, content: {
                 HStack(alignment: .center, spacing: 9, content: {
-                    Image(.homeIconBubble)
+                    Image(.chatavatar)
                         .scaledToFit()
                         .frame(width: 26, height: 26)
                         .background(Color(hexadecimal6: 0xF77955))
@@ -129,7 +129,7 @@ struct ConversationItemView: View {
                     .padding(.horizontal, 16)
 
                 HStack(alignment: .center, spacing: 9, content: {
-                    Image(.homeIconBubble)
+                    Image(.avatarUser)
                         .scaledToFit()
                         .frame(width: 26, height: 26)
                         .background(Color(hexadecimal6: 0x027AFF))

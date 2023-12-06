@@ -23,7 +23,7 @@ struct MessagingHubView: View {
                         SuggestQuestionListView(store: store)
                             .frame(maxWidth: .infinity)
                             .background(Color(hexadecimal6: 0xF7F7F7))
-                          
+
                         TopicHistoryView(store: store)
                             .frame(maxWidth: .infinity)
                             .background(Color(hexadecimal6: 0xF7F7F7))
@@ -197,16 +197,18 @@ struct TopicHistoryView: View {
                 .padding(.top, 40)
 
                 ScrollView(.horizontal, showsIndicators: false, content: {
-                    HStack(spacing: 10, content: {
+                    HStack(alignment: .center, spacing: 10, content: {
                         ForEach(viewStore.conversations, id: \.self) { topic in
                             TopicHistoryItemView(topicModel: topic)
                                 .onTapGesture {
                                     viewStore.send(.didTapStartNewChat(topic))
                                 }
+                                .minHeight(175)
+                                .minWidth(Screen.width - 70)
                         }
                     })
-                    .padding(.horizontal, 20)
-                    .padding(.top, 20)
+                    .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
+                    .minHeight(175)
                 })
                 .background(.white)
             })
@@ -219,7 +221,7 @@ struct TopicHistoryView: View {
         var body: some View {
             VStack(alignment: .leading, spacing: 0, content: {
                 HStack(alignment: .center, spacing: 9, content: {
-                    Image(.homeIconBubble)
+                    Image(.chatavatar)
                         .scaledToFit()
                         .frame(width: 26, height: 26)
                         .background(Color(hexadecimal6: 0xF77955))
@@ -253,7 +255,7 @@ struct TopicHistoryView: View {
                     .padding(.horizontal, 16)
 
                 HStack(alignment: .center, spacing: 9, content: {
-                    Image(.homeIconBubble)
+                    Image(.avatarUser)
                         .scaledToFit()
                         .frame(width: 26, height: 26)
                         .background(Color(hexadecimal6: 0x027AFF))
@@ -273,6 +275,8 @@ struct TopicHistoryView: View {
                     })
                 })
                 .padding(EdgeInsets(top: 10, leading: 16, bottom: 0, trailing: 16))
+
+                Spacer()
             })
             .padding(.vertical, 10)
             .background(Color(hexadecimal6: 0xF6F6F6))

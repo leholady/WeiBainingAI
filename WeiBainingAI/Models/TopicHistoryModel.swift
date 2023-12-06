@@ -27,7 +27,10 @@ enum MessageSendState: Int, Codable {
 
 // MARK: - WCDB
 
-struct ConversationItemWCDB: TableCodable, Equatable, Hashable {
+struct ConversationItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
+    var id: Int {
+        return identifier
+    }
     var identifier: Int
     var userId: String
     var timestamp: Date

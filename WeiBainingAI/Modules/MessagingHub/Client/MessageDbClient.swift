@@ -30,7 +30,6 @@ struct MessageDbClient {
 
 extension MessageDbClient: DependencyKey {
     static var liveValue: MessageDbClient {
-        
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let database = Database(at: "\(documentsPath)/WeiBainingAI.db")
 
@@ -105,6 +104,9 @@ extension MessageDbClient: TestDependencyKey {
                 [
                     ConversationItemWCDB(userId: "", timestamp: Date(),
                                          topic: "写一篇关于二手车买卖市场趋势的调查报告",
+                                         reply: "请求错误，请重试"),
+                    ConversationItemWCDB(userId: "", timestamp: Date(),
+                                         topic: "写一篇关于二手车买卖市场趋势的调查报告",
                                          reply: "根据最近几年的统计数据分析,国内二手车交易市场持续活跃,交易量稳步上升。报告预测未来5年二手车交易额还将保持较快增长态势。主要原因在于..."),
 
                     ConversationItemWCDB(userId: "", timestamp: Date(),
@@ -118,6 +120,17 @@ extension MessageDbClient: TestDependencyKey {
             },
             loadMessages: { topic in
                 [
+                    MessageItemWCDB(conversationId: topic.identifier,
+                                    role: MessageSendRole.user.rawValue,
+                                    content: "写一首古代散文诗歌",
+                                    msgState: MessageSendState.success.rawValue,
+                                    timestamp: Date()),
+                    MessageItemWCDB(conversationId: topic.identifier,
+                                    role: MessageSendRole.robot.rawValue,
+                                    content: "请求错误，请重试",
+                                    msgState: MessageSendState.success.rawValue,
+                                    timestamp: Date()),
+
                     MessageItemWCDB(conversationId: topic.identifier,
                                     role: MessageSendRole.user.rawValue,
                                     content: "写一首古代散文诗歌",

@@ -8,7 +8,7 @@
 import UIKit
 
 struct UserProfileModel: Codable, Equatable {
-    var userId: String
+    var userId: String?
     var SPSSID: String?
     var nickName: String?
     var isForever: Bool?
