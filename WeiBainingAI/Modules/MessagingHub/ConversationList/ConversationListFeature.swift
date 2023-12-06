@@ -101,6 +101,7 @@ struct ConversationListFeature {
                 let conversationIds = state.conversationList.filter { $0.isSelected == true }
                 if conversationIds.isEmpty {
                     SVProgressHUD.showError(withStatus: "请选择对话")
+                    SVProgressHUD.dismiss(withDelay: 1.5)
                     return .none
                 }
                 return .run { send in
@@ -112,6 +113,7 @@ struct ConversationListFeature {
                 state.isAllSelected = false
                 state.isEditing = false
                 SVProgressHUD.showSuccess(withStatus: "删除成功")
+                SVProgressHUD.dismiss(withDelay: 1.5)
                 return .run { send in
                     await send(.loadChatTopics)
                 }

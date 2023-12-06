@@ -6,9 +6,11 @@
 //
 
 import AVFoundation
+import ComposableArchitecture
 import Dependencies
 import Logging
 import Speech
+import SwiftUI
 import UIKit
 import WCDBSwift
 
@@ -23,6 +25,8 @@ struct MessageListClient {
     var startVoiceToText: @Sendable () async throws -> AsyncThrowingStream<String, Error>
     /// 处理流返回的数据
     var handleStreamData: @Sendable (String, _ config: ChatRequestConfigMacro) async throws -> AsyncThrowingStream<String, Error>
+    /// 截图
+    var handleScreenShot: @Sendable () async throws -> UIImage?
 }
 
 extension MessageListClient: DependencyKey {
@@ -150,6 +154,21 @@ extension MessageListClient: DependencyKey {
                     }
                 }
             }
+        } handleScreenShot: {
+            // 注意：将异步截图过程包装在task {} 中并在其中使用 await
+//            await withCheckedContinuation { continuation in
+//                let controller = UIHostingController(rootView: )
+//                let targetSize = controller.view.intrinsicContentSize
+//                let view = controller.view
+//                view?.bounds = CGRect(origin: .zero, size: targetSize)
+//                let renderer = UIGraphicsImageRenderer(size: targetSize)
+//
+//                let image = renderer.image { _ in
+//                    view?.drawHierarchy(in: view?.bounds ?? .zero, afterScreenUpdates: true)
+//                }
+//                continuation.resume(returning: image)
+//            }
+            nil
         }
     }
 }
@@ -177,7 +196,7 @@ extension MessageListClient: TestDependencyKey {
                     continuation.yield(ChatErrorMacro.success.rawValue)
                     continuation.finish()
                 }
-            }
+            }, handleScreenShot: { nil }
         )
     }
 
@@ -187,7 +206,8 @@ extension MessageListClient: TestDependencyKey {
             saveReqeustConfig: unimplemented("\(Self.self).saveReqeustConfig"),
             checkSpeechAuth: unimplemented("\(Self.self).checkSpeechAuth"),
             startVoiceToText: unimplemented("\(Self.self).startVoiceToText"),
-            handleStreamData: unimplemented("\(Self.self).handleStreamData")
+            handleStreamData: unimplemented("\(Self.self).handleStreamData"),
+            handleScreenShot: unimplemented("\(Self.self).handleScreenShot")
         )
     }
 }

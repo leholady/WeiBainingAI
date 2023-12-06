@@ -5,12 +5,24 @@
 //  Created by Daniel ° on 2023/11/28.
 //
 
+import Combine
 import ComposableArchitecture
 import SwiftUI
 import SwiftUIX
 
 struct MessageListView: View {
     let store: StoreOf<MessageListFeature>
+
+    private var keyboardWillShowPublisher: AnyPublisher<CGRect, Never> {
+        NotificationCenter.default
+            .publisher(for: UIResponder.keyboardWillShowNotification)
+            .compactMap {
+                $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+            }
+            .debounce(for: .milliseconds(100), scheduler: RunLoop.main) // 去抖
+            .eraseToAnyPublisher()
+    }
+
     var body: some View {
         WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessageListFeature>) in
             NavigationView {
@@ -19,20 +31,40 @@ struct MessageListView: View {
                         List {
                             ForEach(viewStore.messageList, id: \.identifier) { message in
                                 if message.roleType == .user {
-                                    MessageSenderCell(msg: message)
-                                        .id(message.identifier)
+                                    MessageSenderCell(store: store, msg: message)
+                                        .onTapGesture {
+                                            withAnimation {
+                                                proxy.scrollTo("scrollToBottom")
+                                            }
+                                        }
                                 } else {
-                                    MessageReceiveCell(msg: message)
-                                        .id(message.identifier)
+                                    MessageReceiveCell(store: store, msg: message)
                                 }
                             }
                             .listRowSeparator(.hidden)
                             .listRowInsets(.zero)
                             .listSectionSeparator(.hidden)
+                            .buttonStyle(.plain)
+
+                            Divider()
+                                .listRowInsets(.zero)
+                                .frame(width: .zero, height: 0, alignment: .center)
+                                .id("scrollToBottom")
+                                .listSectionSeparator(.hidden)
+                                .listRowSeparator(.hidden)
                         }
                         .listStyle(.plain)
-                        .onAppear {
-                            proxy.scrollTo(viewStore.messageList.last?.identifier)
+                        // 设置最小行高，隐藏列表两端的视图
+                        .environment(\.defaultMinListRowHeight, 0)
+                        .onReceive(keyboardWillShowPublisher) { keyboard in
+                            debugPrint(keyboard)
+                            // 延时一小段时间，确保键盘已经完全展开
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                // 滚动到当前激活的TextField
+                                withAnimation {
+                                    proxy.scrollTo("scrollToBottom")
+                                }
+                            }
                         }
                     }
 
@@ -82,8 +114,8 @@ struct MessageListView: View {
                                       action: \.presentationModelSetup)) { store in
                 ChatModelSetupView(store: store)
             }
-            .sheet(store: store.scope(state: \.$sharePage,
-                                      action: \.presentationMsgShare)) { store in
+            .fullScreenCover(store: store.scope(state: \.$sharePage,
+                                                action: \.presentationMsgShare)) { store in
                 ChatMsgShareView(store: store)
             }
         }
@@ -108,62 +140,73 @@ struct MessageTimestampCell: View {
 
 /// 消息接收方
 struct MessageReceiveCell: View {
+    let store: StoreOf<MessageListFeature>
     var msg: MessageItemWCDB
     var body: some View {
-        HStack(alignment: .top, spacing: 0) {
-            Image(.homeIconBubble)
-                .scaledToFit()
-                .frame(width: 30, height: 30)
-                .background(Color(hexadecimal6: 0xF77955))
-                .cornerRadius(15)
-                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 10))
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessageListFeature>) in
+            HStack(alignment: .top, spacing: 0) {
+                Image(.homeIconBubble)
+                    .scaledToFit()
+                    .frame(width: 30, height: 30)
+                    .background(Color(hexadecimal6: 0xF77955))
+                    .cornerRadius(15)
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 10))
 
-            ZStack(alignment: .center, content: {
-                VStack(alignment: .leading, spacing: 5) {
-                    Text(msg.content)
-                        .font(.system(size: 14, weight: .regular))
-                        .padding(EdgeInsets(top: 14, leading: 14, bottom: 0, trailing: 14))
+                ZStack(alignment: .center, content: {
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(msg.content)
+                            .font(.system(size: 14, weight: .regular))
+                            .padding(EdgeInsets(top: 14, leading: 14, bottom: 0, trailing: 14))
 
-                    HStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
-                        Button(action: {}, label: {
-                            Image(.chatIconRefreshBlack)
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .padding(.all, 6)
+                        HStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
+                            Button(action: {
+                                viewStore.send(.regenerateMessage(msg: msg))
+                            }, label: {
+                                Image(.chatIconRefreshBlack)
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .padding(.all, 6)
+                            })
+
+                            Button(action: {
+                                viewStore.send(.copyTextToClipboard(msg.content))
+                            }, label: {
+                                Image(.chatIconCopyBlack)
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .padding(.all, 6)
+                            })
+
+                            Button(action: {
+                                viewStore.send(.shareMessage(msg: msg))
+                            }, label: {
+                                Image(.chatIconShareBlack)
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .padding(.all, 6)
+                            })
+
+                            Button(action: {
+                                viewStore.send(.deleteMessage(msg: msg))
+                            }, label: {
+                                Image(.chatIconDeleteBlack)
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .padding(.all, 6)
+                            })
                         })
+                        .padding(EdgeInsets(top: 0, leading: 8, bottom: 6, trailing: 0))
+                    }
+                    .background(Color(hexadecimal6: 0xF6F6F6))
+                    .cornerRadius(10)
 
-                        Button(action: {}, label: {
-                            Image(.chatIconCopyBlack)
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .padding(.all, 6)
-                        })
+                })
 
-                        Button(action: {}, label: {
-                            Image(.chatIconShareBlack)
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .padding(.all, 6)
-                        })
-
-                        Button(action: {}, label: {
-                            Image(.chatIconDeleteBlack)
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .padding(.all, 6)
-                        })
-                    })
-                    .padding(EdgeInsets(top: 0, leading: 8, bottom: 6, trailing: 0))
-                }
-                .background(Color(hexadecimal6: 0xF6F6F6))
-                .cornerRadius(10)
-
-            })
-
-            Spacer()
+                Spacer()
+            }
+            .padding(.trailing, Screen.width * 0.25)
+            .padding(.vertical, 10)
         }
-        .padding(.trailing, Screen.width * 0.25)
-        .padding(.vertical, 10)
     }
 }
 
@@ -171,64 +214,67 @@ struct MessageReceiveCell: View {
 
 /// 消息发送方
 struct MessageSenderCell: View {
+    let store: StoreOf<MessageListFeature>
     var msg: MessageItemWCDB
     var body: some View {
-        HStack(alignment: .top, spacing: 0) {
-            Spacer()
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessageListFeature>) in
+            HStack(alignment: .top, spacing: 0) {
+                Spacer()
+                ZStack(alignment: .center, content: {
+                    VStack(alignment: .trailing, spacing: 5) {
+                        Text(msg.content)
+                            .font(.system(size: 14, weight: .regular))
+                            .foregroundColor(.white)
+                            .padding(EdgeInsets(top: 14, leading: 14, bottom: 0, trailing: 14))
 
-            ZStack(alignment: .center, content: {
-                VStack(alignment: .trailing, spacing: 5) {
-                    Text(msg.content)
-                        .font(.system(size: 14, weight: .regular))
-                        .foregroundColor(.white)
-                        .padding(EdgeInsets(top: 14, leading: 14, bottom: 0, trailing: 14))
+                        HStack(alignment: .center, spacing: 0, content: {
+                            Button(action: {
+                                viewStore.send(.copyTextToClipboard(msg.content))
+                            }, label: {
+                                Image(.chatIconCopyWhite)
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .padding(.all, 6)
+                            })
 
-                    HStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
-                        Button(action: {}, label: {
-                            Image(.chatIconRefreshWhite)
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .padding(.all, 6)
+                            Button(action: {
+                                viewStore.send(.shareMessage(msg: msg))
+                                debugPrint("shareMessage")
+                            }, label: {
+                                Image(.chatIconShareWhite)
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .padding(.all, 6)
+                            })
+
+                            Button(action: {
+//                                viewStore.send(.deleteMessage(index: msg.identifier))
+                                debugPrint("deleteMessage")
+                            }, label: {
+                                Image(.chatIconDeleteWhite)
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .padding(.all, 6)
+                            })
                         })
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 8))
+                    }
+                    .background(Color(hexadecimal6: 0x027AFF))
+                    .cornerRadius(10)
 
-                        Button(action: {}, label: {
-                            Image(.chatIconCopyWhite)
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .padding(.all, 6)
-                        })
+                })
 
-                        Button(action: {}, label: {
-                            Image(.chatIconShareWhite)
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .padding(.all, 6)
-                        })
-
-                        Button(action: {}, label: {
-                            Image(.chatIconDeleteWhite)
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .padding(.all, 6)
-                        })
-                    })
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 8))
-                }
-                .background(Color(hexadecimal6: 0x027AFF))
-                .cornerRadius(10)
-
-            })
-
-            Image(.avatarUser)
-                .scaledToFit()
-                .frame(width: 30, height: 30)
-                .background(Color(hexadecimal6: 0xF77955))
-                .cornerRadius(15)
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 20))
+                Image(.avatarUser)
+                    .scaledToFit()
+                    .frame(width: 30, height: 30)
+                    .background(Color(hexadecimal6: 0xF77955))
+                    .cornerRadius(15)
+                    .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 20))
+            }
+            .padding(.leading, Screen.width * 0.25)
+            .padding(.vertical, 10)
+            .buttonStyle(.plain)
         }
-        .padding(.leading, Screen.width * 0.25)
-        .padding(.vertical, 10)
-        .buttonStyle(.plain)
     }
 }
 
@@ -244,6 +290,7 @@ struct MessageInputContentView: View {
                     HStack(alignment: .center, spacing: 0, content: {
                         if !viewStore.recordState {
                             Button(action: {
+                                UIApplication.shared.endEditing()
                                 viewStore.send(.checkSpeechAuth)
                             }, label: {
                                 Image(.inputIconSpeaker)

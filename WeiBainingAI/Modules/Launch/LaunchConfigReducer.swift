@@ -50,6 +50,8 @@ struct LaunchConfigReducer: Reducer {
                 return .run { send in
                     let userProfile = try await httpClient.getNewUserProfile()
                     await send(.loadConfigSuccess(userProfile: userProfile))
+                } catch: { _, send in
+                    await send(.loadConfigFailure)
                 }
             case let .loadConfigSuccess(userProfile):
                 state.userProfile = userProfile

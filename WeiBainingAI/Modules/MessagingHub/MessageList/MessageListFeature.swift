@@ -93,6 +93,15 @@ struct MessageListFeature {
         case finishRecord
         /// 没有录音权限
         case noRecordAuth
+
+        /// 复制文本到剪贴板
+        case copyTextToClipboard(String)
+        /// 重新生成消息
+        case regenerateMessage(msg: MessageItemWCDB)
+        /// 分享消息
+        case shareMessage(msg: MessageItemWCDB)
+        /// 删除消息
+        case deleteMessage(msg: MessageItemWCDB)
     }
 
     @Dependency(\.msgAPIClient) var msgAPIClient
@@ -173,6 +182,7 @@ struct MessageListFeature {
                 let msgText = state.inputText
                 state.inputText = ""
                 state.streamMsg = "思考中..."
+
                 return .run { send in
                     let msgItem = MessageItemWCDB(
                         conversationId: conversation.identifier,
@@ -237,9 +247,9 @@ struct MessageListFeature {
                         await dbClient.loadMessages(conversation)
                     ))
                 }
-                
+
             case .msgShareTapped:
-                state.sharePage = ChatMsgShareFeature.State()
+                state.sharePage = ChatMsgShareFeature.State(originalMsgList: state.messageList, isShareAll: true)
                 return .none
 
             case .chatModelSetupTapped:
@@ -277,6 +287,66 @@ struct MessageListFeature {
 
             case .noRecordAuth:
                 SVProgressHUD.showError(withStatus: "没有语音权限")
+                SVProgressHUD.dismiss(withDelay: 1.5)
+                return .none
+
+            case let .copyTextToClipboard(message):
+                UIPasteboard.general.string = message
+                SVProgressHUD.showSuccess(withStatus: "已复制到剪切板")
+                SVProgressHUD.dismiss(withDelay: 1.5)
+                return .none
+
+            case let .regenerateMessage(message):
+                let current = state.messageList.firstIndex(of: message) ?? 0
+                let config = state.chatConfig
+                let conversation = state.conversation
+
+                if current > 0 && current < state.messageList.count - 1 {
+//                    let lastMsg = state.messageList[current - 1]
+//                    if let conversation = state.conversation {
+//                        return .run { send in
+//                            let msgItem = MessageItemWCDB(
+//                                conversationId: conversation.identifier,
+//                                role: MessageSendRole.user.rawValue,
+//                                content: lastMsg.content,
+//                                msgState: MessageSendState.success.rawValue,
+//                                timestamp: Date()
+//                            )
+//                            // 保存用户的消息
+//                            try await dbClient.saveSingleMessage(msgItem)
+//                            // 更新话题最后一条信息
+//                            try await dbClient.updateConversation(conversation, msgItem)
+//                            // 刷新列表
+//                            try await send(.loadMessageList(
+//                                await dbClient.loadMessages(conversation)
+//                            ))
+//                            // 请求返回的消息
+//                            for try await message in try await msgListClient.handleStreamData(lastMsg.content, config) {
+//                                await send(.receiveStreamResult(message, conversation))
+//                            }
+//                        }
+//                    } else {
+//                        SVProgressHUD.showSuccess(withStatus: "没有更多上下文，请输入内容")
+//                        SVProgressHUD.dismiss(withDelay: 1.5)
+                    return .none
+//                    }
+                } else {
+                    SVProgressHUD.showSuccess(withStatus: "没有更多上下文，请输入内容")
+                    SVProgressHUD.dismiss(withDelay: 1.5)
+                    return .none
+                }
+            case let .shareMessage(result):
+                debugPrint("shareMessage \(result)")
+                state.sharePage = ChatMsgShareFeature.State(
+                    userConfig: state.userConfig,
+                    originalMsgList: state.messageList,
+                    isShareAll: false,
+                    currentMsgItem: result
+                )
+                return .none
+
+            case let .deleteMessage(index):
+                debugPrint("deleteMessage \(index)")
                 return .none
 
             default:

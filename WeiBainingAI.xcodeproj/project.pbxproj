@@ -14,6 +14,8 @@
 		6508F3222B1E2A2B00834430 /* ChatMsgShareFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508F3212B1E2A2B00834430 /* ChatMsgShareFeature.swift */; };
 		6553F6F92B18AC0D00C77C29 /* ChatModelSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */; };
 		6553F6FB2B18AC1B00C77C29 /* ChatModelSetupFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6FA2B18AC1B00C77C29 /* ChatModelSetupFeature.swift */; };
+		655C72202B20751600B56D7A /* Screenshot+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655C721F2B20751600B56D7A /* Screenshot+Ex.swift */; };
+		655C72222B20774E00B56D7A /* UIActivity+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655C72212B20774E00B56D7A /* UIActivity+Ex.swift */; };
 		655D35FF2B16D82F004A5308 /* HomeConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FD2B16D82F004A5308 /* HomeConfigModel.swift */; };
 		655D36002B16D82F004A5308 /* TopicHistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */; };
 		655D36052B16D85C004A5308 /* MessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 655D36032B16D85C004A5308 /* MessageListView.swift */; };
@@ -38,6 +40,7 @@
 		65876EE72B0FA0A800DFFE0C /* assistant_icon_writing.gif in Resources */ = {isa = PBXBuildFile; fileRef = 65876EE32B0FA0A800DFFE0C /* assistant_icon_writing.gif */; };
 		65876EE92B0FA0B400DFFE0C /* DouyinSansBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65876EE82B0FA0B400DFFE0C /* DouyinSansBold.otf */; };
 		6592F99C2B1CC35B003EAE01 /* MessageDbClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6592F99B2B1CC35B003EAE01 /* MessageDbClient.swift */; };
+		659697492B1F703E00453888 /* ClearBackgournd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659697482B1F703E00453888 /* ClearBackgournd.swift */; };
 		659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659A55112B0EFE0500B2BF9B /* WeiBainingAIApp.swift */; };
 		659A55162B0EFE0600B2BF9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659A55152B0EFE0600B2BF9B /* Assets.xcassets */; };
 		659A551A2B0EFE0600B2BF9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 659A55192B0EFE0600B2BF9B /* Preview Assets.xcassets */; };
@@ -98,6 +101,19 @@
 		D310AC352B10AB9700E48A66 /* TabHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D310AC342B10AB9700E48A66 /* TabHubView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		655C721D2B201F6400B56D7A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		2C36261B3541D55F3F082F0A /* Pods-WeiBainingAI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeiBainingAI.release.xcconfig"; path = "Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI.release.xcconfig"; sourceTree = "<group>"; };
 		523C5C697BD31355C7987B81 /* Pods_WeiBainingAI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeiBainingAI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +123,8 @@
 		6508F3212B1E2A2B00834430 /* ChatMsgShareFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMsgShareFeature.swift; sourceTree = "<group>"; };
 		6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModelSetupView.swift; sourceTree = "<group>"; };
 		6553F6FA2B18AC1B00C77C29 /* ChatModelSetupFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModelSetupFeature.swift; sourceTree = "<group>"; };
+		655C721F2B20751600B56D7A /* Screenshot+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Screenshot+Ex.swift"; sourceTree = "<group>"; };
+		655C72212B20774E00B56D7A /* UIActivity+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivity+Ex.swift"; sourceTree = "<group>"; };
 		655D35FD2B16D82F004A5308 /* HomeConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeConfigModel.swift; sourceTree = "<group>"; };
 		655D35FE2B16D82F004A5308 /* TopicHistoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicHistoryModel.swift; sourceTree = "<group>"; };
 		655D36032B16D85C004A5308 /* MessageListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListView.swift; sourceTree = "<group>"; };
@@ -128,6 +146,7 @@
 		65876EE32B0FA0A800DFFE0C /* assistant_icon_writing.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = assistant_icon_writing.gif; sourceTree = "<group>"; };
 		65876EE82B0FA0B400DFFE0C /* DouyinSansBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DouyinSansBold.otf; sourceTree = "<group>"; };
 		6592F99B2B1CC35B003EAE01 /* MessageDbClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDbClient.swift; sourceTree = "<group>"; };
+		659697482B1F703E00453888 /* ClearBackgournd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearBackgournd.swift; sourceTree = "<group>"; };
 		659A550E2B0EFE0500B2BF9B /* WeiBainingAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeiBainingAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		659A55112B0EFE0500B2BF9B /* WeiBainingAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeiBainingAIApp.swift; sourceTree = "<group>"; };
 		659A55152B0EFE0600B2BF9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -227,6 +246,7 @@
 		65081C592B18DC05004F4C47 /* ChatMsgShare */ = {
 			isa = PBXGroup;
 			children = (
+				659697482B1F703E00453888 /* ClearBackgournd.swift */,
 				65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */,
 				6508F3212B1E2A2B00834430 /* ChatMsgShareFeature.swift */,
 			);
@@ -281,6 +301,8 @@
 			isa = PBXGroup;
 			children = (
 				655D36092B171299004A5308 /* Date+Ex.swift */,
+				655C721F2B20751600B56D7A /* Screenshot+Ex.swift */,
+				655C72212B20774E00B56D7A /* UIActivity+Ex.swift */,
 			);
 			path = Units;
 			sourceTree = "<group>";
@@ -454,6 +476,7 @@
 				659A550C2B0EFE0500B2BF9B /* Resources */,
 				D310AC1F2B10A19E00E48A66 /* SwiftLint */,
 				4EC1430D1199E7C9A94ED191 /* [CP] Embed Pods Frameworks */,
+				655C721D2B201F6400B56D7A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -633,8 +656,10 @@
 				6561317C2B1AE323004FCAEF /* MessageListClient.swift in Sources */,
 				659A55122B0EFE0500B2BF9B /* WeiBainingAIApp.swift in Sources */,
 				7E645C842B19D19700D7E589 /* MoreOptionsSectionView.swift in Sources */,
+				655C72202B20751600B56D7A /* Screenshot+Ex.swift in Sources */,
 				7E6747ED2B1ADC12001D95FB /* PremiumMemberView.swift in Sources */,
 				7EE7CA2C2B1732A4003A1B4A /* SupportAssistantResultView.swift in Sources */,
+				655C72222B20774E00B56D7A /* UIActivity+Ex.swift in Sources */,
 				7E645C792B199EC700D7E589 /* MoreOptionsHeaderView.swift in Sources */,
 				7E645C772B19892500D7E589 /* MoreOptionsGroupModel.swift in Sources */,
 				7E645C7B2B19BC3600D7E589 /* MoreOptionsItemCell.swift in Sources */,
@@ -665,6 +690,7 @@
 				7E51696F2B16157E00737171 /* SupportAssistantDetailsSegmentedCell.swift in Sources */,
 				65876EC62B0F880400DFFE0C /* HttpRequestHandler.swift in Sources */,
 				6553F6FB2B18AC1B00C77C29 /* ChatModelSetupFeature.swift in Sources */,
+				659697492B1F703E00453888 /* ClearBackgournd.swift in Sources */,
 				65EAFBD52B18C59C0055ABEA /* MessagingHubViewFeature.swift in Sources */,
 				7EA68D122B15EE1B00958343 /* ImagePickerFeature.swift in Sources */,
 				7E94A4832B144BD200EA23F8 /* SupportAssistantDetailsView.swift in Sources */,
@@ -841,6 +867,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -893,6 +920,7 @@
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
