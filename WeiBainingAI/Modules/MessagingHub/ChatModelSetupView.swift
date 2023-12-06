@@ -153,8 +153,11 @@ struct ChatStyleSelectionView: View {
 
 struct ChatTokenSelectionView: View {
     let store: StoreOf<ChatModelSetupFeature>
+    @State private var sliderLeft: Double = 2
+    @State private var sliderRight: Double = 2000
+    
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ChatModelSetupFeature>) in
+        WithViewStore(store, observe: { $0 }) { (_: ViewStoreOf<ChatModelSetupFeature>) in
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {
                     VStack(alignment: .center, spacing: 10, content: {
@@ -170,19 +173,23 @@ struct ChatTokenSelectionView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .multilineTextAlignment(.leading)
 
-                        ZStack(alignment: .bottom, content: {
+                        ZStack(alignment: .center, content: {
                             RoundedRectangle(cornerRadius: 20)
                                 .frame(width: 64, height: 150, alignment: .center)
                                 .foregroundColor(Color(hexadecimal6: 0xFFFFFF))
 
-                            Rectangle()
-                                .frame(width: 64, height: 20, alignment: .center)
-                                .foregroundColor(Color(hexadecimal6: 0x027AFF))
+//                            Rectangle()
+//                                .frame(width: 64, height: 20, alignment: .center)
+//                                .foregroundColor(Color(hexadecimal6: 0x027AFF))
+
+                            Slider(value: $sliderLeft, in: 0 ... 10)
+                                .rotationEffect(.degrees(-90)) // 将滑块旋转45度
+                                .frame(width: 150, height: 64) // 设置宽度和高度
                         })
                         .padding(.top, 10)
                         .cornerRadius(20)
 
-                        Text("\(viewStore.chatConfig.msgCount)")
+                        Text(String(format: "%ld", Int(sliderLeft)))
                             .font(.custom("DOUYINSANSBOLD-GB", size: 14))
                             .foregroundColor(.black)
 
@@ -194,31 +201,35 @@ struct ChatTokenSelectionView: View {
                     })
 
                     VStack(alignment: .center, spacing: 10, content: {
-                        Text("附加消息计数")
+                        Text("最大Token")
                             .font(.system(size: 12, weight: .medium))
                             .foregroundColor(Color(hexadecimal6: 0x666666))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .multilineTextAlignment(.leading)
 
-                        Text("每个请求附加的已发送消息数")
+                        Text("输入令牌和生成令牌的最大长度")
                             .font(.system(size: 11, weight: .regular))
                             .foregroundColor(Color(hexadecimal6: 0x666666))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .multilineTextAlignment(.leading)
 
-                        ZStack(alignment: .bottom, content: {
+                        ZStack(alignment: .center, content: {
                             RoundedRectangle(cornerRadius: 20)
                                 .frame(width: 64, height: 150, alignment: .center)
                                 .foregroundColor(Color(hexadecimal6: 0xFFFFFF))
 
-                            Rectangle()
-                                .frame(width: 64, height: 100, alignment: .center)
-                                .foregroundColor(Color(hexadecimal6: 0x027AFF))
+//                            Rectangle()
+//                                .frame(width: 64, height: 100, alignment: .center)
+//                                .foregroundColor(Color(hexadecimal6: 0x027AFF))
+//                            
+                            Slider(value: $sliderRight, in: 2000 ... 4000)
+                                .rotationEffect(.degrees(-90)) // 将滑块旋转45度
+                                .frame(width: 150, height: 64) // 设置宽度和高度
                         })
                         .padding(.top, 10)
                         .cornerRadius(20)
 
-                        Text("\(viewStore.chatConfig.maxtokens)")
+                        Text(String(format: "%ld", Int(sliderRight)))
                             .font(.custom("DOUYINSANSBOLD-GB", size: 14))
                             .foregroundColor(.black)
                     })

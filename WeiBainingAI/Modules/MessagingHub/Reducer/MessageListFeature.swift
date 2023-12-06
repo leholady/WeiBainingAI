@@ -5,12 +5,12 @@
 //  Created by Daniel ° on 2023/11/29.
 //  消息列表处理
 
+import Combine
 import ComposableArchitecture
 import Foundation
 import Logging
 import Speech
 import SVProgressHUD
-
 @Reducer
 struct MessageListFeature {
     struct State: Equatable {
@@ -19,12 +19,7 @@ struct MessageListFeature {
         /// 输入提示词
         var inputTips: [String] = []
         /// 聊天配置信息
-        var chatConfig: ChatRequestConfigMacro = .defaultConfig() {
-            didSet {
-                debugPrint("chatConfig => \(chatConfig)")
-            }
-        }
-
+        var chatConfig: ChatRequestConfigMacro = .defaultConfig()
         /// 用户配置信息
         var userConfig: UserProfileModel?
         /// 当前会话
@@ -45,6 +40,15 @@ struct MessageListFeature {
         @BindingState var streamMsg = ""
         /// 处理cell状态
         var msgTodos: IdentifiedArrayOf<ChatMsgActionFeature.State> = []
+        var keyboardWillShowPublisher: AnyPublisher<CGRect, Never> {
+            NotificationCenter.default
+                .publisher(for: UIResponder.keyboardWillShowNotification)
+                .compactMap {
+                    $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+                }
+                .debounce(for: .milliseconds(100), scheduler: RunLoop.main) // 去抖
+                .eraseToAnyPublisher()
+        }
     }
 
     enum Action: BindableAction, Equatable {
@@ -139,7 +143,7 @@ struct MessageListFeature {
                 state.msgTodos = IdentifiedArray(uniqueElements: items.map { item in
                     ChatMsgActionFeature.State(id: UUID(), message: item)
                 })
-                
+
                 return .none
             case .scrollToBottom:
                 state.scrollToBottom = true

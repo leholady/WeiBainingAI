@@ -35,13 +35,14 @@ struct ChatMsgShareView: View {
             .task {
                 viewStore.send(.loadChatShareTopics)
             }
-            .popover(isPresented: viewStore.$showSharing) {
+            .sheet(isPresented: viewStore.$showSharing) {
                 // 显示分享视图
                 ActivityView(activityItems: [viewStore.snapshotImage as Any],
                              applicationActivities: nil)
             }
             .background(
-                BackgroundCleanerView()
+                Rectangle()
+                    .fill(Color(.black).opacity(0.2))
                     .onTapGesture {
                         viewStore.send(.dismissPage)
                     }
@@ -143,11 +144,9 @@ struct SharePlatformItemView: View {
         WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ChatMsgShareFeature>) in
             ZStack(alignment: .center, content: {
                 VStack(alignment: .center, spacing: 0, content: {
-                    Divider()
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(Color(hexadecimal6: 0xDDDDDD))
                         .frame(width: 30, height: 4)
-                        .background(Color(hexadecimal6: 0xDDDDDD))
-                        .foregroundColor(.clear)
-                        .cornerRadius(2)
                         .padding(.top, 10)
                         .padding(.bottom, 30)
 

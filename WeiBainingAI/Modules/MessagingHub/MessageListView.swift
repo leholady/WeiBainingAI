@@ -5,111 +5,105 @@
 //  Created by Daniel ° on 2023/11/28.
 //
 
-import Combine
 import ComposableArchitecture
 import SwiftUI
 import SwiftUIX
 
 struct MessageListView: View {
     let store: StoreOf<MessageListFeature>
-
-    private var keyboardWillShowPublisher: AnyPublisher<CGRect, Never> {
-        NotificationCenter.default
-            .publisher(for: UIResponder.keyboardWillShowNotification)
-            .compactMap {
-                $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
-            }
-            .debounce(for: .milliseconds(100), scheduler: RunLoop.main) // 去抖
-            .eraseToAnyPublisher()
-    }
-
     var body: some View {
         WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessageListFeature>) in
-            NavigationView {
-                VStack(alignment: .center, spacing: 0, content: {
-                    ScrollViewReader { proxy in
-                        List {
-                            ForEachStore(
-                                self.store.scope(state: \.msgTodos, action: \.actionTodos)
-                            ) { todoStore in
-                                MessageListCellView(store: todoStore)
-                            }
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(.zero)
-                            .listSectionSeparator(.hidden)
-                            .buttonStyle(.plain)
-
-                            Divider()
-                                .listRowInsets(.zero)
-                                .frame(width: .zero, height: .zero, alignment: .center)
-                                .id("scrollToBottom")
-                                .listSectionSeparator(.hidden)
+            ZStack(content: {
+                NavigationView {
+                    VStack(alignment: .center, content: {
+                        ScrollViewReader { proxy in
+                            List {
+                                ForEachStore(
+                                    self.store.scope(state: \.msgTodos, action: \.actionTodos)
+                                ) { todoStore in
+                                    MessageListCellView(store: todoStore)
+                                }
                                 .listRowSeparator(.hidden)
-                        }
-                        .listStyle(.plain)
-                        // 设置最小行高，隐藏列表两端的视图
-                        .environment(\.defaultMinListRowHeight, 0)
-                        .onReceive(keyboardWillShowPublisher) { _ in
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                withAnimation {
-                                    proxy.scrollTo("scrollToBottom")
+                                .listRowInsets(.zero)
+                                .listSectionSeparator(.hidden)
+                                .buttonStyle(.plain)
+
+                                Divider()
+                                    .listRowInsets(.zero)
+                                    .frame(width: .zero, height: .zero, alignment: .center)
+                                    .id("scrollToBottom")
+                                    .listSectionSeparator(.hidden)
+                                    .listRowSeparator(.hidden)
+                            }
+                            .listStyle(.plain)
+                            // 设置最小行高，隐藏列表两端的视图
+                            .environment(\.defaultMinListRowHeight, 0)
+                            .onReceive(viewStore.keyboardWillShowPublisher) { _ in
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    withAnimation {
+                                        proxy.scrollTo("scrollToBottom")
+                                    }
                                 }
                             }
                         }
-                    }
-
-                    MessageInputContentView(store: store)
-                })
-                .onTapGesture(perform: {
-                    UIApplication.shared.endEditing()
-                })
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading, content: {
-                        Image(.iconBack)
-                            .scaledToFit()
-                            .frame(width: 26, height: 26)
-                            .onTapGesture {
-                                viewStore.send(.dismissPage)
-                            }
+                        MessageInputContentView(store: store)
                     })
-
-                    ToolbarItem(placement: .principal, content: {
-                        HStack(alignment: .center, spacing: 0, content: {
-                            Text(viewStore.chatConfig.model.title)
-                                .font(.custom("DOUYINSANSBOLD-GB", size: 16))
-
-                            Image(.homeIconTriangledown)
+                    .onTapGesture(perform: {
+                        UIApplication.shared.endEditing()
+                    })
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading, content: {
+                            Image(.iconBack)
                                 .scaledToFit()
-                                .frame(width: 10, height: 10)
-                                .padding(.leading, 10)
+                                .frame(width: 26, height: 26)
+                                .onTapGesture {
+                                    viewStore.send(.dismissPage)
+                                }
                         })
-                        .onTapGesture {
-                            viewStore.send(.chatModelSetupTapped)
-                        }
-                    })
 
-                    ToolbarItem(placement: .topBarTrailing, content: {
-                        Image(.iconShare)
-                            .scaledToFit()
-                            .frame(width: 26, height: 26)
+                        ToolbarItem(placement: .principal, content: {
+                            HStack(alignment: .center, spacing: 0, content: {
+                                Text(viewStore.chatConfig.model.title)
+                                    .font(.custom("DOUYINSANSBOLD-GB", size: 16))
+
+                                Image(.homeIconTriangledown)
+                                    .scaledToFit()
+                                    .frame(width: 10, height: 10)
+                                    .padding(.leading, 10)
+                            })
                             .onTapGesture {
-                                viewStore.send(.msgShareTapped)
+                                viewStore.send(.chatModelSetupTapped)
                             }
-                    })
+                        })
+
+                        ToolbarItem(placement: .topBarTrailing, content: {
+                            Image(.iconShare)
+                                .scaledToFit()
+                                .frame(width: 26, height: 26)
+                                .onTapGesture {
+                                    viewStore.send(.msgShareTapped)
+                                }
+                        })
+                    }
                 }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationViewStyle(.stack)
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationViewStyle(.stack)
+
+                IfLetStore(
+                    store.scope(state: \.$sharePage, action: \.presentationMsgShare)
+                ) { store in
+                    withAnimation {
+                        ChatMsgShareView(store: store)
+                            .edgesIgnoringSafeArea(.top)
+                    }
+                }
+            })
             .task {
                 viewStore.send(.loadChatConfig)
             }
             .sheet(store: store.scope(state: \.$setupPage,
                                       action: \.presentationModelSetup)) { store in
                 ChatModelSetupView(store: store)
-            }
-            .fullScreenCover(store: store.scope(state: \.$sharePage,
-                                                action: \.presentationMsgShare)) { store in
-                ChatMsgShareView(store: store)
             }
         }
     }
