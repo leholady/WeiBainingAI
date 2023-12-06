@@ -19,6 +19,7 @@ enum AssistantMakeStatus {
 struct SupportAssistantMakeFeature {
     
     struct State: Equatable {
+        var isDismiss: Bool = false
         var extModel: SupportAssistantDetailsModel
         var imgData: Data?
         var makeStatus: AssistantMakeStatus = .failure
@@ -47,6 +48,7 @@ struct SupportAssistantMakeFeature {
     
     enum CancelID { case timer }
     @Dependency(\.httpClient) var httpClient
+    @Dependency(\.dismiss) var dismiss
     
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -145,8 +147,12 @@ struct SupportAssistantMakeFeature {
                 state.resultState = SupportAssistantResultFeature.State(imgUrl: imgUrl)
                 return .none
             case .fullScreenCoverResult(.presented(.delegate(.resultDismiss))):
-                return .run { send in
-                   await send(.delegate(.resultMakeDismiss))
+                return .run { [isDismiss = state.isDismiss] send in
+                    if isDismiss {
+                        await self.dismiss()
+                    } else {
+                        await send(.delegate(.resultMakeDismiss))
+                    }
                 }
             default:
                 return .none

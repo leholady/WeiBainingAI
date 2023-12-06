@@ -47,5 +47,5 @@ struct SupportAssistantCell: View {
     SupportAssistantCell(model: SupportAssistantModel(imgSign: "e3436025a39a154abd8a0a2e8f8f2467",
                                                       title: "AI艺术头像制作",
                                                       content: "头像生成器应用程序可让您通过上传图像和自定义不同的样式来创建独特的头像。",
-                                                      type: .avatar))
+                                                      type: .textToAvatar))
 }

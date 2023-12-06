@@ -24,10 +24,18 @@ struct SupportAssistantView: View {
                                                   trailing: 20))
                         .onTapGesture {
                             switch item.type {
+                            case .imageToAvatar,
+                                    .imageToWallpaper:
+                                viewStore.send(.dismissAlbum(item.type))
+                            case .textToAvatar,
+                                    .textToWallpaper:
+                                viewStore.send(.dismissTextMake(item))
+                            case .aiDiy:
+                                viewStore.send(.dismissDetails(item))
                             case .chat:
                                 break
                             default:
-                                viewStore.send(.dismissDetails(item))
+                                break
                             }
                         }
                 }
@@ -46,11 +54,22 @@ struct SupportAssistantView: View {
                 .onAppear {
                     viewStore.send(.uploadAssistantItems)
                 }
-                .fullScreenCover(
-                    store: self.store.scope(state: \.$details,
-                                            action: \.fullScreenCoverDetails)) { store in
-                                                SupportAssistantDetailsView(store: store)
-                                            }
+                .fullScreenCover(store: self.store.scope(state: \.$makeState,
+                                                         action: \.fullScreenCoverMake)) { store in
+                    SupportAssistantMakeView(store: store)
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$textState,
+                                                         action: \.fullScreenCoverTextMake)) { store in
+                    SupportAssistantTextView(store: store)
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$albumState,
+                                                         action: \.fullScreenCoverAlbum)) { store in
+                    ImagePickerView(store: store)
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$details,
+                                                         action: \.fullScreenCoverDetails)) { store in
+                    SupportAssistantDetailsView(store: store)
+                }
             }
             .background(Color(hex: 0xF6F6F6))
         }

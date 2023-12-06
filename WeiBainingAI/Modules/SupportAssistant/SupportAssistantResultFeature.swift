@@ -45,7 +45,7 @@ struct SupportAssistantResultFeature {
                         await SVProgressHUD.showSuccess(withStatus: "已保存到相册")
                     } catch {
                         await SVProgressHUD.dismiss()
-                        await SVProgressHUD.showSuccess(withStatus: "保存失败, 请稍候重试")
+                        await SVProgressHUD.showError(withStatus: "保存失败, 请稍候重试")
                     }
                 }
             default:

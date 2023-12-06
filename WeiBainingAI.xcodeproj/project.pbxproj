@@ -49,6 +49,8 @@
 		65EAFBD92B18C5E90055ABEA /* MoreOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EAFBD82B18C5E90055ABEA /* MoreOptionsView.swift */; };
 		65EAFBDB2B18C6050055ABEA /* SupportAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EAFBDA2B18C6050055ABEA /* SupportAssistantView.swift */; };
 		7E0CD91D2B148A2F00308394 /* SupportAssistantDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0CD91C2B148A2F00308394 /* SupportAssistantDetailsModel.swift */; };
+		7E0FD99C2B2056BF0079C82D /* SupportAssistantTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FD99B2B2056BF0079C82D /* SupportAssistantTextView.swift */; };
+		7E0FD99E2B2056DF0079C82D /* SupportAssistantTextFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FD99D2B2056DF0079C82D /* SupportAssistantTextFeature.swift */; };
 		7E15CF8B2B1EFBEB00982C7B /* PremiumMemberSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E15CF8A2B1EFBEB00982C7B /* PremiumMemberSelectView.swift */; };
 		7E51696D2B16143500737171 /* SupportAssistantDetailsTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E51696C2B16143500737171 /* SupportAssistantDetailsTextCell.swift */; };
 		7E51696F2B16157E00737171 /* SupportAssistantDetailsSegmentedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E51696E2B16157E00737171 /* SupportAssistantDetailsSegmentedCell.swift */; };
@@ -130,6 +132,8 @@
 		65EAFBD82B18C5E90055ABEA /* MoreOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreOptionsView.swift; sourceTree = "<group>"; };
 		65EAFBDA2B18C6050055ABEA /* SupportAssistantView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportAssistantView.swift; sourceTree = "<group>"; };
 		7E0CD91C2B148A2F00308394 /* SupportAssistantDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsModel.swift; sourceTree = "<group>"; };
+		7E0FD99B2B2056BF0079C82D /* SupportAssistantTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantTextView.swift; sourceTree = "<group>"; };
+		7E0FD99D2B2056DF0079C82D /* SupportAssistantTextFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantTextFeature.swift; sourceTree = "<group>"; };
 		7E15CF8A2B1EFBEB00982C7B /* PremiumMemberSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumMemberSelectView.swift; sourceTree = "<group>"; };
 		7E51696C2B16143500737171 /* SupportAssistantDetailsTextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsTextCell.swift; sourceTree = "<group>"; };
 		7E51696E2B16157E00737171 /* SupportAssistantDetailsSegmentedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantDetailsSegmentedCell.swift; sourceTree = "<group>"; };
@@ -359,6 +363,8 @@
 				65EAFBDA2B18C6050055ABEA /* SupportAssistantView.swift */,
 				7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */,
 				7E94A47E2B144B0600EA23F8 /* SupportAssistantFeature.swift */,
+				7E0FD99B2B2056BF0079C82D /* SupportAssistantTextView.swift */,
+				7E0FD99D2B2056DF0079C82D /* SupportAssistantTextFeature.swift */,
 				7EA68D0B2B15D10D00958343 /* SupportAssistantClient.swift */,
 				7E94A4812B144BD200EA23F8 /* SupportAssistantDetailsView.swift */,
 				7EA68D132B16058200958343 /* SupportAssistantDetailsImageCell.swift */,
@@ -553,6 +559,7 @@
 				7E645C792B199EC700D7E589 /* MoreOptionsHeaderView.swift in Sources */,
 				7E645C772B19892500D7E589 /* MoreOptionsGroupModel.swift in Sources */,
 				7EE7CA242B172510003A1B4A /* TextImageTaskResultModel.swift in Sources */,
+				7E0FD99C2B2056BF0079C82D /* SupportAssistantTextView.swift in Sources */,
 				7E645C7B2B19BC3600D7E589 /* MoreOptionsItemCell.swift in Sources */,
 				7E645C822B19CA2A00D7E589 /* MoreOptionsClient.swift in Sources */,
 				7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */,
@@ -589,6 +596,7 @@
 				7E95BC242B14C220001884AD /* SegmentedControl.swift in Sources */,
 				7E645C802B19C40000D7E589 /* MoreBalanceItemModel.swift in Sources */,
 				D310AC312B10A8C600E48A66 /* MoreOptionsFeature.swift in Sources */,
+				7E0FD99E2B2056DF0079C82D /* SupportAssistantTextFeature.swift in Sources */,
 				65876ECC2B0F885200DFFE0C /* HttpErrorHandler.swift in Sources */,
 				655D36082B16D864004A5308 /* MessagingClient.swift in Sources */,
 				7E6747F32B1B1AA7001D95FB /* MemberHeaderItemModel.swift in Sources */,

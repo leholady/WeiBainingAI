@@ -18,7 +18,7 @@ struct SupportAssistantDetailsFeature {
         @BindingState var editorText: String = ""
         var aspectRatios: [SupportAssistantDetailsModel.AssistantDetailsProportion] = [.one, .two, .three, .four, .five, .six]
         @BindingState var selectRatios: Int = 0
-        var aspectStyles: [SupportAssistantDetailsModel.AssistantDetailsStyle] = [.automatic, .style1, .style2, .style3, .style4]
+        var aspectStyles: [SupportAssistantDetailsModel.AssistantDetailsStyle] = [.style8, .style26, .style12, .style16, .style27]
         @BindingState var selectStyle: Int = 0
         var aspectImageFactors: [SupportAssistantDetailsModel.AssistantDetailsImageFactor] = [.low, .middle, .high, .forced]
         @BindingState var selectImageFactor: Int = 0
@@ -42,7 +42,7 @@ struct SupportAssistantDetailsFeature {
         Reduce { state, action in
             switch action {
             case .dismissAlbum:
-                state.albumState = ImagePickerFeature.State()
+                state.albumState = ImagePickerFeature.State(isAllowsEditing: true)
                 return .none
             case let .fullScreenCoverAlbum(.presented(.delegate(.selectImage(data)))):
                 state.selectImageData = data
