@@ -26,7 +26,7 @@ struct SupportAssistantView: View {
                             switch item.type {
                             case .imageToAvatar,
                                     .imageToWallpaper:
-                                viewStore.send(.dismissAlbum(item.type))
+                                viewStore.send(.dismissAlbum(item))
                             case .textToAvatar,
                                     .textToWallpaper:
                                 viewStore.send(.dismissTextMake(item))

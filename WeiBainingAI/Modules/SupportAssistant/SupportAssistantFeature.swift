@@ -16,7 +16,7 @@ struct SupportAssistantFeature {
         @PresentationState var details: SupportAssistantDetailsFeature.State?
         @PresentationState var albumState: ImagePickerFeature.State?
         var selectImageData: Data?
-        var markType: SupportAssistantModel.SupportAssistantType?
+        var markModel: SupportAssistantModel?
         @PresentationState var makeState: SupportAssistantMakeFeature.State?
         @PresentationState var textState: SupportAssistantTextFeature.State?
         @PresentationState var lightShadowState: SupportAssistantLightShadowFeature.State?
@@ -27,7 +27,7 @@ struct SupportAssistantFeature {
         case assistantsUpdate(TaskResult<[SupportAssistantModel]>)
         case dismissDetails(SupportAssistantModel)
         case fullScreenCoverDetails(PresentationAction<SupportAssistantDetailsFeature.Action>)
-        case dismissAlbum(SupportAssistantModel.SupportAssistantType)
+        case dismissAlbum(SupportAssistantModel)
         case fullScreenCoverAlbum(PresentationAction<ImagePickerFeature.Action>)
         case dismissMake
         case fullScreenCoverMake(PresentationAction<SupportAssistantMakeFeature.Action>)
@@ -64,9 +64,9 @@ struct SupportAssistantFeature {
                                                                      aspectStyles: model.configuration?.styles ?? [.style8, .style26, .style12, .style16, .style27],
                                                                      aspectImageFactors: model.configuration?.imageFactors ?? [.low, .middle, .high, .forced])
                 return .none
-            case let .dismissAlbum(type):
-                state.markType = type
-                state.albumState = ImagePickerFeature.State(isAllowsEditing: type == .imageToAvatar)
+            case let .dismissAlbum(model):
+                state.markModel = model
+                state.albumState = ImagePickerFeature.State(isAllowsEditing: model.type == .imageToAvatar)
                 return .none
             case let .fullScreenCoverAlbum(.presented(.delegate(.selectImage(data)))):
                 state.selectImageData = data
@@ -75,21 +75,21 @@ struct SupportAssistantFeature {
                 }
             case .dismissMake:
                 guard let imgData = state.selectImageData,
-                      let markType = state.markType else {
+                      let markModel = state.markModel else {
                     return .none
                 }
-                switch markType {
+                switch markModel.type {
                 case .imageToAvatar:
                     state.makeState = SupportAssistantMakeFeature.State(isDismiss: true,
                                                                         extModel: SupportAssistantDetailsModel(proportion: .one,
-                                                                                                               style: .style27,
-                                                                                                               referImageFactor: .high),
+                                                                                                               style: markModel.configuration?.styles?.first ?? .style27,
+                                                                                                               referImageFactor: markModel.configuration?.imageFactors?.first ?? .high),
                                                                         imgData: imgData)
                 case .imageToWallpaper:
                     state.makeState = SupportAssistantMakeFeature.State(isDismiss: true,
                                                                         extModel: SupportAssistantDetailsModel(proportion: .four,
-                                                                                                               style: .style19,
-                                                                                                               referImageFactor: .high),
+                                                                                                               style: markModel.configuration?.styles?.first ?? .style19,
+                                                                                                               referImageFactor: markModel.configuration?.imageFactors?.first ?? .high),
                                                                         imgData: imgData)
                 default:
                     break
