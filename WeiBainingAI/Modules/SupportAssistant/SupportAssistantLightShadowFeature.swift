@@ -15,6 +15,8 @@ struct SupportAssistantLightShadowFeature {
         var textTitle: String
         var depictText: String
         @BindingState var lightShadowText: String = ""
+        var aspectRatios: [SupportAssistantDetailsModel.AssistantDetailsProportion]
+        @BindingState var selectRatios: Int = 0
         var aspectStyles: [SupportAssistantDetailsModel.AssistantDetailsStyle]
         @BindingState var selectStyle: Int = 0
         @PresentationState var makeState: SupportAssistantMakeFeature.State?
@@ -41,12 +43,13 @@ struct SupportAssistantLightShadowFeature {
                     SVProgressHUD.showError(withStatus: "请注意，文字长度限制为 4 字符")
                     return .none
                 }
-                guard state.selectStyle < state.aspectStyles.count else {
+                guard state.selectStyle < state.aspectStyles.count,
+                      state.selectRatios < state.aspectRatios.count else {
                     SVProgressHUD.showError(withStatus: "当前服务不可用, 请稍候再试")
                     return .none
                 }
                 let model = SupportAssistantDetailsModel(text: state.depictText,
-                                                         proportion: .four,
+                                                         proportion: state.aspectRatios[state.selectRatios],
                                                          style: state.aspectStyles[state.selectStyle],
                 controlNetNname: "brightness")
                 state.makeState = SupportAssistantMakeFeature.State(extModel: model, imgData: state.lightShadowText.toImage().pngData())

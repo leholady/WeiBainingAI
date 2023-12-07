@@ -104,6 +104,7 @@ struct SupportAssistantFeature {
             case let .dismissLightShadow(model):
                 state.lightShadowState = SupportAssistantLightShadowFeature.State(textTitle: model.title,
                                                                                   depictText: model.configuration?.depictText ?? "时尚摄影肖像，女孩，白色长裙晚礼服，腮红，唇彩，微笑，浅棕色头发，落肩，飘逸的羽毛装饰礼服，蓬松长发，柔和的光线，美丽的阴影，低调，逼真，原始照片，自然的皮肤纹理，逼真的眼睛和脸部细节，超现实主义，超高分辨率，4K，最佳质量，杰作，项链，乳白色",
+                                                                                  aspectRatios: model.configuration?.proportions ?? [.four],
                                                                                   aspectStyles: model.configuration?.styles ?? [.style8, .style12, .style16, .style22, .style25])
                 return .none
             default:
