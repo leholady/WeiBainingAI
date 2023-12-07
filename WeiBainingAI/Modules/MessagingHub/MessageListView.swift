@@ -16,39 +16,34 @@ struct MessageListView: View {
             ZStack(content: {
                 NavigationView {
                     VStack(alignment: .center, content: {
-                        ScrollViewReader { proxy in
-                            List {
-                                ForEachStore(
-                                    self.store.scope(state: \.msgTodos, action: \.actionTodos)
-                                ) { todoStore in
-                                    MessageListCellView(store: todoStore)
-                                }
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(.zero)
-                                .listSectionSeparator(.hidden)
-                                .buttonStyle(.plain)
-
-                                Divider()
-                                    .listRowInsets(.zero)
-                                    .frame(width: .zero, height: .zero, alignment: .center)
-                                    .id("scrollToBottom")
-                                    .listSectionSeparator(.hidden)
-                                    .listRowSeparator(.hidden)
-                            }
-                            .listStyle(.plain)
-                            // 设置最小行高，隐藏列表两端的视图
-                            .environment(\.defaultMinListRowHeight, 0)
-                            .onReceive(viewStore.keyboardWillShowPublisher) { _ in
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    withAnimation {
-                                        proxy.scrollTo("scrollToBottom")
+                        ScrollView {
+                            ScrollViewReader { scrollViewProxy in
+                                VStack(alignment: .center, spacing: 0) {
+                                    ForEachStore(
+                                        self.store.scope(state: \.msgTodos, action: \.actionTodos)
+                                    ) { todoStore in
+                                        MessageListCellView(store: todoStore)
                                     }
-                                }
-                            }
-                            .onAppear {
-                                // List完全出现在视图中后，滚动到底部
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    proxy.scrollTo("scrollToBottom")
+                                    HStack(alignment: .center, spacing: 0, content: {
+                                        Spacer()
+                                            .frame(width: 0, height: 0, alignment: .center)
+                                            .id("scrollToBottom")
+                                    })
+                                    .onAppear {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            scrollViewProxy.scrollTo("scrollToBottom", anchor: .bottom)
+                                        }
+                                    }
+                                    .onReceive(viewStore.keyboardWillShowPublisher) { _ in
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            scrollViewProxy.scrollTo("scrollToBottom", anchor: .bottom)
+                                        }
+                                    }
+                                    .onReceive(viewStore.msgListPublisher) { _ in
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                            scrollViewProxy.scrollTo("scrollToBottom", anchor: .bottom)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -108,12 +103,6 @@ struct MessageListView: View {
             .task {
                 viewStore.send(.loadChatConfig)
             }
-//            .alert("确定删除此条消息吗？", isPresented: viewStore.$showDeleteDialog, actions: {
-//                Button("取消") {}
-//                Button("确定") {}
-//            }, message: {
-//                Text("确认删除，将无法恢复，请谨慎操作！")
-//            })
             .sheet(store: store.scope(state: \.$setupPage,
                                       action: \.presentationModelSetup)) { store in
                 ChatModelSetupView(store: store)

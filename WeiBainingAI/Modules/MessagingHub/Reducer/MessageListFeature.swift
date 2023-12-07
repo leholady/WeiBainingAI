@@ -38,10 +38,13 @@ struct MessageListFeature {
         @BindingState var inputText: String = ""
         /// 流返回数据
         @BindingState var streamMsg = ""
-        /// 删除对话框
-        @BindingState var showDeleteDialog: Bool = false
+
         /// 处理cell状态
         var msgTodos: IdentifiedArrayOf<ChatMsgActionFeature.State> = []
+        var msgListPublisher: AnyPublisher<[MessageItemDb], Never> {
+            Just(messageList)
+                .eraseToAnyPublisher()
+        }
 
         var keyboardWillShowPublisher: AnyPublisher<CGRect, Never> {
             NotificationCenter.default
@@ -199,6 +202,7 @@ struct MessageListFeature {
                     _ = try await sendClient.handleSendMsg(content, conversation)
                     // 刷新列表
                     await send(.updateStreamResult(conversation))
+                    
                     // 请求返回的消息
                     for try await message in try await msgListClient.handleStreamData(content, config) {
                         await send(.receiveStreamResult(message, conversation))

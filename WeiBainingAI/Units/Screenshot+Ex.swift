@@ -8,36 +8,102 @@
 import SwiftUI
 import UIKit
 
-// UIViewRepresentable包装，将SwiftUI视图植入到UIView中
-struct SnapshotWrapper<Content: View>: UIViewRepresentable {
-    let content: Content
-    let completion: (UIImage) -> Void
+extension View {
+    func snapshot() -> UIImage {
+        let controller = UIHostingController(rootView: self)
+        let view = controller.view
 
-    func makeUIView(context: Context) -> UIView {
-        let hostingController = UIHostingController(rootView: content)
-        // 设置一个透明的背景色
-        hostingController.view.backgroundColor = .clear
-        return hostingController.view
-    }
+        let targetSize = controller.view.intrinsicContentSize
+        view?.bounds = CGRect(origin: .zero, size: targetSize)
+        view?.backgroundColor = .clear
 
-    func updateUIView(_ uiView: UIView, context: Context) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            let renderer = UIGraphicsImageRenderer(bounds: uiView.bounds)
-            let image = renderer.image { _ in
-                uiView.drawHierarchy(in: uiView.bounds, afterScreenUpdates: true)
-            }
-            completion(image)
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+
+        return renderer.image { _ in
+            view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
         }
     }
 }
 
-// SwiftUI视图扩展，添加截图功能
-extension View {
-    func snapshot(completion: @escaping (UIImage) -> Void) -> some View {
-        SnapshotWrapper(content: self, completion: completion)
+extension UIView {
+    var renderedImage: UIImage {
+        // rect of capure
+        let rect = bounds
+        // create the context of bitmap
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+        let context: CGContext = UIGraphicsGetCurrentContext()!
+        layer.render(in: context)
+        // get a image from current context bitmap
+        let capturedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return capturedImage
     }
 }
 
+extension View {
+    func takeScreenshot(origin: CGPoint, size: CGSize) -> UIImage {
+        let window = UIWindow(frame: CGRect(origin: origin, size: size))
+        let hosting = UIHostingController(rootView: self)
+        hosting.view.frame = window.frame
+        window.addSubview(hosting.view)
+        window.makeKeyAndVisible()
+        return hosting.view.renderedImage
+    }
+}
+
+// extension View {
+//    func takeScreenshot(origin: CGPoint, size: CGSize) -> UIImage {
+//        let window = UIWindow(frame: CGRect(origin: origin, size: size))
+//        let hosting = UIHostingController(rootView: self)
+//        hosting.view.frame = window.frame
+//        window.addSubview(hosting.view)
+//        window.makeKeyAndVisible()
+//        return hosting.view.screenShot
+//    }
+// }
+//
+// extension UIView {
+//    var screenShot: UIImage {
+//        let rect = bounds
+//        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+//        let context: CGContext = UIGraphicsGetCurrentContext()!
+//        layer.render(in: context)
+//        let capturedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+//        UIGraphicsEndImageContext()
+//        return capturedImage
+//    }
+// }
+
+//// UIViewRepresentable包装，将SwiftUI视图植入到UIView中
+// struct SnapshotWrapper<Content: View>: UIViewRepresentable {
+//    let content: Content
+//    let completion: (UIImage) -> Void
+//
+//    func makeUIView(context: Context) -> UIView {
+//        let hostingController = UIHostingController(rootView: content)
+//        // 设置一个透明的背景色
+//        hostingController.view.backgroundColor = .clear
+//        return hostingController.view
+//    }
+//
+//    func updateUIView(_ uiView: UIView, context: Context) {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//            let renderer = UIGraphicsImageRenderer(bounds: uiView.bounds)
+//            let image = renderer.image { _ in
+//                uiView.drawHierarchy(in: uiView.bounds, afterScreenUpdates: true)
+//            }
+//            completion(image)
+//        }
+//    }
+// }
+//
+//// SwiftUI视图扩展，添加截图功能
+// extension View {
+//    func snapshot(completion: @escaping (UIImage) -> Void) -> some View {
+//        SnapshotWrapper(content: self, completion: completion)
+//    }
+// }
+//
 public struct ScreenshotTableView<Content: View>: View {
     @Binding var shotting: Bool
     var completed: (UIImage) -> Void
