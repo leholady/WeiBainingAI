@@ -20,7 +20,7 @@ extension String {
             
             let newLine = count >= 4 ? 2 : 1
             var fontSize: CGFloat = 0
-            var list = stride(from: 0, to: count, by: newLine).map {
+            let list = stride(from: 0, to: count, by: newLine).map {
                 String(dropFirst($0).prefix(newLine))
             }
             fontSize = (size.height - 40 * CGFloat(list.count)) / CGFloat(list.count)

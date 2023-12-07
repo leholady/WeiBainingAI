@@ -16,6 +16,8 @@ struct SupportAssistantTextFeature {
         var editType: SupportAssistantModel.SupportAssistantType
         @BindingState var editorText: String = ""
         @PresentationState var makeState: SupportAssistantMakeFeature.State?
+        var aspectStyles: [SupportAssistantDetailsModel.AssistantDetailsStyle]
+        @BindingState var selectStyle: Int = 0
     }
     
     enum Action: BindableAction, Equatable {
@@ -35,9 +37,13 @@ struct SupportAssistantTextFeature {
                     SVProgressHUD.showError(withStatus: "请输入文字提示")
                     return .none
                 }
+                guard state.selectStyle < state.aspectStyles.count else {
+                    SVProgressHUD.showError(withStatus: "当前服务不可用, 请稍候再试")
+                    return .none
+                }
                 state.makeState = SupportAssistantMakeFeature.State(extModel: SupportAssistantDetailsModel(text: state.editorText,
                                                                                                            proportion: state.editType == .textToAvatar ? .one : .four,
-                                                                                                           style: .style9))
+                                                                                                           style: state.aspectStyles[state.selectStyle]))
                 return .none
             case .fullScreenCoverMake(.presented(.delegate(.resultMakeDismiss))):
                 return .run { _ in

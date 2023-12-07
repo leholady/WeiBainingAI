@@ -22,6 +22,11 @@ struct SupportAssistantTextView: View {
                                                     placeholder: "输入所需的内容和风格例如：太空行走的小猫",
                                                     text: viewStore.$editorText,
                                                     editorHeight: 220)
+                    if viewStore.aspectStyles.count > 1 {
+                        SupportAssistantDetailsSegmentedCell(title: "风格",
+                                                             items: viewStore.aspectStyles.compactMap { $0.title },
+                                                             select: viewStore.$selectStyle)
+                    }
                     RoundedRectangle(cornerRadius: 20)
                         .overlay(content: {
                             Text("生成")
@@ -61,7 +66,7 @@ struct SupportAssistantTextView: View {
 
 #Preview {
     SupportAssistantTextView(store: Store(initialState: SupportAssistantTextFeature.State(textTitle: "text",
-                                                                                          editType: .textToAvatar), reducer: {
+                                                                                          editType: .textToAvatar, aspectStyles: [.style9]), reducer: {
         SupportAssistantTextFeature()
     }))
 }

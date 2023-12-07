@@ -96,7 +96,10 @@ struct SupportAssistantFeature {
                     await self.dismiss()
                 }
             case let .dismissTextMake(model):
-                state.textState = SupportAssistantTextFeature.State(textTitle: model.title, editType: model.type)
+                state.textState = SupportAssistantTextFeature.State(textTitle: model.title,
+                                                                    editType: model.type,
+                                                                    editorText: model.configuration?.depictText ?? "",
+                                                                    aspectStyles: model.configuration?.styles ?? [.style9])
                 return .none
             case let .dismissLightShadow(model):
                 state.lightShadowState = SupportAssistantLightShadowFeature.State(textTitle: model.title,
