@@ -19,10 +19,10 @@ enum MessageSendRole: String, Codable {
 }
 
 enum MessageSendState: Int, Codable {
-    case sending = 0
-    case generating = 1
-    case success = 2
-    case failed = 3
+    case sending = 0 // 正在发送
+    case generating = 1 // 正在生成
+    case success = 2 // 发送成功
+    case failed = 3 // 生成失败，发送失败
 }
 
 // MARK: - WCDB
@@ -73,6 +73,7 @@ struct MessageItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
     var id: Int {
         identifier
     }
+
     var identifier: Int
     var conversationId: Int
     var role: String // user, assistant

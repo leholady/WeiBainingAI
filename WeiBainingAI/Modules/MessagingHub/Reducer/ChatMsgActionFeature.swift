@@ -25,6 +25,11 @@ struct ChatMsgActionFeature {
         case deleteMessage
         /// 重新生成回答
         case regenerateAnswer
+        /// 回调上个界面
+        case delegate(Delegate)
+        enum Delegate: Equatable {
+            case regenerate(String)
+        }
     }
 
     var body: some Reducer<State, Action> {
@@ -43,6 +48,11 @@ struct ChatMsgActionFeature {
                 return .none
 
             case .regenerateAnswer:
+                let content = state.message.content
+                return .run { send in
+                    await send(.delegate(.regenerate(content)))
+                }
+            default:
                 return .none
             }
         }

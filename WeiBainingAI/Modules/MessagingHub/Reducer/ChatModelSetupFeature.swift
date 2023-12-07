@@ -16,6 +16,10 @@ struct ChatModelSetupFeature {
         var chatConfig: ChatRequestConfigMacro
         /// 选择风格
         @BindingState var selectStyleIndex: Int = 0
+        /// 附加消息计数
+        @BindingState var msgCount: Int = 0
+        /// 附加消息Token
+        @BindingState var msgTokens: Int = 0
 
         var chatModelList: [ChatModelType] = [.gpt3_5, .gpt4]
         var chatStyleItem: [ChatTemperatureType] = [.creativity, .balance, .accurate]
@@ -30,6 +34,10 @@ struct ChatModelSetupFeature {
         case selectChatModel(index: Int)
         /// 聊天配置缓存
         case saveChatConfig
+        /// 更新消息计数
+        case updateMsgCount(Double)
+        /// 更新消息Token
+        case updateMsgTokens(Double)
         /// 关闭视图
         case dismissConfig
         case delegate(Delegate)
@@ -54,8 +62,9 @@ struct ChatModelSetupFeature {
                 } else if state.selectStyleIndex == 2 {
                     state.chatConfig.temperature = .accurate
                 }
+                state.chatConfig.msgCount = state.msgCount
+                state.chatConfig.maxtokens = state.msgTokens
                 return .none
-
             case .loadChatConfig:
                 state.selectModelId = (state.chatConfig.model == .gpt3_5) ? 0 : 1
                 switch state.chatConfig.temperature {
@@ -66,13 +75,13 @@ struct ChatModelSetupFeature {
                 case .accurate:
                     state.selectStyleIndex = 2
                 }
+                state.msgCount = state.chatConfig.msgCount
+                state.msgTokens = state.chatConfig.maxtokens
                 return .none
-
             case let .selectChatModel(index):
                 state.selectModelId = index
                 state.chatConfig.model = (index == 0) ? .gpt3_5 : .gpt4
                 return .none
-
             case .dismissConfig:
                 let chatConfig = state.chatConfig
                 return .run { send in
@@ -80,6 +89,16 @@ struct ChatModelSetupFeature {
                     await send(.delegate(.updateChatModel(chatConfig)))
                     await dismiss()
                 }
+            case let .updateMsgCount(count):
+                state.msgCount = Int(count * 10)
+                state.chatConfig.msgCount = state.msgCount
+                return .none
+            case let .updateMsgTokens(sliderValue):
+                let actualValue = sliderValue * 4000
+                let roundedValue = (actualValue / 10).rounded() * 10
+                state.msgTokens = Int(roundedValue)
+                state.chatConfig.maxtokens = state.msgTokens
+                return .none
             default:
                 return .none
             }

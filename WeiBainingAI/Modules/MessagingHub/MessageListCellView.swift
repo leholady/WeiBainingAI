@@ -24,6 +24,7 @@ struct MessageTimestampCell: View {
 }
 
 // MARK: - 消息列表显示项
+
 struct MessageListCellView: View {
     let store: StoreOf<ChatMsgActionFeature>
     var body: some View {
@@ -59,33 +60,24 @@ struct MessageReceiveCell: View {
                             .padding(EdgeInsets(top: 14, leading: 14, bottom: 0, trailing: 14))
 
                         HStack(alignment: .center, spacing: 0, content: {
-                            Button(action: {
-                                viewStore.send(.regenerateAnswer)
-                            }, label: {
-                                Image(.chatIconRefreshBlack)
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                    .padding(.all, 6)
-                            })
-
-                            Button(action: {
-                                viewStore.send(.copyTextToClipboard)
-                            }, label: {
-                                Image(.chatIconCopyBlack)
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                    .padding(.all, 6)
-                            })
-
-                            Button(action: {
-                                viewStore.send(.shareMessage)
-                            }, label: {
-                                Image(.chatIconShareBlack)
-                                    .scaledToFit()
-                                    .frame(width: 20, height: 20)
-                                    .padding(.all, 6)
-                            })
-
+                            if viewStore.message.msgStateType == .success {
+                                Button(action: {
+                                    viewStore.send(.copyTextToClipboard)
+                                }, label: {
+                                    Image(.chatIconCopyBlack)
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20)
+                                        .padding(.all, 6)
+                                })
+                                Button(action: {
+                                    viewStore.send(.shareMessage)
+                                }, label: {
+                                    Image(.chatIconShareBlack)
+                                        .scaledToFit()
+                                        .frame(width: 20, height: 20)
+                                        .padding(.all, 6)
+                                })
+                            }
                             Button(action: {
                                 viewStore.send(.deleteMessage)
                             }, label: {
@@ -127,6 +119,15 @@ struct MessageSenderCell: View {
                             .padding(EdgeInsets(top: 14, leading: 14, bottom: 0, trailing: 14))
 
                         HStack(alignment: .center, spacing: 0, content: {
+                            Button(action: {
+                                viewStore.send(.regenerateAnswer)
+                            }, label: {
+                                Image(.chatIconRefreshWhite)
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .padding(.all, 6)
+                            })
+
                             Button(action: {
                                 viewStore.send(.copyTextToClipboard)
                             }, label: {

@@ -5,6 +5,7 @@
 //  Created by Daniel ° on 2023/11/30.
 //
 
+import CompactSlider
 import ComposableArchitecture
 import SwiftUI
 
@@ -153,11 +154,8 @@ struct ChatStyleSelectionView: View {
 
 struct ChatTokenSelectionView: View {
     let store: StoreOf<ChatModelSetupFeature>
-    @State private var sliderLeft: Double = 2
-    @State private var sliderRight: Double = 2000
-    
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { (_: ViewStoreOf<ChatModelSetupFeature>) in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ChatModelSetupFeature>) in
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 0) {
                     VStack(alignment: .center, spacing: 10, content: {
@@ -174,22 +172,20 @@ struct ChatTokenSelectionView: View {
                             .multilineTextAlignment(.leading)
 
                         ZStack(alignment: .center, content: {
-                            RoundedRectangle(cornerRadius: 20)
-                                .frame(width: 64, height: 150, alignment: .center)
-                                .foregroundColor(Color(hexadecimal6: 0xFFFFFF))
-
-//                            Rectangle()
-//                                .frame(width: 64, height: 20, alignment: .center)
-//                                .foregroundColor(Color(hexadecimal6: 0x027AFF))
-
-                            Slider(value: $sliderLeft, in: 0 ... 10)
-                                .rotationEffect(.degrees(-90)) // 将滑块旋转45度
-                                .frame(width: 150, height: 64) // 设置宽度和高度
+                            VerticalSliderView(value: .constant(Float(viewStore.chatConfig.msgCount)),
+                                               inRange: 0 ... 10,
+                                               fillColor: .blue,
+                                               emptyColor: .white,
+                                               width: 64,
+                                               onEditingChanged: { value in
+                                                   viewStore.send(.updateMsgCount(value))
+                                               })
+                                               .height(150)
                         })
                         .padding(.top, 10)
                         .cornerRadius(20)
 
-                        Text(String(format: "%ld", Int(sliderLeft)))
+                        Text(String(format: "%ld", viewStore.msgCount))
                             .font(.custom("DOUYINSANSBOLD-GB", size: 14))
                             .foregroundColor(.black)
 
@@ -214,22 +210,21 @@ struct ChatTokenSelectionView: View {
                             .multilineTextAlignment(.leading)
 
                         ZStack(alignment: .center, content: {
-                            RoundedRectangle(cornerRadius: 20)
-                                .frame(width: 64, height: 150, alignment: .center)
-                                .foregroundColor(Color(hexadecimal6: 0xFFFFFF))
+                            VerticalSliderView(value: .constant(Float(viewStore.chatConfig.maxtokens)),
+                                               inRange: 100 ... 4000,
+                                               fillColor: .blue,
+                                               emptyColor: .white,
+                                               width: 64,
+                                               onEditingChanged: { value in
+                                                   viewStore.send(.updateMsgTokens(value))
+                                               })
+                                               .height(150)
 
-//                            Rectangle()
-//                                .frame(width: 64, height: 100, alignment: .center)
-//                                .foregroundColor(Color(hexadecimal6: 0x027AFF))
-//                            
-                            Slider(value: $sliderRight, in: 2000 ... 4000)
-                                .rotationEffect(.degrees(-90)) // 将滑块旋转45度
-                                .frame(width: 150, height: 64) // 设置宽度和高度
                         })
                         .padding(.top, 10)
                         .cornerRadius(20)
 
-                        Text(String(format: "%ld", Int(sliderRight)))
+                        Text(String(format: "%ld", viewStore.msgTokens))
                             .font(.custom("DOUYINSANSBOLD-GB", size: 14))
                             .foregroundColor(.black)
                     })
