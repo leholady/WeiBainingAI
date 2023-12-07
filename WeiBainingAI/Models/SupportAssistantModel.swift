@@ -16,6 +16,14 @@ struct SupportAssistantModel: Codable, Equatable, Identifiable {
     var title: String
     var content: String
     var type: SupportAssistantType
+    var configuration: SupportAssistantConfiguration?
+    
+    struct SupportAssistantConfiguration: Codable, Equatable {
+        var depictText: String?
+        var styles: [SupportAssistantDetailsModel.AssistantDetailsStyle]?
+        var imageFactors: [SupportAssistantDetailsModel.AssistantDetailsImageFactor]?
+        var proportions: [SupportAssistantDetailsModel.AssistantDetailsProportion]?
+    }
     
     struct SupportAssistantType: RawRepresentable, Codable, Equatable, Hashable {
         var id: String {

@@ -13,8 +13,9 @@ import UIKit
 struct SupportAssistantLightShadowFeature {
     struct State: Equatable {
         var textTitle: String
+        var depictText: String
         @BindingState var lightShadowText: String = ""
-        var aspectStyles: [SupportAssistantDetailsModel.AssistantDetailsStyle] = [.style8, .style12, .style16, .style22, .style25]
+        var aspectStyles: [SupportAssistantDetailsModel.AssistantDetailsStyle]
         @BindingState var selectStyle: Int = 0
         @PresentationState var makeState: SupportAssistantMakeFeature.State?
     }
@@ -44,7 +45,7 @@ struct SupportAssistantLightShadowFeature {
                     SVProgressHUD.showError(withStatus: "当前服务不可用, 请稍候再试")
                     return .none
                 }
-                let model = SupportAssistantDetailsModel(text: "时尚摄影肖像，女孩，白色长裙晚礼服，腮红，唇彩，微笑，浅棕色头发，落肩，飘逸的羽毛装饰礼服，蓬松长发，柔和的光线，美丽的阴影，低调，逼真，原始照片，自然的皮肤纹理，逼真的眼睛和脸部细节，超现实主义，超高分辨率，4K，最佳质量，杰作，项链，乳白色",
+                let model = SupportAssistantDetailsModel(text: state.depictText,
                                                          proportion: .four,
                                                          style: state.aspectStyles[state.selectStyle],
                 controlNetNname: "brightness")
