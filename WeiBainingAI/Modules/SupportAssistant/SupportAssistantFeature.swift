@@ -58,7 +58,11 @@ struct SupportAssistantFeature {
                 state.assistants = []
                 return .none
             case let .dismissDetails(model):
-                state.details = SupportAssistantDetailsFeature.State(assistantTitle: model.title)
+                state.details = SupportAssistantDetailsFeature.State(assistantTitle: model.title,
+                                                                     editorText: model.configuration?.depictText ?? "",
+                                                                     aspectRatios: model.configuration?.proportions ?? [.one, .two, .three, .four, .five, .six],
+                                                                     aspectStyles: model.configuration?.styles ?? [.style8, .style26, .style12, .style16, .style27],
+                                                                     aspectImageFactors: model.configuration?.imageFactors ?? [.low, .middle, .high, .forced])
                 return .none
             case let .dismissAlbum(type):
                 state.markType = type
