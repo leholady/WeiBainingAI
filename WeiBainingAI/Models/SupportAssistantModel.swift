@@ -27,6 +27,7 @@ struct SupportAssistantModel: Codable, Equatable, Identifiable {
         static let textToAvatar = SupportAssistantType(rawValue: "textToAvatar")
         static let textToWallpaper = SupportAssistantType(rawValue: "textToWallpaper")
         static let aiDiy = SupportAssistantType(rawValue: "aiDiy")
+        static let lightShadow = SupportAssistantType(rawValue: "lightShadow")
         static let chat = SupportAssistantType(rawValue: "chat")
     }
 }

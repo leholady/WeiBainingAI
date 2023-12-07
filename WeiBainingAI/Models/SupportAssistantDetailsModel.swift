@@ -14,6 +14,7 @@ struct SupportAssistantDetailsModel: Codable, Equatable {
     var style: AssistantDetailsStyle = .style1
     var referImageSign: String?
     var referImageFactor: AssistantDetailsImageFactor = .low
+    var controlNetNname: String?
 
     struct AssistantDetailsImageFactor: RawRepresentable, Codable, Equatable, Hashable {
         var id: String {

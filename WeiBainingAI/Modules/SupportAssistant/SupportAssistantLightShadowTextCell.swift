@@ -1,14 +1,13 @@
 //
-//  SupportAssistantDetailsTextCell.swift
+//  SupportAssistantLightShadowTextCell.swift
 //  WeiBainingAI
 //
-//  Created by yy2021_8689 on 2023/11/28.
+//  Created by yy2021_8689 on 2023/12/7.
 //
 
 import SwiftUI
 
-struct SupportAssistantDetailsTextCell: View {
-    
+struct SupportAssistantLightShadowTextCell: View {
     var title: String
     var placeholder: String
     @Binding var text: String
@@ -25,7 +24,7 @@ struct SupportAssistantDetailsTextCell: View {
                     .font(.system(size: 14))
                     .foregroundColor(.black)
                     .frame(minHeight: editorHeight)
-                    .background(.white)
+                    .background(.clear)
                     .cornerRadius(10)
                 if text.isEmpty {
                     Text(placeholder)
@@ -33,9 +32,9 @@ struct SupportAssistantDetailsTextCell: View {
                         .foregroundColor(Color(hex: 0x999999))
                         .padding(.horizontal, 11)
                         .padding(.vertical, 14)
-                        .isTapGestureEnabled(false)
                 }
             }
+            .background(.white)
             .padding(.bottom, 25)
         }
         .listRowSeparator(.hidden)

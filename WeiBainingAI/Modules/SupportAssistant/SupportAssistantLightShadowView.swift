@@ -1,16 +1,16 @@
 //
-//  SupportAssistantTextView.swift
+//  SupportAssistantLightShadowView.swift
 //  WeiBainingAI
 //
-//  Created by yy2021_8689 on 2023/12/6.
+//  Created by yy2021_8689 on 2023/12/7.
 //
 
 import SwiftUI
 import ComposableArchitecture
 
-struct SupportAssistantTextView: View {
+struct SupportAssistantLightShadowView: View {
     
-    let store: StoreOf<SupportAssistantTextFeature>
+    let store: StoreOf<SupportAssistantLightShadowFeature>
     
     @Environment(\.dismiss) var dismiss
     
@@ -18,10 +18,12 @@ struct SupportAssistantTextView: View {
         NavigationView {
             WithViewStore(store, observe: { $0 }) { viewStore in
                 List {
-                    SupportAssistantDetailsTextCell(title: "文字提示",
-                                                    placeholder: "输入所需的内容和风格例如：太空行走的小猫",
-                                                    text: viewStore.$editorText,
-                                                    editorHeight: 220)
+                    SupportAssistantLightShadowTextCell(title: "光影文字",
+                                                    placeholder: "输入所需的文字内容",
+                                                    text: viewStore.$lightShadowText)
+                    SupportAssistantDetailsSegmentedCell(title: "风格",
+                                                         items: viewStore.aspectStyles.compactMap { $0.title },
+                                                         select: viewStore.$selectStyle)
                     RoundedRectangle(cornerRadius: 20)
                         .overlay(content: {
                             Text("生成")
@@ -60,8 +62,7 @@ struct SupportAssistantTextView: View {
 }
 
 #Preview {
-    SupportAssistantTextView(store: Store(initialState: SupportAssistantTextFeature.State(textTitle: "text",
-                                                                                          editType: .textToAvatar), reducer: {
-        SupportAssistantTextFeature()
+    SupportAssistantLightShadowView(store: Store(initialState: SupportAssistantLightShadowFeature.State(textTitle: "Hello, World!"), reducer: {
+        SupportAssistantLightShadowFeature()
     }))
 }

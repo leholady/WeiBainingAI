@@ -19,6 +19,7 @@ struct SupportAssistantFeature {
         var markType: SupportAssistantModel.SupportAssistantType?
         @PresentationState var makeState: SupportAssistantMakeFeature.State?
         @PresentationState var textState: SupportAssistantTextFeature.State?
+        @PresentationState var lightShadowState: SupportAssistantLightShadowFeature.State?
     }
     
     enum Action: Equatable {
@@ -32,6 +33,8 @@ struct SupportAssistantFeature {
         case fullScreenCoverMake(PresentationAction<SupportAssistantMakeFeature.Action>)
         case dismissTextMake(SupportAssistantModel)
         case fullScreenCoverTextMake(PresentationAction<SupportAssistantTextFeature.Action>)
+        case dismissLightShadow(SupportAssistantModel)
+        case fullScreenCoverLightShadow(PresentationAction<SupportAssistantLightShadowFeature.Action>)
     }
 
     @Dependency(\.assistantClient) var assistantClient
@@ -95,6 +98,9 @@ struct SupportAssistantFeature {
             case let .dismissTextMake(model):
                 state.textState = SupportAssistantTextFeature.State(textTitle: model.title, editType: model.type)
                 return .none
+            case let .dismissLightShadow(model):
+                state.lightShadowState = SupportAssistantLightShadowFeature.State(textTitle: model.title)
+                return .none
             default:
                 return .none
             }
@@ -110,6 +116,9 @@ struct SupportAssistantFeature {
         }
         .ifLet(\.$textState, action: \.fullScreenCoverTextMake) {
             SupportAssistantTextFeature()
+        }
+        .ifLet(\.$lightShadowState, action: \.fullScreenCoverLightShadow) {
+            SupportAssistantLightShadowFeature()
         }
     }
 }

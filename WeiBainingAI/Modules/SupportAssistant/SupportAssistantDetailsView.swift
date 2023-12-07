@@ -18,7 +18,7 @@ struct SupportAssistantDetailsView: View {
             WithViewStore(store, observe: { $0 }) { viewStore in
                 List {
                     SupportAssistantDetailsTextCell(title: "文字提示",
-                                                    placeholder: "输入所需的头像内容和风格例如：太空行走的小猫",
+                                                    placeholder: "输入所需的内容和风格例如：太空行走的小猫",
                                                     text: viewStore.$editorText)
                     SupportAssistantDetailsImageCell(title: "图像提示",
                                                      imageData: viewStore.selectImageData) {

@@ -32,6 +32,8 @@ struct SupportAssistantView: View {
                                 viewStore.send(.dismissTextMake(item))
                             case .aiDiy:
                                 viewStore.send(.dismissDetails(item))
+                            case .lightShadow:
+                                viewStore.send(.dismissLightShadow(item))
                             case .chat:
                                 break
                             default:
@@ -54,6 +56,10 @@ struct SupportAssistantView: View {
                 .onAppear {
                     viewStore.send(.uploadAssistantItems)
                 }
+                .fullScreenCover(store: self.store.scope(state: \.$lightShadowState,
+                                                         action: \.fullScreenCoverLightShadow)) { store in
+                    SupportAssistantLightShadowView(store: store)
+                }
                 .fullScreenCover(store: self.store.scope(state: \.$makeState,
                                                          action: \.fullScreenCoverMake)) { store in
                     SupportAssistantMakeView(store: store)
@@ -74,23 +80,6 @@ struct SupportAssistantView: View {
             .background(Color(hex: 0xF6F6F6))
         }
         .navigationViewStyle(.stack)
-    }
-}
-
-extension Color {
-    init(hex: Int, alpha: Double = 1) {
-        let components = (
-            R: Double((hex >> 16) & 0xff) / 255,
-            G: Double((hex >> 08) & 0xff) / 255,
-            B: Double((hex >> 00) & 0xff) / 255
-        )
-        self.init(
-            .sRGB,
-            red: components.R,
-            green: components.G,
-            blue: components.B,
-            opacity: alpha
-        )
     }
 }
 
