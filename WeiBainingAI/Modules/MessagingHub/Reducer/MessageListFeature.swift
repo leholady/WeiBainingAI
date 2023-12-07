@@ -15,7 +15,7 @@ import SVProgressHUD
 struct MessageListFeature {
     struct State: Equatable {
         /// 消息列表
-        var messageList: [MessageItemWCDB] = []
+        var messageList: [MessageItemDb] = []
         /// 输入提示词
         var inputTips: [String] = []
         /// 聊天配置信息
@@ -23,7 +23,7 @@ struct MessageListFeature {
         /// 用户配置信息
         var userConfig: UserProfileModel?
         /// 当前会话
-        var conversation: ConversationItemWCDB?
+        var conversation: ConversationItemDb?
         /// 录音状态
         var recordState: Bool = false
         /// 响应状态
@@ -38,6 +38,8 @@ struct MessageListFeature {
         @BindingState var inputText: String = ""
         /// 流返回数据
         @BindingState var streamMsg = ""
+        /// 删除对话框
+        @BindingState var showDeleteDialog: Bool = false
         /// 处理cell状态
         var msgTodos: IdentifiedArrayOf<ChatMsgActionFeature.State> = []
 
@@ -58,26 +60,26 @@ struct MessageListFeature {
         /// 读取历史配置
         case loadChatConfig
         /// 读取聊天消息
-        case loadLocalMessages(ConversationItemWCDB)
+        case loadLocalMessages(ConversationItemDb)
         /// 更新配置信息到界面
         case updateChatConfig(ChatRequestConfigMacro)
         case updateUserConfig(TaskResult<UserProfileModel>)
         /// 更新消息列表
-        case updateMessageList(MessageItemWCDB)
-        case loadMessageList([MessageItemWCDB])
+        case updateMessageList(MessageItemDb)
+        case loadMessageList([MessageItemDb])
         case updateInputTips([String])
         /// 滚动到视图底部
         case scrollToBottom
         /// 加载会话
         case loadConversation
         /// 发送消息流请求
-        case sendStreamRequest(ConversationItemWCDB)
+        case sendStreamRequest(ConversationItemDb)
         /// 处理返回流
-        case receiveStreamResult(String, ConversationItemWCDB)
+        case receiveStreamResult(String, ConversationItemDb)
         /// 消息发送成功处理
-        case updateStreamResult(ConversationItemWCDB)
+        case updateStreamResult(ConversationItemDb)
         /// 点击消息分享
-        case msgShareTapped
+        case msgShareTapped(MessageItemDb?)
         /// 跳转聊天偏好配置
         case presentationMsgShare(PresentationAction<ChatMsgShareFeature.Action>)
         /// 点击聊天偏好配置
@@ -143,14 +145,12 @@ struct MessageListFeature {
             case let .loadMessageList(items):
                 state.messageList = items
                 state.msgTodos = IdentifiedArray(uniqueElements: items.map { item in
-                    ChatMsgActionFeature.State(id: UUID(), message: item)
+                    ChatMsgActionFeature.State(id: item.id, message: item)
                 })
-
                 return .none
             case .scrollToBottom:
                 state.scrollToBottom = true
                 return .none
-
             case let .updateInputTips(tips):
                 state.inputTips = tips
                 return .none
@@ -226,8 +226,20 @@ struct MessageListFeature {
                         await dbClient.loadMessages(conversation)
                     ))
                 }
-            case .msgShareTapped:
-                state.sharePage = ChatMsgShareFeature.State(originalMsgList: state.messageList, isShareAll: true)
+            case let .msgShareTapped(result):
+                if let message = result {
+                    state.sharePage = ChatMsgShareFeature.State(
+                        userConfig: state.userConfig,
+                        originalMsgList: state.messageList,
+                        isShareAll: false,
+                        currentMsgItem: message
+                    )
+                } else {
+                    state.sharePage = ChatMsgShareFeature.State(
+                        originalMsgList: state.messageList,
+                        isShareAll: true
+                    )
+                }
                 return .none
 
             case .chatModelSetupTapped:
@@ -237,6 +249,43 @@ struct MessageListFeature {
 
             case let .presentationModelSetup(.presented(.delegate(.updateChatModel(model)))):
                 state.chatConfig = model
+                return .none
+
+            case let .actionTodos(.element(id: _, action: .delegate(.regenerate(model)))):
+                guard let conversation = state.conversation else {
+                    return .none
+                }
+                let config = state.chatConfig
+                let content = model
+                return .run { send in
+                    _ = try await sendClient.handleSendMsg(content, conversation)
+                    // 刷新列表
+                    await send(.updateStreamResult(conversation))
+                    // 请求返回的消息
+                    for try await message in try await msgListClient.handleStreamData(content, config) {
+                        await send(.receiveStreamResult(message, conversation))
+                    }
+                }
+            case let .actionTodos(.element(id: id, action: .shareMessage)):
+                let message = state.messageList.first(where: { $0.id == id })
+                return .run { send in
+                    await send(.msgShareTapped(message))
+                }
+
+            case let .actionTodos(.element(id: id, action: .deleteMessage)):
+                if let message = state.messageList.first(where: { $0.id == id }),
+                   let conversation = state.conversation {
+                    let messageList = state.messageList
+                    return .run { send in
+                        try await dbClient.deleteMessageGroup(message, messageList)
+                        await send(.loadLocalMessages(conversation))
+                    } catch: { error, send in
+                        Logger(label: "deleteMessage").error("\(error)")
+                        await SVProgressHUD.showError(withStatus: "删除失败")
+                        await SVProgressHUD.dismiss(withDelay: 1.5)
+                        await send(.loadLocalMessages(conversation))
+                    }
+                }
                 return .none
 
             case .dismissPage:

@@ -27,7 +27,7 @@ enum MessageSendState: Int, Codable {
 
 // MARK: - WCDB
 
-struct ConversationItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
+struct ConversationItemDb: TableCodable, Equatable, Hashable, Identifiable {
     var id: Int {
         return identifier
     }
@@ -44,7 +44,7 @@ struct ConversationItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
 
     /// 用于 WCDBSwift 的表名
     enum CodingKeys: String, CodingTableKey {
-        typealias Root = ConversationItemWCDB
+        typealias Root = ConversationItemDb
         case identifier
         case userId
         case timestamp
@@ -69,7 +69,7 @@ struct ConversationItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
     }
 }
 
-struct MessageItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
+struct MessageItemDb: TableCodable, Equatable, Hashable, Identifiable {
     var id: Int {
         identifier
     }
@@ -95,7 +95,7 @@ struct MessageItemWCDB: TableCodable, Equatable, Hashable, Identifiable {
     }
 
     enum CodingKeys: String, CodingTableKey {
-        typealias Root = MessageItemWCDB
+        typealias Root = MessageItemDb
         case identifier
         case conversationId
         case role

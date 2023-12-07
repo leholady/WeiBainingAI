@@ -23,11 +23,11 @@ struct MessageSeedFeature {
         /// 加载会话
         case loadConversation
         /// 发送消息流请求
-        case sendStreamRequest(ConversationItemWCDB)
+        case sendStreamRequest(ConversationItemDb)
         /// 处理返回流
-        case receiveStreamResult(String, ConversationItemWCDB)
+        case receiveStreamResult(String, ConversationItemDb)
         /// 消息发送成功处理
-        case saveStreamResult(String, ConversationItemWCDB)
+        case saveStreamResult(String, ConversationItemDb)
 
         /// 检查录音识别权限
         case checkSpeechAuth

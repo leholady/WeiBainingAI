@@ -12,8 +12,8 @@ import UIKit
 @Reducer
 struct ChatMsgActionFeature {
     struct State: Equatable, Hashable, Identifiable {
-        let id: UUID
-        let message: MessageItemWCDB
+        let id: Int
+        let message: MessageItemDb
     }
 
     enum Action: Equatable {
@@ -39,12 +39,6 @@ struct ChatMsgActionFeature {
                 UIPasteboard.general.string = state.message.content
                 SVProgressHUD.showSuccess(withStatus: "已复制到剪切板")
                 SVProgressHUD.dismiss(withDelay: 1.5)
-                return .none
-
-            case .shareMessage:
-                return .none
-
-            case .deleteMessage:
                 return .none
 
             case .regenerateAnswer:

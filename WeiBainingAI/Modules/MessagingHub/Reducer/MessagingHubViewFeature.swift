@@ -13,7 +13,7 @@ import Logging
 struct MessagingHubViewFeature {
     struct State: Equatable {
         var suggestions: [String] = []
-        var conversations: [ConversationItemWCDB] = []
+        var conversations: [ConversationItemDb] = []
         /// 用户配置信息
         var userConfig: UserProfileModel?
         /// 跳转到聊天列表
@@ -30,12 +30,12 @@ struct MessagingHubViewFeature {
         /// 更新首页建议数据
         case updateSuggestionsData(TaskResult<HomeConfigModel>)
         /// 更新历史话题数据
-        case updateConversationData([ConversationItemWCDB])
+        case updateConversationData([ConversationItemDb])
         /// 点击历史消息
         case didTapHistoryMsg
         case presentationHistoryMsg(PresentationAction<ConversationListFeature.Action>)
         /// 点击发起新聊天
-        case didTapStartNewChat(ConversationItemWCDB?)
+        case didTapStartNewChat(ConversationItemDb?)
         case presentationNewChat(PresentationAction<MessageListFeature.Action>)
         /// 点击建议
         case didTapSuggestion(String)

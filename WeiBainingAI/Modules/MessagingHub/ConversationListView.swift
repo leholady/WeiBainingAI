@@ -82,7 +82,7 @@ struct ConversationListView: View {
 
 /// 话题历史单项
 struct ConversationItemView: View {
-    var topicModel: ConversationItemWCDB
+    var topicModel: ConversationItemDb
     @Binding var isEditing: Bool
 
     var body: some View {

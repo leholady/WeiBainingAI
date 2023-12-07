@@ -139,7 +139,6 @@ struct MessageSenderCell: View {
 
                             Button(action: {
                                 viewStore.send(.shareMessage)
-                                debugPrint("shareMessage")
                             }, label: {
                                 Image(.chatIconShareWhite)
                                     .scaledToFit()
@@ -148,7 +147,7 @@ struct MessageSenderCell: View {
                             })
 
                             Button(action: {
-                                debugPrint("deleteMessage")
+                                viewStore.send(.deleteMessage)
                             }, label: {
                                 Image(.chatIconDeleteWhite)
                                     .scaledToFit()
@@ -179,8 +178,10 @@ struct MessageSenderCell: View {
 
 #Preview {
     MessageReceiveCell(store: Store(
-        initialState: ChatMsgActionFeature.State(id: UUID(),
-                                                 message: MessageItemWCDB(conversationId: 0, role: "", content: "", msgState: 0, timestamp: Date())),
+        initialState: ChatMsgActionFeature.State(
+            id: 0,
+            message: MessageItemDb(conversationId: 0, role: "", content: "", msgState: 0, timestamp: Date())
+        ),
         reducer: { ChatMsgActionFeature() }
     ))
 }

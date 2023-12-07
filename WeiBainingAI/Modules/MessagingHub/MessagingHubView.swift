@@ -218,7 +218,7 @@ struct TopicHistoryView: View {
     }
 
     struct TopicHistoryItemView: View {
-        var topicModel: ConversationItemWCDB
+        var topicModel: ConversationItemDb
         var body: some View {
             VStack(alignment: .leading, spacing: 0, content: {
                 HStack(alignment: .center, spacing: 9, content: {

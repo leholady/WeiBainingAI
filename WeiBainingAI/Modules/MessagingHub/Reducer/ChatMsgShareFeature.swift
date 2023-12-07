@@ -13,15 +13,15 @@ struct ChatMsgShareFeature {
     struct State: Equatable {
         var userConfig: UserProfileModel?
         /// 分享的消息列
-        var shareMsgList: [MessageItemWCDB] = []
+        var shareMsgList: [MessageItemDb] = []
         /// 原始消息
-        var originalMsgList: [MessageItemWCDB] = []
+        var originalMsgList: [MessageItemDb] = []
         /// 是否全部分享
         var isShareAll: Bool = false
         /// 是否显示分享按钮
         @BindingState var showSharing: Bool = false
         /// 当前点击的消息分享
-        var currentMsgItem: MessageItemWCDB?
+        var currentMsgItem: MessageItemDb?
         // 定义状态变量来标记何时需要进行截图
         @BindingState var shouldTakeSnapshot = false
         // 定义用来保存最后截图的状态变量

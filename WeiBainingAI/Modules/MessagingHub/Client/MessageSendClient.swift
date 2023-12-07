@@ -11,11 +11,11 @@ import UIKit
 struct MessageSendClient {
     // 处理发送消息
     var handleSendMsg: @Sendable (_ content: String,
-                                  _ conversation: ConversationItemWCDB) async throws -> MessageItemWCDB
+                                  _ conversation: ConversationItemDb) async throws -> MessageItemDb
     // 处理接收消息
     var handleReceiveMsg: @Sendable (_ content: String,
                                      _ msgStatus: ChatErrorMacro,
-                                     _ conversation: ConversationItemWCDB) async throws -> MessageItemWCDB
+                                     _ conversation: ConversationItemDb) async throws -> MessageItemDb
     // 重新发送消息
     // 分享消息
     // 删除消息
@@ -27,7 +27,7 @@ extension MessageSendClient: DependencyKey {
 
         return Self(
             handleSendMsg: { content, conversation in
-                let message = MessageItemWCDB(
+                let message = MessageItemDb(
                     conversationId: conversation.identifier,
                     role: MessageSendRole.user.rawValue,
                     content: content,
@@ -42,7 +42,7 @@ extension MessageSendClient: DependencyKey {
                 return message
             },
             handleReceiveMsg: { content, msgStatus, conversation in
-                var message = MessageItemWCDB(
+                var message = MessageItemDb(
                     conversationId: conversation.identifier,
                     role: MessageSendRole.robot.rawValue,
                     content: content,

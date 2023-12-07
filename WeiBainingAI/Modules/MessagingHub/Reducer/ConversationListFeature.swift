@@ -14,7 +14,7 @@ import UIKit
 struct ConversationListFeature {
     struct State: Equatable {
         var userConfig: UserProfileModel
-        var conversationList: [ConversationItemWCDB] = []
+        var conversationList: [ConversationItemDb] = []
         @BindingState var isEditing: Bool = false
         /// 跳转到聊天列表
         @PresentationState var chatPage: MessageListFeature.State?
@@ -24,9 +24,9 @@ struct ConversationListFeature {
     enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case loadChatTopics
-        case chatTopicsLoaded([ConversationItemWCDB])
+        case chatTopicsLoaded([ConversationItemDb])
         case didSelectEdit
-        case didSelectConversation(ConversationItemWCDB)
+        case didSelectConversation(ConversationItemDb)
         case didSelectAllConversation
         case didTapDeleteConversation
         case didTapNewConversation

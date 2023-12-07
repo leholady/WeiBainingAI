@@ -104,7 +104,7 @@ struct ShareMegCardView: View {
 
 // 分享预览消息
 struct ShareMesListPreview: View {
-    var currentMsg: MessageItemWCDB
+    var currentMsg: MessageItemDb
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
             HStack(alignment: .top, spacing: 0) {

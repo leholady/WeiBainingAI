@@ -88,7 +88,7 @@ struct MessageListView: View {
                                 .scaledToFit()
                                 .frame(width: 26, height: 26)
                                 .onTapGesture {
-                                    viewStore.send(.msgShareTapped)
+                                    viewStore.send(.msgShareTapped(nil))
                                 }
                         })
                     }
@@ -108,6 +108,12 @@ struct MessageListView: View {
             .task {
                 viewStore.send(.loadChatConfig)
             }
+//            .alert("确定删除此条消息吗？", isPresented: viewStore.$showDeleteDialog, actions: {
+//                Button("取消") {}
+//                Button("确定") {}
+//            }, message: {
+//                Text("确认删除，将无法恢复，请谨慎操作！")
+//            })
             .sheet(store: store.scope(state: \.$setupPage,
                                       action: \.presentationModelSetup)) { store in
                 ChatModelSetupView(store: store)
