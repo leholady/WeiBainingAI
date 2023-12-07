@@ -16,7 +16,8 @@ struct PremiumMemberClient {
     var memberPageModels: @Sendable ([PremiumMemberModel], [Product]) async throws -> [PremiumMemberPageModel]
     var memberPurchase: @Sendable (Product) async throws -> Transaction
     var verification: @Sendable (VerificationResult<Transaction>) throws -> Transaction
-    var payAppStore: @Sendable (String) async throws -> Bool
+    var payAppStore: @Sendable (String, String) async throws -> Bool
+    var payApple: @Sendable (String) async throws -> Bool
 }
 
 extension PremiumMemberClient: DependencyKey {
@@ -89,7 +90,10 @@ extension PremiumMemberClient: DependencyKey {
                 }
             },
             payAppStore: {
-                return try await handler.payAppStoreV2($0)
+                return try await handler.payAppStoreV2($0, originalTransactionId: $1)
+            },
+            payApple: {
+                return try await handler.payAppleV2($0)
             }
         )
     }

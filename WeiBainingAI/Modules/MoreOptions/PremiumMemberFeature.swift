@@ -90,7 +90,15 @@ struct PremiumMemberFeature {
                     do {
                         await SVProgressHUD.show()
                         let transaction = try await memberClient.memberPurchase(product)
-                        let result = try await memberClient.payAppStore("\(transaction.id)")
+                        let result: Bool
+                        switch transaction.productType {
+                        case .nonConsumable,
+                                .consumable:
+                            result = try await memberClient.payApple("\(transaction.id)")
+                        default:
+                            result = try await memberClient.payAppStore("\(transaction.id)",
+                                                                            "\(transaction.originalID)")
+                        }
                         await SVProgressHUD.dismiss()
                         if result {
                             await transaction.finish()

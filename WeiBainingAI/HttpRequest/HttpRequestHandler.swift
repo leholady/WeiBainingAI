@@ -261,8 +261,15 @@ extension HttpRequestHandler {
         return model.datas
     }
     
-    func payAppStoreV2(_ transactionId: String) async throws -> Bool {
+    func payAppStoreV2(_ transactionId: String, 
+                       originalTransactionId: String) async throws -> Bool {
         return try await requestTask(cmd: HttpConst.payAppStoreV2,
+                                     parameters: ["transactionId": transactionId,
+                                                  "originalTransactionId": originalTransactionId])
+    }
+    
+    func payAppleV2(_ transactionId: String) async throws -> Bool {
+        return try await requestTask(cmd: HttpConst.payAppleV2,
                                      parameters: ["transactionId": transactionId])
     }
 }

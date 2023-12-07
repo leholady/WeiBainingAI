@@ -1,13 +1,10 @@
 {
   "identifier" : "99204BC8",
   "nonRenewingSubscriptions" : [
-
-  ],
-  "products" : [
     {
       "displayPrice" : "0.99",
       "familyShareable" : false,
-      "internalID" : "B3E245E4",
+      "internalID" : "A98D9C2C",
       "localizations" : [
         {
           "description" : "",
@@ -17,12 +14,12 @@
       ],
       "productID" : "com.weiBainingAI.id.1",
       "referenceName" : "month vip",
-      "type" : "NonConsumable"
+      "type" : "NonRenewingSubscription"
     },
     {
-      "displayPrice" : "2.99",
+      "displayPrice" : "0.99",
       "familyShareable" : false,
-      "internalID" : "B2F81D5E",
+      "internalID" : "1889CA3B",
       "localizations" : [
         {
           "description" : "",
@@ -32,12 +29,12 @@
       ],
       "productID" : "com.weiBainingAI.id.2",
       "referenceName" : "season vip",
-      "type" : "NonConsumable"
+      "type" : "NonRenewingSubscription"
     },
     {
-      "displayPrice" : "10.99",
+      "displayPrice" : "0.99",
       "familyShareable" : false,
-      "internalID" : "DE43BB5F",
+      "internalID" : "19BF35D3",
       "localizations" : [
         {
           "description" : "",
@@ -47,8 +44,10 @@
       ],
       "productID" : "com.weiBainingAI.id.3",
       "referenceName" : "year vip",
-      "type" : "NonConsumable"
-    },
+      "type" : "NonRenewingSubscription"
+    }
+  ],
+  "products" : [
     {
       "displayPrice" : "3",
       "familyShareable" : false,
@@ -97,6 +96,8 @@
   ],
   "settings" : {
     "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
     "_storeKitErrors" : [
       {
         "current" : null,

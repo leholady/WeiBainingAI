@@ -71,10 +71,24 @@ struct LaunchConfigReducer: Reducer {
                 }
             case let .transactionValidation(.success(transaction)):
                 return .run { send in
-                    await send(.validationResponse(TaskResult {
-                        .init(transaction: transaction, 
-                              result: try await memberClient.payAppStore("\(transaction.id)"))
-                    }))
+                    do {
+                        switch transaction.productType {
+                        case .nonConsumable,
+                                .consumable:
+                            await send(.validationResponse(TaskResult {
+                                .init(transaction: transaction,
+                                      result: try await memberClient.payApple("\(transaction.id)"))
+                            }))
+                        default:
+                            await send(.validationResponse(TaskResult {
+                                .init(transaction: transaction,
+                                      result: try await memberClient.payAppStore("\(transaction.id)",
+                                                                                 "\(transaction.originalID)"))
+                            }))
+                        }
+                    } catch {
+                        
+                    }
                 }
             case let .validationResponse(.success(response)):
                 return .run { send in
