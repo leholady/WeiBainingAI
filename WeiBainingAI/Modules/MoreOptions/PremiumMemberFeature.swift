@@ -39,6 +39,11 @@ struct PremiumMemberFeature {
         case recover
         case recoverValidation(TaskResult<Transaction>)
         case recoverResponse(TaskResult<PremiumValidationResponse>)
+        case hudShow
+        case hudDismiss
+        case hudFailure(String)
+        case hudInfo(String)
+        case hudSuccess(String)
     }
     
     @Dependency(\.dismiss) var dismiss
@@ -92,7 +97,7 @@ struct PremiumMemberFeature {
             case let .startBuy(product):
                 return .run { send in
                     do {
-                        await SVProgressHUD.show()
+                        await send(.hudShow)
                         let transaction = try await memberClient.memberPurchase(product)
                         let result: Bool
                         switch transaction.productType {
@@ -103,28 +108,28 @@ struct PremiumMemberFeature {
                             result = try await memberClient.payAppStore("\(transaction.id)",
                                                                             "\(transaction.originalID)")
                         }
-                        await SVProgressHUD.dismiss()
+                        await send(.hudDismiss)
                         if result {
                             await transaction.finish()
                             await send(.uploadUserProfile)
-                            await SVProgressHUD.showSuccess(withStatus: "未完成购买")
+                            await send(.hudSuccess("已成功开通会员"))
                         } else {
-                            await SVProgressHUD.showInfo(withStatus: "未完成购买")
+                            await send(.hudInfo("开通会员失败，如已付款请重启应用试试"))
                         }
                     } catch {
-                        await SVProgressHUD.dismiss()
+                        await send(.hudDismiss)
                         switch error {
                         case let storeError as StoreError:
                             switch storeError {
                             case .canceled:
-                                await SVProgressHUD.showInfo(withStatus: "已取消购买")
+                                await send(.hudFailure("已取消购买"))
                             case .validationFailed:
-                                await SVProgressHUD.showError(withStatus: "验证检查未通过, 请稍候再试")
+                                await send(.hudFailure("验证检查未通过, 请稍候再试"))
                             default:
                                 break
                             }
                         default:
-                            await SVProgressHUD.showError(withStatus: error.localizedDescription)
+                            await send(.hudFailure(error.localizedDescription))
                         }
                     }
                 }
@@ -134,15 +139,15 @@ struct PremiumMemberFeature {
                 }
             case .recover:
                 return .run { send in
-                    await SVProgressHUD.show()
+                    await send(.hudShow)
                     do {
                         for await result in try await memberClient.recover() {
                             await send(.recoverValidation(TaskResult { try memberClient.verification(result) }))
                         }
                     } catch {
                     }
-                    await SVProgressHUD.dismiss()
-                    await SVProgressHUD.showSuccess(withStatus: "购买已恢复")
+                    await send(.hudDismiss)
+                    await send(.hudSuccess("购买已恢复"))
                 }
             case let .recoverValidation(.success(transaction)):
                 return .run { send in
@@ -178,6 +183,21 @@ struct PremiumMemberFeature {
                         await send(.uploadUserProfile)
                     }
                 }
+            case .hudShow:
+                SVProgressHUD.show()
+                return .none
+            case .hudDismiss:
+                SVProgressHUD.dismiss()
+                return .none
+            case let .hudSuccess(message):
+                SVProgressHUD.showSuccess(withStatus: message)
+                return .none
+            case let .hudInfo(message):
+                SVProgressHUD.showInfo(withStatus: message)
+                return .none
+            case let .hudFailure(message):
+                SVProgressHUD.showError(withStatus: message)
+                return .none
             default:
                 return .none
             }

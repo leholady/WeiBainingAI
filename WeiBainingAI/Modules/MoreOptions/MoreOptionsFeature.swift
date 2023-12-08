@@ -32,6 +32,9 @@ struct MoreOptionsFeature {
         case recover
         case recoverValidation(TaskResult<Transaction>)
         case recoverResponse(TaskResult<PremiumValidationResponse>)
+        case hudShow
+        case hudDismiss
+        case hudSuccess(String)
     }
     
     @Dependency(\.moreClient) var moreClient
@@ -73,15 +76,15 @@ struct MoreOptionsFeature {
                 }
             case .recover:
                 return .run { send in
-                    await SVProgressHUD.show()
+                    await send(.hudShow)
                     do {
                         for await result in try await memberClient.recover() {
                             await send(.recoverValidation(TaskResult { try memberClient.verification(result) }))
                         }
                     } catch {
                     }
-                    await SVProgressHUD.dismiss()
-                    await SVProgressHUD.showSuccess(withStatus: "购买已恢复")
+                    await send(.hudDismiss)
+                    await send(.hudSuccess("购买已恢复"))
                 }
             case let .recoverValidation(.success(transaction)):
                 return .run { send in
@@ -117,6 +120,15 @@ struct MoreOptionsFeature {
                         await send(.uploadUserProfile)
                     }
                 }
+            case .hudShow:
+                SVProgressHUD.show()
+                return .none
+            case .hudDismiss:
+                SVProgressHUD.dismiss()
+                return .none
+            case let .hudSuccess(message):
+                SVProgressHUD.showSuccess(withStatus: message)
+                return .none
             default:
                 return .none
             }
