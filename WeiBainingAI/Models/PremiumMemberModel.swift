@@ -23,7 +23,7 @@ struct PremiumMemberModel: Codable, Equatable, Identifiable, Hashable {
     }
     
     var productId: String
-    var state: PremiumMemberPageModel.PremiumMemberPageState
+    var state: PremiumMemberPageModel.PremiumMemberPageState?
     
     var title: String?
     var duration: Int?
@@ -35,12 +35,14 @@ struct PremiumMemberModel: Codable, Equatable, Identifiable, Hashable {
     
     func newModelTo(_ product: Product) -> PremiumMemberModel {
         var model = self
-        switch model.state {
-        case .quota:
-            model.title = product.displayName.isEmpty ? "\(model.duration ?? 0)\(model.unit ?? "")" : product.displayName
+        switch product.type {
+        case .consumable,
+            .nonConsumable:
+            model.state = .quota
         default:
-            model.title = product.displayName.isEmpty ? model.title : product.displayName
+            model.state = .premium
         }
+        model.title = product.displayName.isEmpty ? model.title : product.displayName
         model.price = product.displayPrice
         model.code = product.format.currencyCode
         model.symbol = product.format.currencySymbol

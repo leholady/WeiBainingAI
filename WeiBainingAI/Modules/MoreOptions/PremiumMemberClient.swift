@@ -44,7 +44,10 @@ extension PremiumMemberClient: DependencyKey {
                 }
                 var pages: [PremiumMemberPageModel] = []
                 for model in models {
-                    switch model.state {
+                    guard let state = model.state else {
+                        break
+                    }
+                    switch state {
                     case .quota:
                         if let index = pages.firstIndex(where: { $0.pageState == .quota }) {
                             pages[index].pageItems.append(model)
