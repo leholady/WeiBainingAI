@@ -272,4 +272,9 @@ extension HttpRequestHandler {
         return try await requestTask(cmd: HttpConst.payAppleV2,
                                      parameters: ["transactionId": transactionId])
     }
+    
+    func getHomeAllAssistant() async throws -> [SupportAssistantModel] {
+        return try await requestTask(cmd: HttpConst.getHomeAll,
+                                     parameters: ["confKey": "assistant"])
+    }
 }

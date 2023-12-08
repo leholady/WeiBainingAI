@@ -21,6 +21,8 @@ struct HttpRequestClient {
     var txtToImageTask: @Sendable (TextImageTaskConfigureModel) async throws -> TextImageTaskResultModel
     /// 获取AI自动创作图像结果
     var txtToImageResult: @Sendable (String) async throws -> TextImageTaskResultModel
+    /// 助手配置信息
+    var getHomeAllAssistant: @Sendable () async throws -> [SupportAssistantModel]
 }
 
 extension HttpRequestClient: DependencyKey {
@@ -44,6 +46,9 @@ extension HttpRequestClient: DependencyKey {
             },
             txtToImageResult: {
                 try await handler.txtToImageResult($0)
+            },
+            getHomeAllAssistant: {
+                try await handler.getHomeAllAssistant()
             }
         )
     }

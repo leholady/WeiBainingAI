@@ -54,9 +54,6 @@ struct SupportAssistantFeature {
             case let .assistantsUpdate(.success(items)):
                 state.assistants = items
                 return .none
-            case .assistantsUpdate(.failure):
-                state.assistants = []
-                return .none
             case let .dismissDetails(model):
                 state.details = SupportAssistantDetailsFeature.State(assistantTitle: model.title,
                                                                      editorText: model.configuration?.depictText ?? "",
