@@ -15,6 +15,7 @@ import StoreKit
 struct MoreOptionsFeature {
     struct State: Equatable {
         var groups: [MoreOptionsGroupModel] = []
+        var versionText: String = ""
         var balanceItems: [MoreBalanceItemModel] = []
         @PresentationState var safariState: MoreSafariFeature.State?
         @PresentationState var premiumState: PremiumMemberFeature.State?
@@ -46,6 +47,7 @@ struct MoreOptionsFeature {
             switch action {
             case let .uploadGroups(groups):
                 state.groups = groups
+                state.versionText = "v \((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "1.0")"
                 return .none
             case .uploadBalanceItems:
                 return .run { send in

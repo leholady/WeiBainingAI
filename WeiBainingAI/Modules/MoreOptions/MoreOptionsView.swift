@@ -41,7 +41,7 @@ struct MoreOptionsView: View {
                     }
                     .background(Color.clear)
                     .listStyle(.plain)
-                    Text("v 1.0")
+                    Text(viewStore.versionText)
                         .foregroundColor(Color(hex: 0x999999))
                         .font(.system(size: 10))
                 }
