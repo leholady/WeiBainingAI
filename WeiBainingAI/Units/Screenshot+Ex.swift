@@ -137,7 +137,7 @@ public extension View {
         hostingController.overrideUserInterfaceStyle = .unspecified
         hostingController.view.frame = frame
         // 设置一个透明的背景色
-        hostingController.view.backgroundColor = .clear
+        hostingController.view.backgroundColor = .white.withAlphaComponent(0.001)
         return hostingController.view.takeScreenshot(afterScreenUpdates: afterScreenUpdates)
     }
 }

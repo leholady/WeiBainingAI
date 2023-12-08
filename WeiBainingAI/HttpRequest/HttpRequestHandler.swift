@@ -311,20 +311,34 @@ extension HttpRequestHandler {
     }
 
     /// 发送消息
-    func seedMessage(_ message: String, _ config: ChatRequestConfigMacro) async throws -> DataStreamTask {
-        let messages = [
-            MessageDialogModel(content: message, role: .user)
-        ]
+    func seedMessage(_ chatConfig: (content: String, config: ChatRequestConfigMacro),
+                     _ messageList: [MessageItemDb]) async throws -> DataStreamTask {
+        
+        let maxMsgCount = chatConfig.config.msgCount * 2
+        var subArray: [MessageDialogModel] = []
+        
+        if messageList.count >= maxMsgCount {
+            let startIndex = messageList.count - maxMsgCount
+            subArray = Array(messageList[startIndex ..< messageList.count]).compactMap { itemDb in
+                MessageDialogModel(content: itemDb.content, role: itemDb.roleType)
+            }
+        } else {
+            subArray = messageList.compactMap { itemDb in
+                MessageDialogModel(content: itemDb.content, role: itemDb.roleType)
+            }
+        }
+        subArray.append(MessageDialogModel(content: chatConfig.content, role: .user))
+
         let encoder = JSONEncoder()
-        let jsonData = try encoder.encode(messages)
+        let jsonData = try encoder.encode(subArray)
         let jsonString = String(data: jsonData, encoding: .utf8)!
 
         let parameters: [String: Any] = [
-            "ownerUserId": config.userId,
-            "conversationId": config.conversationId,
-            "maxtokens": config.maxtokens,
-            "model": config.model.code,
-            "temperature": config.temperature.rawValue,
+            "ownerUserId": chatConfig.config.userId,
+            "conversationId": chatConfig.config.conversationId,
+            "maxtokens": chatConfig.config.maxtokens,
+            "model": chatConfig.config.model.code,
+            "temperature": chatConfig.config.temperature.rawValue,
             "messages": jsonString
         ]
         return try await requestStreamTask(cmd: HttpConst.requestChat, parameters: parameters)

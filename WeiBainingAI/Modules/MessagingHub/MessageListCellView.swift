@@ -38,6 +38,33 @@ struct MessageListCellView: View {
     }
 }
 
+/// 消息接收方
+struct MessageReceiveStream: View {
+    @Binding var text: String
+    var body: some View {
+        HStack(alignment: .top, spacing: 0) {
+            Image(.chatavatar)
+                .scaledToFit()
+                .frame(width: 30, height: 30)
+                .background(Color(hexadecimal6: 0xF77955))
+                .cornerRadius(15)
+                .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 10))
+
+            VStack(alignment: .leading, spacing: 5) {
+                Text(text)
+                    .font(.system(size: 14, weight: .regular))
+                    .padding(.all, 14)
+            }
+            .background(Color(hexadecimal6: 0xF6F6F6))
+            .cornerRadius(10)
+
+            Spacer()
+        }
+        .padding(.trailing, Screen.width * 0.25)
+        .padding(.vertical, 10)
+    }
+}
+
 // MARK: - 消息接收方
 
 /// 消息接收方

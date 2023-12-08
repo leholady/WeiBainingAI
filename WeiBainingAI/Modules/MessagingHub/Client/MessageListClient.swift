@@ -26,7 +26,8 @@ struct MessageListClient {
     /// 停止语音转文字
     var stopVoiceRecognition: @Sendable () async -> Void
     /// 处理流返回的数据
-    var handleStreamData: @Sendable (String, _ config: ChatRequestConfigMacro) async throws -> AsyncThrowingStream<String, Error>
+    var handleStreamData: @Sendable (_ chatConfig: (String, ChatRequestConfigMacro),
+                                     _ messageList: [MessageItemDb]) async throws -> AsyncThrowingStream<String, Error>
 }
 
 extension MessageListClient: DependencyKey {
@@ -79,11 +80,11 @@ extension MessageListClient: DependencyKey {
             await speechEngine.startVoiceToText()
         } stopVoiceRecognition: {
             await speechEngine.stopVoiceRecognition()
-        } handleStreamData: { msg, config in
+        } handleStreamData: { chatConfig, messageList in
             AsyncThrowingStream<String, Error> { continution in
                 Task {
                     do {
-                        let streamTask = try await httpClient.sendMessage(msg, config)
+                        let streamTask = try await httpClient.sendMessage(chatConfig, messageList)
                         for try await value in streamTask.streamingStrings() {
                             if value.value != nil {
                                 switch String(describing: value.value ?? "") {

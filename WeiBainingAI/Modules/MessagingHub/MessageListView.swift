@@ -24,6 +24,11 @@ struct MessageListView: View {
                                     ) { todoStore in
                                         MessageListCellView(store: todoStore)
                                     }
+
+                                    if viewStore.responding {
+                                        MessageReceiveStream(text: viewStore.$streamMsg)
+                                    }
+
                                     HStack(alignment: .center, spacing: 0, content: {
                                         Spacer()
                                             .frame(width: 0, height: 0, alignment: .center)
@@ -123,7 +128,9 @@ struct MessageInputContentView: View {
                     HStack(alignment: .center, spacing: 0, content: {
                         if !viewStore.recordState {
                             Button(action: {
-                                viewStore.send(.checkSpeechAuth)
+                                if !viewStore.responding {
+                                    viewStore.send(.checkSpeechAuth)
+                                }
                             }, label: {
                                 Image(.inputIconSpeaker)
                                     .scaledToFit()
@@ -145,7 +152,7 @@ struct MessageInputContentView: View {
                                 .padding(.all, 10)
                         })
                         .buttonStyle(.plain)
-                        .disabled(viewStore.inputText.isEmpty)
+                        .disabled(viewStore.inputText.isEmpty && !viewStore.responding)
                     })
                     .padding(.horizontal, 10)
 

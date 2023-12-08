@@ -27,9 +27,7 @@ struct MessageListFeature {
         /// 录音状态
         var recordState: Bool = false
         /// 响应状态
-        var responding: Bool = false
-        /// 滚动到底部
-        var scrollToBottom: Bool = false
+        @BindingState var responding: Bool = false
         /// 偏好设置feature
         @PresentationState var setupPage: ChatModelSetupFeature.State?
         /// 分享内容
@@ -37,7 +35,7 @@ struct MessageListFeature {
         /// 编辑框输入内容
         @BindingState var inputText: String = ""
         /// 流返回数据
-        @BindingState var streamMsg = ""
+        @BindingState var streamMsg: String = ""
 
         /// 处理cell状态
         var msgTodos: IdentifiedArrayOf<ChatMsgActionFeature.State> = []
@@ -71,14 +69,14 @@ struct MessageListFeature {
         case updateMessageList(MessageItemDb)
         case loadMessageList([MessageItemDb])
         case updateInputTips([String])
-        /// 滚动到视图底部
-        case scrollToBottom
         /// 加载会话
         case loadConversation
         /// 发送消息流请求
         case sendStreamRequest(ConversationItemDb)
         /// 处理返回流
         case receiveStreamResult(String, ConversationItemDb)
+        /// 消息生成
+        case msgThinking
         /// 消息发送成功处理
         case updateStreamResult(ConversationItemDb)
         /// 点击消息分享
@@ -151,9 +149,6 @@ struct MessageListFeature {
                     ChatMsgActionFeature.State(id: item.id, message: item)
                 })
                 return .none
-            case .scrollToBottom:
-                state.scrollToBottom = true
-                return .none
             case let .updateInputTips(tips):
                 state.inputTips = tips
                 return .none
@@ -190,31 +185,32 @@ struct MessageListFeature {
                         let createCon = try await dbClient.createConversation(config.userId)
                         await send(.sendStreamRequest(createCon))
                     }
-                } catch: { error, _ in
-                    Logger(label: "loadConversation").error("\(error)")
                 }
+            case .msgThinking:
+                state.streamMsg = "正在思考..."
+                state.responding = true
+                return .none
+
             case let .sendStreamRequest(conversation):
                 state.conversation = conversation
-                let config = state.chatConfig
-                let content = state.inputText
+                let chatConfig: (String, ChatRequestConfigMacro) = (state.inputText, state.chatConfig)
+                let messageList = state.messageList
                 state.inputText = ""
                 return .run { send in
-                    _ = try await sendClient.handleSendMsg(content, conversation)
+                    _ = try await sendClient.handleSendMsg(chatConfig.0, conversation)
                     // 刷新列表
                     await send(.updateStreamResult(conversation))
-                    
+                    await send(.msgThinking)
                     // 请求返回的消息
-                    for try await message in try await msgListClient.handleStreamData(content, config) {
+                    for try await message in try await msgListClient.handleStreamData(chatConfig, messageList) {
                         await send(.receiveStreamResult(message, conversation))
                     }
                 }
             case let .receiveStreamResult(result, conversation):
-                if !state.responding {
+                if state.streamMsg == "正在思考..." {
                     state.streamMsg = ""
-                    state.responding = true
                 }
                 if let charMacro = ChatErrorMacro(rawValue: result), charMacro == .success || charMacro == .unknownError {
-                    state.responding = false
                     let message = state.streamMsg
                     return .run { send in
                         _ = try await sendClient.handleReceiveMsg(message, charMacro, conversation)
@@ -225,6 +221,8 @@ struct MessageListFeature {
                 }
                 return .none
             case let .updateStreamResult(conversation):
+                state.streamMsg = ""
+                state.responding = false
                 return .run { send in
                     try await send(.loadMessageList(
                         await dbClient.loadMessages(conversation)
@@ -259,14 +257,15 @@ struct MessageListFeature {
                 guard let conversation = state.conversation else {
                     return .none
                 }
-                let config = state.chatConfig
-                let content = model
+                let chatConfig: (String, ChatRequestConfigMacro) = (model, state.chatConfig)
+                let messageList = state.messageList
                 return .run { send in
-                    _ = try await sendClient.handleSendMsg(content, conversation)
+                    _ = try await sendClient.handleSendMsg(model, conversation)
                     // 刷新列表
                     await send(.updateStreamResult(conversation))
+                    await send(.msgThinking)
                     // 请求返回的消息
-                    for try await message in try await msgListClient.handleStreamData(content, config) {
+                    for try await message in try await msgListClient.handleStreamData(chatConfig, messageList) {
                         await send(.receiveStreamResult(message, conversation))
                     }
                 }

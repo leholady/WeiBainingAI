@@ -24,9 +24,11 @@ struct MessagingHubView: View {
                             .frame(maxWidth: .infinity)
                             .background(Color(hexadecimal6: 0xF7F7F7))
 
-                        TopicHistoryView(store: store)
-                            .frame(maxWidth: .infinity)
-                            .background(Color(hexadecimal6: 0xF7F7F7))
+                        if !viewStore.conversations.isEmpty {
+                            TopicHistoryView(store: store)
+                                .frame(maxWidth: .infinity)
+                                .background(Color(hexadecimal6: 0xF7F7F7))
+                        }
                     })
                     .padding(.bottom, 20)
                 }
@@ -42,7 +44,9 @@ struct MessagingHubView: View {
                             Image(.homeIconMember)
                                 .scaledToFit()
                                 .frame(width: 26, height: 26)
-                                .onTapGesture {}
+                                .onTapGesture {
+                                    viewStore.send(.didTapPremium)
+                                }
 
                             Image(.homeIconHistory)
                                 .scaledToFit()
@@ -62,6 +66,10 @@ struct MessagingHubView: View {
             .fullScreenCover(store: store.scope(state: \.$historyItem,
                                                 action: \.presentationHistoryMsg)) { store in
                 ConversationListView(store: store)
+            }
+            .fullScreenCover(store: store.scope(state: \.$premiumState,
+                                                action: \.presentationPremium)) { store in
+                PremiumMemberView(store: store)
             }
             .task {
                 viewStore.send(.loadDefaultConfig)

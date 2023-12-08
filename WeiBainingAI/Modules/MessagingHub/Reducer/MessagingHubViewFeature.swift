@@ -20,6 +20,7 @@ struct MessagingHubViewFeature {
         @PresentationState var msgItem: MessageListFeature.State?
         /// 跳转到历史记录
         @PresentationState var historyItem: ConversationListFeature.State?
+        @PresentationState var premiumState: PremiumMemberFeature.State?
     }
 
     enum Action: Equatable {
@@ -41,6 +42,9 @@ struct MessagingHubViewFeature {
         case didTapSuggestion(String)
         /// 点击话题
         case didTapTopicChat
+        /// 点击会员
+        case didTapPremium
+        case presentationPremium(PresentationAction<PremiumMemberFeature.Action>)
     }
 
     @Dependency(\.httpClient) var httpClient
@@ -92,7 +96,7 @@ struct MessagingHubViewFeature {
                     conversation: result
                 )
                 return .none
-                
+
             case let .didTapSuggestion(result):
                 state.msgItem = MessageListFeature.State(
                     userConfig: state.userConfig,
@@ -106,12 +110,21 @@ struct MessagingHubViewFeature {
                 }
                 return .none
 
-            case let .presentationHistoryMsg(.presented(.delegate(.updateConversationList(config)))):
-                return .run { send in
-                    try await send(.updateConversationData(
-                        await dbClient.loadConversation(config.userId ?? "")
-                    ))
+            case .presentationNewChat(.presented(.dismissPage)),
+                 .presentationHistoryMsg(.presented(.dismissTopics)):
+                if let userId = state.userConfig?.userId {
+                    return .run { send in
+                        try await send(.updateConversationData(
+                            await dbClient.loadConversation(userId)
+                        ))
+                    }
                 }
+                return .none
+
+            case .didTapPremium:
+                state.premiumState = PremiumMemberFeature.State()
+                return .none
+
             default:
                 return .none
             }
@@ -121,6 +134,9 @@ struct MessagingHubViewFeature {
         }
         .ifLet(\.$historyItem, action: \.presentationHistoryMsg) {
             ConversationListFeature()
+        }
+        .ifLet(\.$premiumState, action: \.presentationPremium) {
+            PremiumMemberFeature()
         }
     }
 }

@@ -29,7 +29,6 @@ struct ConversationListFeature {
         case didSelectConversation(ConversationItemDb)
         case didSelectAllConversation
         case didTapDeleteConversation
-        case didTapNewConversation
         case didTapStartNewChat
         case presentationNewChat(PresentationAction<MessageListFeature.Action>)
         case deleteSuccess

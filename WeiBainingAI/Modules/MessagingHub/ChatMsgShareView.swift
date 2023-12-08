@@ -95,6 +95,7 @@ struct ShareMegCardView: View {
                     .padding(.vertical, 20)
                     .maxWidth(.infinity)
                     .background(Color(hexadecimal6: 0xF6F6F6))
+
                 }
             }
             .background(.white)
