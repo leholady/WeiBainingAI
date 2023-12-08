@@ -46,7 +46,7 @@ extension PremiumMemberClient: DependencyKey {
                 var pages: [PremiumMemberPageModel] = []
                 for model in models {
                     guard let state = model.state else {
-                        break
+                        continue
                     }
                     switch state {
                     case .quota:
