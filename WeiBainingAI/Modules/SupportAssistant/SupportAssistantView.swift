@@ -50,11 +50,19 @@ struct SupportAssistantView: View {
                             .foregroundColor(.black)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        Image("home_icon_member")
+                        Button(action: {
+                            viewStore.send(.dismissPremium)
+                        }, label: {
+                            Image("home_icon_member")
+                        })
                     }
                 }
                 .onAppear {
                     viewStore.send(.uploadAssistantItems)
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$premiumState,
+                                                         action: \.fullScreenCoverPremium)) { store in
+                    PremiumMemberView(store: store)
                 }
                 .fullScreenCover(store: self.store.scope(state: \.$lightShadowState,
                                                          action: \.fullScreenCoverLightShadow)) { store in

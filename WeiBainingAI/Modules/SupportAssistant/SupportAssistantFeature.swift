@@ -20,6 +20,7 @@ struct SupportAssistantFeature {
         @PresentationState var makeState: SupportAssistantMakeFeature.State?
         @PresentationState var textState: SupportAssistantTextFeature.State?
         @PresentationState var lightShadowState: SupportAssistantLightShadowFeature.State?
+        @PresentationState var premiumState: PremiumMemberFeature.State?
     }
     
     enum Action: Equatable {
@@ -35,6 +36,8 @@ struct SupportAssistantFeature {
         case fullScreenCoverTextMake(PresentationAction<SupportAssistantTextFeature.Action>)
         case dismissLightShadow(SupportAssistantModel)
         case fullScreenCoverLightShadow(PresentationAction<SupportAssistantLightShadowFeature.Action>)
+        case dismissPremium
+        case fullScreenCoverPremium(PresentationAction<PremiumMemberFeature.Action>)
     }
 
     @Dependency(\.assistantClient) var assistantClient
@@ -108,6 +111,9 @@ struct SupportAssistantFeature {
                                                                                   aspectRatios: model.configuration?.proportions ?? [.four],
                                                                                   aspectStyles: model.configuration?.styles ?? [.style8, .style12, .style16, .style22, .style25], aspectImageFactors: model.configuration?.imageFactors ?? [.low])
                 return .none
+            case .dismissPremium:
+                state.premiumState = PremiumMemberFeature.State()
+                return .none
             default:
                 return .none
             }
@@ -126,6 +132,9 @@ struct SupportAssistantFeature {
         }
         .ifLet(\.$lightShadowState, action: \.fullScreenCoverLightShadow) {
             SupportAssistantLightShadowFeature()
+        }
+        .ifLet(\.$premiumState, action: \.fullScreenCoverPremium) {
+            PremiumMemberFeature()
         }
     }
 }
