@@ -10,9 +10,17 @@ import ComposableArchitecture
 
 struct SupportAssistantView: View {
     let store: StoreOf<SupportAssistantFeature>
+
+    struct ViewState: Equatable {
+        var assistants: [SupportAssistantModel] = []
+        init(state: SupportAssistantFeature.State) {
+            self.assistants = state.assistants
+        }
+    }
+    
     var body: some View {
         NavigationView {
-            WithViewStore(store, observe: { $0 }) { viewStore in
+            WithViewStore(store, observe: ViewState.init) { viewStore in
                 List(0..<viewStore.assistants.count, id: \.self) { index in
                     let item = viewStore.assistants[index]
                     SupportAssistantCell(model: item)
