@@ -22,7 +22,7 @@ struct LaunchConfigReducer: Reducer {
     @Dependency(\.httpClient) var httpClient
     @Dependency(\.memberClient) var memberClient
 
-    enum Action {
+    enum Action: Equatable {
         case launchApp
         case listenReachability(Reachability.Connection)
         case loadConfig
@@ -38,6 +38,7 @@ struct LaunchConfigReducer: Reducer {
         Reduce { state, action in
             switch action {
             case .launchApp:
+                state.loadError = false
                 return .run { send in
                     for await reachable in await launchClient.reachable() {
                         await send(.listenReachability(reachable))
@@ -55,8 +56,12 @@ struct LaunchConfigReducer: Reducer {
                 }
             case .loadConfig:
                 return .run { send in
-                    let userProfile = try await httpClient.getNewUserProfile()
-                    await send(.loadConfigSuccess(userProfile: userProfile))
+                    do {
+                        let userProfile = try await httpClient.getNewUserProfile()
+                        await send(.loadConfigSuccess(userProfile: userProfile))
+                    } catch {
+                        await send(.loadConfigFailure)
+                    }
                 }
             case let .loadConfigSuccess(userProfile):
                 state.userProfile = userProfile
