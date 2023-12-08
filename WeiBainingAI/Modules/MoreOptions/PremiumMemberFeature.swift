@@ -144,10 +144,17 @@ struct PremiumMemberFeature {
                         for await result in try await memberClient.recover() {
                             await send(.recoverValidation(TaskResult { try memberClient.verification(result) }))
                         }
+                        await send(.hudDismiss)
+                        await send(.hudSuccess("购买已恢复"))
                     } catch {
+                        await send(.hudDismiss)
+                        switch error as? StoreKitError {
+                        case .userCancelled:
+                            await send(.hudFailure("已取消恢复"))
+                        default:
+                            break
+                        }
                     }
-                    await send(.hudDismiss)
-                    await send(.hudSuccess("购买已恢复"))
                 }
             case let .recoverValidation(.success(transaction)):
                 return .run { send in

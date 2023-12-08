@@ -35,6 +35,7 @@ struct MoreOptionsFeature {
         case recoverResponse(TaskResult<PremiumValidationResponse>)
         case hudShow
         case hudDismiss
+        case hudFailure(String)
         case hudSuccess(String)
     }
     
@@ -83,10 +84,17 @@ struct MoreOptionsFeature {
                         for await result in try await memberClient.recover() {
                             await send(.recoverValidation(TaskResult { try memberClient.verification(result) }))
                         }
+                        await send(.hudDismiss)
+                        await send(.hudSuccess("购买已恢复"))
                     } catch {
+                        await send(.hudDismiss)
+                        switch error as? StoreKitError {
+                        case .userCancelled:
+                            await send(.hudFailure("已取消恢复"))
+                        default:
+                            break
+                        }
                     }
-                    await send(.hudDismiss)
-                    await send(.hudSuccess("购买已恢复"))
                 }
             case let .recoverValidation(.success(transaction)):
                 return .run { send in
@@ -127,6 +135,9 @@ struct MoreOptionsFeature {
                 return .none
             case .hudDismiss:
                 SVProgressHUD.dismiss()
+                return .none
+            case let .hudFailure(message):
+                SVProgressHUD.showError(withStatus: message)
                 return .none
             case let .hudSuccess(message):
                 SVProgressHUD.showSuccess(withStatus: message)
