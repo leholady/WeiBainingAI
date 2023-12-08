@@ -177,7 +177,7 @@ actor HttpRequestHandler {
         case .success where taskRespons.res != nil:
             return taskRespons.res!
         case .needLogin:
-//            WebConnectorBridger.profileModel = try await loginUserAccount()
+            userProfile = try await loginUserAccount()
             return try await requestTask(cmd: cmd, parameters: params)
         default:
             throw HttpErrorHandler.failedWithServer(taskRespons.errUserMsg)
@@ -263,9 +263,10 @@ extension HttpRequestHandler {
     
     func payAppStoreV2(_ transactionId: String, 
                        originalTransactionId: String) async throws -> Bool {
-        return try await requestTask(cmd: HttpConst.payAppStoreV2,
+        let model: AppStoreResultModel = try await requestTask(cmd: HttpConst.payAppStoreV2,
                                      parameters: ["transactionId": transactionId,
                                                   "originalTransactionId": originalTransactionId])
+        return model.isValid
     }
     
     func payAppleV2(_ transactionId: String) async throws -> Bool {

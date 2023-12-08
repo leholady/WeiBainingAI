@@ -9,6 +9,7 @@ import ComposableArchitecture
 import Reachability
 import UIKit
 import StoreKit
+import Logging
 
 struct LaunchConfigReducer: Reducer {
     struct State: Equatable {
@@ -75,19 +76,25 @@ struct LaunchConfigReducer: Reducer {
                         switch transaction.productType {
                         case .nonConsumable,
                                 .consumable:
+                            let result = try await memberClient.payApple("\(transaction.id)")
                             await send(.validationResponse(TaskResult {
                                 .init(transaction: transaction,
-                                      result: try await memberClient.payApple("\(transaction.id)"))
+                                      result: result)
                             }))
                         default:
+                            let result = try await memberClient.payAppStore("\(transaction.id)",
+                                                                            "\(transaction.originalID)")
                             await send(.validationResponse(TaskResult {
                                 .init(transaction: transaction,
-                                      result: try await memberClient.payAppStore("\(transaction.id)",
-                                                                                 "\(transaction.originalID)"))
+                                      result: result)
                             }))
                         }
                     } catch {
+#if DEBUG
                         
+                        Logger(label: "Transaction.updates").info("Error===>\(error)")
+#else
+#endif
                     }
                 }
             case let .validationResponse(.success(response)):

@@ -25,6 +25,8 @@ struct MoreOptionsView: View {
                                 switch $0 {
                                 case .itemMember:
                                     viewStore.send(.dismissPremium)
+                                case .itemResume:
+                                    viewStore.send(.recover)
                                 case .itemPolicy:
                                     viewStore.send(.dismissSafari(HttpConst.privateUrl))
                                 case .itemAgreement:

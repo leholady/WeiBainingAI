@@ -18,6 +18,7 @@ struct PremiumMemberClient {
     var verification: @Sendable (VerificationResult<Transaction>) throws -> Transaction
     var payAppStore: @Sendable (String, String) async throws -> Bool
     var payApple: @Sendable (String) async throws -> Bool
+    var recover: @Sendable () async throws -> Transaction.Transactions
 }
 
 extension PremiumMemberClient: DependencyKey {
@@ -97,6 +98,10 @@ extension PremiumMemberClient: DependencyKey {
             },
             payApple: {
                 return try await handler.payAppleV2($0)
+            },
+            recover: {
+                try await AppStore.sync()
+                return Transaction.unfinished
             }
         )
     }

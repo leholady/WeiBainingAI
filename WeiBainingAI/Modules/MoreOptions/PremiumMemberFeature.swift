@@ -9,6 +9,7 @@ import Foundation
 import ComposableArchitecture
 import StoreKit
 import SVProgressHUD
+import Logging
 
 @Reducer
 struct PremiumMemberFeature {
@@ -35,6 +36,9 @@ struct PremiumMemberFeature {
         case memberStartBuy
         case startBuy(Product)
         case uploadUserProfile
+        case recover
+        case recoverValidation(TaskResult<Transaction>)
+        case recoverResponse(TaskResult<PremiumValidationResponse>)
     }
     
     @Dependency(\.dismiss) var dismiss
@@ -127,6 +131,52 @@ struct PremiumMemberFeature {
             case .uploadUserProfile:
                 return .run { _ in
                     _ = try await httpClient.getNewUserProfile()
+                }
+            case .recover:
+                return .run { send in
+                    await SVProgressHUD.show()
+                    do {
+                        for await result in try await memberClient.recover() {
+                            await send(.recoverValidation(TaskResult { try memberClient.verification(result) }))
+                        }
+                    } catch {
+                    }
+                    await SVProgressHUD.dismiss()
+                    await SVProgressHUD.showSuccess(withStatus: "购买已恢复")
+                }
+            case let .recoverValidation(.success(transaction)):
+                return .run { send in
+                    do {
+                        switch transaction.productType {
+                        case .nonConsumable,
+                                .consumable:
+                            let result = try await memberClient.payApple("\(transaction.id)")
+                            await send(.recoverResponse(TaskResult {
+                                .init(transaction: transaction,
+                                      result: result)
+                            }))
+                        default:
+                            let result = try await memberClient.payAppStore("\(transaction.id)",
+                                                                            "\(transaction.originalID)")
+                            await send(.recoverResponse(TaskResult {
+                                .init(transaction: transaction,
+                                      result: result)
+                            }))
+                        }
+                    } catch {
+#if DEBUG
+                        
+                        Logger(label: "Transaction.updates").info("Error===>\(error)")
+#else
+#endif
+                    }
+                }
+            case let .recoverResponse(.success(response)):
+                return .run { send in
+                    if response.result {
+                        await response.transaction.finish()
+                        await send(.uploadUserProfile)
+                    }
                 }
             default:
                 return .none

@@ -71,6 +71,7 @@
 		7E6747FD2B1B44AE001D95FB /* PremiumMemberPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E6747FC2B1B44AE001D95FB /* PremiumMemberPageModel.swift */; };
 		7E6747FF2B1B452C001D95FB /* PremiumMemberClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E6747FE2B1B452C001D95FB /* PremiumMemberClient.swift */; };
 		7E689D9C2B15CA9600B4BFD3 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 7E689D9B2B15CA9600B4BFD3 /* ComposableArchitecture */; };
+		7E75FB6C2B22C85F009F828E /* AppStoreResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75FB6B2B22C85F009F828E /* AppStoreResultModel.swift */; };
 		7E94A4762B143B8300EA23F8 /* SupportAssistantCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */; };
 		7E94A4782B143BC100EA23F8 /* SupportAssistantModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A4772B143BC100EA23F8 /* SupportAssistantModel.swift */; };
 		7E94A4802B144B0600EA23F8 /* SupportAssistantFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E94A47E2B144B0600EA23F8 /* SupportAssistantFeature.swift */; };
@@ -159,6 +160,7 @@
 		7E6747FA2B1B4430001D95FB /* PremiumMemberModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumMemberModel.swift; sourceTree = "<group>"; };
 		7E6747FC2B1B44AE001D95FB /* PremiumMemberPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumMemberPageModel.swift; sourceTree = "<group>"; };
 		7E6747FE2B1B452C001D95FB /* PremiumMemberClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumMemberClient.swift; sourceTree = "<group>"; };
+		7E75FB6B2B22C85F009F828E /* AppStoreResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStoreResultModel.swift; sourceTree = "<group>"; };
 		7E88044C2B1DDED300C430E1 /* PremiumMemberTest.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = PremiumMemberTest.storekit; sourceTree = "<group>"; };
 		7E94A4752B143B8300EA23F8 /* SupportAssistantCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantCell.swift; sourceTree = "<group>"; };
 		7E94A4772B143BC100EA23F8 /* SupportAssistantModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportAssistantModel.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				7E6747F22B1B1AA7001D95FB /* MemberHeaderItemModel.swift */,
 				7E6747FA2B1B4430001D95FB /* PremiumMemberModel.swift */,
 				7E6747FC2B1B44AE001D95FB /* PremiumMemberPageModel.swift */,
+				7E75FB6B2B22C85F009F828E /* AppStoreResultModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				7E645C7B2B19BC3600D7E589 /* MoreOptionsItemCell.swift in Sources */,
 				7EB84D5B2B217AAE00DB259A /* String+Ex.swift in Sources */,
 				7E645C822B19CA2A00D7E589 /* MoreOptionsClient.swift in Sources */,
+				7E75FB6C2B22C85F009F828E /* AppStoreResultModel.swift in Sources */,
 				7EE7CA202B171630003A1B4A /* UploadImageModel.swift in Sources */,
 				7EB84D552B216B3200DB259A /* SupportAssistantLightShadowView.swift in Sources */,
 				7EE7CA2A2B1728E9003A1B4A /* SupportAssistantMakeFeature.swift in Sources */,

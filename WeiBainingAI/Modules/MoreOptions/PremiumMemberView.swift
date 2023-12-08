@@ -34,8 +34,8 @@ struct PremiumMemberView: View {
                             viewStore.send(.dismissSafari(HttpConst.privateUrl))
                         } usageAction: {
                             viewStore.send(.dismissSafari(HttpConst.usageUrl))
-                        } feedbackAction: {
-                            viewStore.send(.dismissSafari(HttpConst.feedbackUrl))
+                        } recoverAction: {
+                            viewStore.send(.recover)
                         }
                     }
                 }
@@ -61,7 +61,7 @@ struct PremiumMemberView: View {
     func memberBottomButtons(openAction: @escaping () -> Void,
                              privateAction: @escaping () -> Void,
                              usageAction: @escaping () -> Void,
-                             feedbackAction: @escaping() -> Void) -> some View {
+                             recoverAction: @escaping() -> Void) -> some View {
         VStack(spacing: 20) {
             Button(action: openAction,
                    label: {
@@ -91,7 +91,7 @@ struct PremiumMemberView: View {
                         .foregroundColor(Color(hex: 0x999999))
                 })
                 Spacer()
-                Button(action: feedbackAction,
+                Button(action: recoverAction,
                        label: {
                     Text("恢复购买")
                         .font(.system(size: 10, weight: .medium))
