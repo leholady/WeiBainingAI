@@ -319,11 +319,11 @@ extension HttpRequestHandler {
         
         if messageList.count >= maxMsgCount {
             let startIndex = messageList.count - maxMsgCount
-            subArray = Array(messageList[startIndex ..< messageList.count]).compactMap { itemDb in
+            subArray = Array(messageList[startIndex ..< messageList.count]).map { itemDb in
                 MessageDialogModel(content: itemDb.content, role: itemDb.roleType)
             }
         } else {
-            subArray = messageList.compactMap { itemDb in
+            subArray = messageList.map { itemDb in
                 MessageDialogModel(content: itemDb.content, role: itemDb.roleType)
             }
         }

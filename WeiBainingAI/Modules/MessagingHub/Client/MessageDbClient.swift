@@ -8,7 +8,7 @@
 import Dependencies
 import Logging
 import UIKit
-import WCDBSwift
+import WCDB
 
 struct MessageDbClient {
     /// 初始化数据库

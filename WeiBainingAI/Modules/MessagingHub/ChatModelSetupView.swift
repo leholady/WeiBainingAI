@@ -141,7 +141,7 @@ struct ChatStyleSelectionView: View {
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 10)
 
-                SegmentControlStyleView(items: viewStore.chatStyleItem.compactMap { $0.title },
+                SegmentControlStyleView(items: viewStore.chatStyleItem.map { $0.title },
                                         selectedIndex: viewStore.$selectStyleIndex)
             }
             .padding(.horizontal, 20)

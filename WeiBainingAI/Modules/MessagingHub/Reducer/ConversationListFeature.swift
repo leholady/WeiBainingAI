@@ -67,7 +67,7 @@ struct ConversationListFeature {
             case let .didSelectConversation(result):
                 if state.isEditing {
                     /// 在编辑模式下，选择对话
-                    state.conversationList = state.conversationList.compactMap {
+                    state.conversationList = state.conversationList.map {
                         var item = $0
                         if item.identifier == result.identifier {
                             item.isSelected.toggle()
@@ -89,7 +89,7 @@ struct ConversationListFeature {
                 }
             case .didSelectAllConversation:
                 state.isAllSelected.toggle()
-                state.conversationList = state.conversationList.compactMap {
+                state.conversationList = state.conversationList.map {
                     var item = $0
                     item.isSelected = state.isAllSelected
                     return item

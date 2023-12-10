@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4856D2923569A8D01A71AA65 /* Pods_WeiBainingAI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 523C5C697BD31355C7987B81 /* Pods_WeiBainingAI.framework */; };
 		65081C582B18CE91004F4C47 /* SegmentControlStyleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C572B18CE91004F4C47 /* SegmentControlStyleView.swift */; };
 		65081C5B2B18DC29004F4C47 /* ChatMsgShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */; };
 		65081C5D2B18ED9E004F4C47 /* ChatConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65081C5C2B18ED9E004F4C47 /* ChatConfigModel.swift */; };
 		6508F3222B1E2A2B00834430 /* ChatMsgShareFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6508F3212B1E2A2B00834430 /* ChatMsgShareFeature.swift */; };
+		650D8CC42B25973800C330F6 /* WCDB.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65626C0A2B22F5FE00F01883 /* WCDB.xcframework */; };
+		650D8CC52B25973800C330F6 /* WCDB.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 65626C0A2B22F5FE00F01883 /* WCDB.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6515DAFA2B20E41E005E5470 /* ChatMsgActionFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6515DAF92B20E41D005E5470 /* ChatMsgActionFeature.swift */; };
 		6515DAFC2B20E712005E5470 /* MessageListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6515DAFB2B20E712005E5470 /* MessageListCellView.swift */; };
 		6553F6F92B18AC0D00C77C29 /* ChatModelSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6553F6F82B18AC0D00C77C29 /* ChatModelSetupView.swift */; };
@@ -107,12 +108,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		655C721D2B201F6400B56D7A /* Embed Frameworks */ = {
+		650D8CC62B25973800C330F6 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				650D8CC52B25973800C330F6 /* WCDB.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,8 +122,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2C36261B3541D55F3F082F0A /* Pods-WeiBainingAI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeiBainingAI.release.xcconfig"; path = "Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI.release.xcconfig"; sourceTree = "<group>"; };
-		523C5C697BD31355C7987B81 /* Pods_WeiBainingAI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeiBainingAI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65081C572B18CE91004F4C47 /* SegmentControlStyleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentControlStyleView.swift; sourceTree = "<group>"; };
 		65081C5A2B18DC29004F4C47 /* ChatMsgShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMsgShareView.swift; sourceTree = "<group>"; };
 		65081C5C2B18ED9E004F4C47 /* ChatConfigModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConfigModel.swift; sourceTree = "<group>"; };
@@ -139,6 +139,7 @@
 		6561317B2B1AE323004FCAEF /* MessageListClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageListClient.swift; sourceTree = "<group>"; };
 		6561317E2B1AE32C004FCAEF /* ConversationListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationListView.swift; sourceTree = "<group>"; };
 		6561317F2B1AE32C004FCAEF /* ConversationListFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationListFeature.swift; sourceTree = "<group>"; };
+		65626C0A2B22F5FE00F01883 /* WCDB.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WCDB.xcframework; path = Carthage/Build/WCDB.xcframework; sourceTree = "<group>"; };
 		656A6E622B20C73900C524DB /* MessageSendClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSendClient.swift; sourceTree = "<group>"; };
 		656A6E642B20DBD700C524DB /* MessageActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActor.swift; sourceTree = "<group>"; };
 		65876EC52B0F880400DFFE0C /* HttpRequestHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpRequestHandler.swift; sourceTree = "<group>"; };
@@ -210,7 +211,6 @@
 		D310AC262B10A69D00E48A66 /* MessagingHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagingHubView.swift; sourceTree = "<group>"; };
 		D310AC302B10A8C600E48A66 /* MoreOptionsFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreOptionsFeature.swift; sourceTree = "<group>"; };
 		D310AC342B10AB9700E48A66 /* TabHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabHubView.swift; sourceTree = "<group>"; };
-		F341ED39878EAC468D4A66CE /* Pods-WeiBainingAI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeiBainingAI.debug.xcconfig"; path = "Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,30 +225,21 @@
 				7EE7CA312B1736BA003A1B4A /* Kingfisher in Frameworks */,
 				65876EC32B0F873D00DFFE0C /* CryptoSwift in Frameworks */,
 				659A552E2B0F004700B2BF9B /* SVProgressHUD in Frameworks */,
+				650D8CC42B25973800C330F6 /* WCDB.xcframework in Frameworks */,
 				659280412B220B1E009441A8 /* CompactSlider in Frameworks */,
 				659A55342B0F009A00B2BF9B /* Logging in Frameworks */,
 				659A55312B0F007400B2BF9B /* SwiftUIX in Frameworks */,
 				659A552B2B0F003600B2BF9B /* KeychainSwift in Frameworks */,
-				4856D2923569A8D01A71AA65 /* Pods_WeiBainingAI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		015CA8572CC0E0D7138B9C56 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				F341ED39878EAC468D4A66CE /* Pods-WeiBainingAI.debug.xcconfig */,
-				2C36261B3541D55F3F082F0A /* Pods-WeiBainingAI.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		499C0D4CA842FA109CCFCF35 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				523C5C697BD31355C7987B81 /* Pods_WeiBainingAI.framework */,
+				65626C0A2B22F5FE00F01883 /* WCDB.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -350,7 +341,6 @@
 				D310AC202B10A1CE00E48A66 /* .swiftlint.yml */,
 				659A55102B0EFE0500B2BF9B /* WeiBainingAI */,
 				659A550F2B0EFE0500B2BF9B /* Products */,
-				015CA8572CC0E0D7138B9C56 /* Pods */,
 				499C0D4CA842FA109CCFCF35 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -468,13 +458,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 659A551D2B0EFE0600B2BF9B /* Build configuration list for PBXNativeTarget "WeiBainingAI" */;
 			buildPhases = (
-				E7940EA7EAFAF839FA8600BC /* [CP] Check Pods Manifest.lock */,
 				659A550A2B0EFE0500B2BF9B /* Sources */,
 				659A550B2B0EFE0500B2BF9B /* Frameworks */,
 				659A550C2B0EFE0500B2BF9B /* Resources */,
 				D310AC1F2B10A19E00E48A66 /* SwiftLint */,
-				4EC1430D1199E7C9A94ED191 /* [CP] Embed Pods Frameworks */,
-				655C721D2B201F6400B56D7A /* Embed Frameworks */,
+				650D8CC62B25973800C330F6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -563,23 +551,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4EC1430D1199E7C9A94ED191 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WeiBainingAI/Pods-WeiBainingAI-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D310AC1F2B10A19E00E48A66 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -598,28 +569,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		E7940EA7EAFAF839FA8600BC /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WeiBainingAI-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -827,7 +776,6 @@
 		};
 		659A551E2B0EFE0600B2BF9B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F341ED39878EAC468D4A66CE /* Pods-WeiBainingAI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -880,7 +828,6 @@
 		};
 		659A551F2B0EFE0600B2BF9B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C36261B3541D55F3F082F0A /* Pods-WeiBainingAI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

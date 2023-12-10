@@ -12,7 +12,7 @@ import Logging
 import Speech
 import SwiftUI
 import UIKit
-import WCDBSwift
+import WCDB
 
 struct MessageListClient {
     /// 加载聊天请求配置

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import WCDBSwift
+import WCDB
 
 struct MessageDialogModel: Codable, Equatable {
     var content: String
