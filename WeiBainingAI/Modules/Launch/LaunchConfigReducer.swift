@@ -79,16 +79,15 @@ struct LaunchConfigReducer: Reducer {
                 return .run { send in
                     do {
                         switch transaction.productType {
-                        case .nonConsumable,
-                                .consumable:
-                            let result = try await memberClient.payApple("\(transaction.id)")
+                        case .autoRenewable:
+                            let result = try await memberClient.payAppStore("\(transaction.id)",
+                                                                            "\(transaction.originalID)")
                             await send(.validationResponse(TaskResult {
                                 .init(transaction: transaction,
                                       result: result)
                             }))
                         default:
-                            let result = try await memberClient.payAppStore("\(transaction.id)",
-                                                                            "\(transaction.originalID)")
+                            let result = try await memberClient.payApple("\(transaction.id)")
                             await send(.validationResponse(TaskResult {
                                 .init(transaction: transaction,
                                       result: result)

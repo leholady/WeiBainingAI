@@ -1,51 +1,7 @@
 {
   "identifier" : "99204BC8",
   "nonRenewingSubscriptions" : [
-    {
-      "displayPrice" : "0.99",
-      "familyShareable" : false,
-      "internalID" : "A98D9C2C",
-      "localizations" : [
-        {
-          "description" : "",
-          "displayName" : "",
-          "locale" : "en_US"
-        }
-      ],
-      "productID" : "com.weiBainingAI.id.1",
-      "referenceName" : "month vip",
-      "type" : "NonRenewingSubscription"
-    },
-    {
-      "displayPrice" : "0.99",
-      "familyShareable" : false,
-      "internalID" : "1889CA3B",
-      "localizations" : [
-        {
-          "description" : "",
-          "displayName" : "",
-          "locale" : "en_US"
-        }
-      ],
-      "productID" : "com.weiBainingAI.id.2",
-      "referenceName" : "season vip",
-      "type" : "NonRenewingSubscription"
-    },
-    {
-      "displayPrice" : "0.99",
-      "familyShareable" : false,
-      "internalID" : "19BF35D3",
-      "localizations" : [
-        {
-          "description" : "",
-          "displayName" : "",
-          "locale" : "en_US"
-        }
-      ],
-      "productID" : "com.weiBainingAI.id.3",
-      "referenceName" : "year vip",
-      "type" : "NonRenewingSubscription"
-    }
+
   ],
   "products" : [
     {
@@ -147,7 +103,90 @@
     ]
   },
   "subscriptionGroups" : [
+    {
+      "id" : "B1925D15",
+      "localizations" : [
 
+      ],
+      "name" : "com.weiBainingAI.id",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "F652D0DD",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.weiBainingAI.id.3",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "year vip",
+          "subscriptionGroupID" : "B1925D15",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "3BC4E05D",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.weiBainingAI.id.2",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "season vip",
+          "subscriptionGroupID" : "B1925D15",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "4330ACC1",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "",
+              "displayName" : "",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.weiBainingAI.id.1",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "month vip",
+          "subscriptionGroupID" : "B1925D15",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
   ],
   "version" : {
     "major" : 3,

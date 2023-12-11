@@ -16,7 +16,7 @@ import UIKit
 
 actor HttpRequestHandler {
     /// 用户信息
-    private var userProfile: UserProfileModel?
+    var userProfile: UserProfileModel?
     /// 时间戳
     private var timestamp: (serverTime: Int, awakTime: Int) = (0, 0)
 

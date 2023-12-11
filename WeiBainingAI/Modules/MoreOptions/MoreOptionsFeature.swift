@@ -100,19 +100,18 @@ struct MoreOptionsFeature {
                 return .run { send in
                     do {
                         switch transaction.productType {
-                        case .nonConsumable,
-                                .consumable:
-                            let result = try await memberClient.payApple("\(transaction.id)")
-                            await send(.recoverResponse(TaskResult {
-                                .init(transaction: transaction,
-                                      result: result)
-                            }))
-                        default:
+                        case .autoRenewable:
                             let result = try await memberClient.payAppStore("\(transaction.id)",
                                                                             "\(transaction.originalID)")
                             await send(.recoverResponse(TaskResult {
                                 .init(transaction: transaction,
                                       result: result)
+                            }))
+                        default:
+                            let result = try await memberClient.payApple("\(transaction.id)")
+                            await send(.recoverResponse(TaskResult {
+                                    .init(transaction: transaction,
+                                        result: result)
                             }))
                         }
                     } catch {

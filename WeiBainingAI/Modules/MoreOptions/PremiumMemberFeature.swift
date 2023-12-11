@@ -101,12 +101,11 @@ struct PremiumMemberFeature {
                         let transaction = try await memberClient.memberPurchase(product)
                         let result: Bool
                         switch transaction.productType {
-                        case .nonConsumable,
-                                .consumable:
-                            result = try await memberClient.payApple("\(transaction.id)")
-                        default:
+                        case .autoRenewable:
                             result = try await memberClient.payAppStore("\(transaction.id)",
-                                                                            "\(transaction.originalID)")
+                                                                        "\(transaction.originalID)")
+                        default:
+                            result = try await memberClient.payApple("\(transaction.id)")
                         }
                         await send(.hudDismiss)
                         if result {
@@ -160,16 +159,15 @@ struct PremiumMemberFeature {
                 return .run { send in
                     do {
                         switch transaction.productType {
-                        case .nonConsumable,
-                                .consumable:
-                            let result = try await memberClient.payApple("\(transaction.id)")
+                        case .autoRenewable:
+                            let result = try await memberClient.payAppStore("\(transaction.id)",
+                                                                            "\(transaction.originalID)")
                             await send(.recoverResponse(TaskResult {
                                 .init(transaction: transaction,
                                       result: result)
                             }))
                         default:
-                            let result = try await memberClient.payAppStore("\(transaction.id)",
-                                                                            "\(transaction.originalID)")
+                            let result = try await memberClient.payApple("\(transaction.id)")
                             await send(.recoverResponse(TaskResult {
                                 .init(transaction: transaction,
                                       result: result)

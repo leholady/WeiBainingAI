@@ -36,11 +36,10 @@ struct PremiumMemberModel: Codable, Equatable, Identifiable, Hashable {
     func newModelTo(_ product: Product) -> PremiumMemberModel {
         var model = self
         switch product.type {
-        case .consumable,
-            .nonConsumable:
-            model.state = .quota
-        default:
+        case .autoRenewable:
             model.state = .premium
+        default:
+            model.state = .quota
         }
         model.title = product.displayName.isEmpty ? model.title : product.displayName
         model.price = product.displayPrice

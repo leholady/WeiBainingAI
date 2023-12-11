@@ -68,7 +68,12 @@ extension PremiumMemberClient: DependencyKey {
                 return pages
             },
             memberPurchase: {
-                let result = try await $0.purchase()
+                var option: Set<Product.PurchaseOption> = []
+                if let uuid = await handler.userProfile?.uuid,
+                   let token = UUID(uuidString: uuid) {
+                    option.insert(.appAccountToken(token))
+                }
+                let result = try await $0.purchase(options: option)
                 switch result {
                 case .success(let verification):
                     switch verification {
