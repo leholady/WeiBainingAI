@@ -74,6 +74,9 @@ struct PremiumMemberView: View {
                             .foregroundColor(.white)
                     }
             })
+            Text("会员权益为自动续期订阅，确认订阅时，费用将从您的iTunes帐号扣除。订阅将会自动以订阅时的价格续订，除非在当前订阅期结束至少24小时以前关闭自动续订功能。您可以在设置中管理您的订阅项目。")
+                .font(.system(size: 10))
+                .foregroundColor(.white.opacity(0.7))
             HStack {
                 Button(action: usageAction,
                        label: {
