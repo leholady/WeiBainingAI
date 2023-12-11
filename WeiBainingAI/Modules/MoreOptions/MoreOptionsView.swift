@@ -15,7 +15,7 @@ struct MoreOptionsView: View {
             WithViewStore(store, observe: { $0 }) { viewStore in
                 VStack(spacing: 20) {
                     List {
-                        MoreOptionsHeaderView()
+                        MoreOptionsHeaderView(isVip: viewStore.isVipState)
                             .onTapGesture {
                                 viewStore.send(.dismissPremium)
                             }
@@ -55,6 +55,7 @@ struct MoreOptionsView: View {
                 }
                 .onAppear {
                     viewStore.send(.uploadBalanceItems)
+                    viewStore.send(.uploadMemberStatus)
                 }
                 .fullScreenCover(store: self.store.scope(state: \.$premiumState,
                                                          action: \.fullScreenCoverPremium)) { store in

@@ -19,6 +19,7 @@ struct PremiumMemberClient {
     var payAppStore: @Sendable (String, String) async throws -> Bool
     var payApple: @Sendable (String) async throws -> Bool
     var recover: @Sendable () async throws -> Transaction.Transactions
+    var userProfile: @Sendable () async throws -> UserProfileModel
 }
 
 extension PremiumMemberClient: DependencyKey {
@@ -107,6 +108,12 @@ extension PremiumMemberClient: DependencyKey {
             recover: {
                 try await AppStore.sync()
                 return Transaction.unfinished
+            },
+            userProfile: {
+                guard let user = await handler.userProfile else {
+                    return try await handler.getNewUserProfile()
+                }
+                return user
             }
         )
     }

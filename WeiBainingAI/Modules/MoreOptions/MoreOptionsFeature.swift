@@ -19,6 +19,7 @@ struct MoreOptionsFeature {
         var balanceItems: [MoreBalanceItemModel] = []
         @PresentationState var safariState: MoreSafariFeature.State?
         @PresentationState var premiumState: PremiumMemberFeature.State?
+        var isVipState: Bool = false
     }
     
     enum Action: Equatable {
@@ -29,10 +30,11 @@ struct MoreOptionsFeature {
         case fullScreenCoverSafari(PresentationAction<MoreSafariFeature.Action>)
         case dismissPremium
         case fullScreenCoverPremium(PresentationAction<PremiumMemberFeature.Action>)
-        case uploadUserProfile
         case recover
         case recoverValidation(TaskResult<Transaction>)
         case recoverResponse(TaskResult<PremiumValidationResponse>)
+        case uploadMemberStatus
+        case vipStateUpload(Bool)
         case hudShow
         case hudDismiss
         case hudFailure(String)
@@ -73,10 +75,6 @@ struct MoreOptionsFeature {
             case .dismissPremium:
                 state.premiumState = PremiumMemberFeature.State()
                 return .none
-            case .uploadUserProfile:
-                return .run { _ in
-                    _ = try await httpClient.getNewUserProfile()
-                }
             case .recover:
                 return .run { send in
                     await send(.hudShow)
@@ -126,9 +124,20 @@ struct MoreOptionsFeature {
                 return .run { send in
                     if response.result {
                         await response.transaction.finish()
-                        await send(.uploadUserProfile)
+                        await send(.uploadMemberStatus)
                     }
                 }
+            case .uploadMemberStatus:
+                return .run { send in
+                    do {
+                        let user = try await memberClient.userProfile()
+                        await send(.vipStateUpload(user.isVip ?? false))
+                    } catch {
+                    }
+                }
+            case let .vipStateUpload(isVip):
+                state.isVipState = isVip
+                return .none
             case .hudShow:
                 SVProgressHUD.show()
                 return .none

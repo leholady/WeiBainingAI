@@ -14,6 +14,8 @@ struct MoreOptionsHeaderView: View {
                   Color(hex: 0xE6FFFC),
                   Color(hex: 0xF9E3EE)]
     
+    var isVip: Bool
+    
     var body: some View {
         Section {
             VStack(alignment: .leading, spacing: 20) {
@@ -27,9 +29,9 @@ struct MoreOptionsHeaderView: View {
                     Spacer()
                     Text("去升级")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(.black)
+                        .foregroundColor(isVip ? Color.white.opacity(0.5) : .black)
                         .frame(width: 68, height: 36)
-                        .background(Image("more_membercard_btn"))
+                        .background(isVip ? Image("more_membercard_btn_sel") : Image("more_membercard_btn"))
                 }
             }
             .font(.system(size: 11))
@@ -58,5 +60,5 @@ struct MoreOptionsHeaderView: View {
 }
 
 #Preview {
-    MoreOptionsHeaderView()
+    MoreOptionsHeaderView(isVip: false)
 }

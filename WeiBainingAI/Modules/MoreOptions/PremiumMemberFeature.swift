@@ -21,6 +21,8 @@ struct PremiumMemberFeature {
         var pageItems: [PremiumMemberPageModel] = []
         @PresentationState var safariState: MoreSafariFeature.State?
         @BindingState var itemSelects: [Int]?
+        var isVipState: Bool = false
+        var vipExpireTime: String?
     }
     
     enum Action: BindableAction, Equatable {
@@ -35,10 +37,12 @@ struct PremiumMemberFeature {
         case cellDidAt(Int, Int)
         case memberStartBuy
         case startBuy(Product)
-        case uploadUserProfile
         case recover
         case recoverValidation(TaskResult<Transaction>)
         case recoverResponse(TaskResult<PremiumValidationResponse>)
+        case uploadMemberStatus
+        case vipStateUpload(Bool)
+        case vipExpireTime(String)
         case hudShow
         case hudDismiss
         case hudFailure(String)
@@ -110,7 +114,7 @@ struct PremiumMemberFeature {
                         await send(.hudDismiss)
                         if result {
                             await transaction.finish()
-                            await send(.uploadUserProfile)
+                            await send(.uploadMemberStatus)
                             await send(.hudSuccess("已成功开通会员"))
                         } else {
                             await send(.hudInfo("开通会员失败，如已付款请重启应用试试"))
@@ -131,10 +135,6 @@ struct PremiumMemberFeature {
                             await send(.hudFailure(error.localizedDescription))
                         }
                     }
-                }
-            case .uploadUserProfile:
-                return .run { _ in
-                    _ = try await httpClient.getNewUserProfile()
                 }
             case .recover:
                 return .run { send in
@@ -185,9 +185,28 @@ struct PremiumMemberFeature {
                 return .run { send in
                     if response.result {
                         await response.transaction.finish()
-                        await send(.uploadUserProfile)
+                        await send(.uploadMemberStatus)
                     }
                 }
+            case .uploadMemberStatus:
+                return .run { send in
+                    do {
+                        let user = try await memberClient.userProfile()
+                        await send(.vipStateUpload(user.isVip ?? false))
+                        if let vipExpireTime = user.vipExpireTime,
+                           vipExpireTime > 0 {
+                            let date = Date(timeIntervalSince1970: TimeInterval(vipExpireTime))
+                            await send(.vipExpireTime("有效期: \(date.timeFormat)"))
+                        }
+                    } catch {
+                    }
+                }
+            case let .vipStateUpload(isVip):
+                state.isVipState = isVip
+                return .none
+            case let .vipExpireTime(expireTime):
+                state.vipExpireTime = expireTime
+                return .none
             case .hudShow:
                 SVProgressHUD.show()
                 return .none

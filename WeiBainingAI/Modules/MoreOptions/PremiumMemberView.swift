@@ -14,7 +14,7 @@ struct PremiumMemberView: View {
     
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            ZStack(alignment: .topLeading) {
+            ZStack(alignment: .top) {
                 Image("member_bg")
                     .resizable()
                     .frame(height: 375)
@@ -40,15 +40,26 @@ struct PremiumMemberView: View {
                     }
                 }
                 .ignoresSafeArea()
-                Button(action: {
-                    viewStore.send(.premiumDismiss)
-                }, label: {
-                    Image("icon_back_white")
-                        .frame(width: 44, height: 44)
-                })
+                HStack {
+                    Button(action: {
+                        viewStore.send(.premiumDismiss)
+                    }, label: {
+                        Image("icon_back_white")
+                            .frame(width: 44, height: 44)
+                    })
+                    Spacer()
+                    if viewStore.isVipState,
+                       let vipExpireTime = viewStore.vipExpireTime {
+                        Text(vipExpireTime)
+                            .foregroundColor(.white)
+                            .font(.system(size: 16, weight: .medium))
+                            .padding(.trailing, 20)
+                    }
+                }
             }
             .onAppear {
                 viewStore.send(.uploadPageItems)
+                viewStore.send(.uploadMemberStatus)
             }
             .fullScreenCover(store: self.store.scope(state: \.$safariState,
                                                      action: \.fullScreenCoverSafari)) { store in
