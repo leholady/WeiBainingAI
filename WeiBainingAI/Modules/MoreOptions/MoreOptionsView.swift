@@ -33,6 +33,8 @@ struct MoreOptionsView: View {
                                     viewStore.send(.dismissSafari(HttpConst.usageUrl))
                                 case .itemConnect:
                                     viewStore.send(.dismissSafari(HttpConst.feedbackUrl))
+                                case .itemShare:
+                                    viewStore.send(.uploadShare)
                                 default:
                                     break
                                 }
@@ -56,6 +58,10 @@ struct MoreOptionsView: View {
                 .onAppear {
                     viewStore.send(.uploadBalanceItems)
                     viewStore.send(.uploadMemberStatus)
+                }
+                .sheet(store: self.store.scope(state: \.$shareState,
+                                                         action: \.fullScreenCoverShare)) { store in
+                    MoreShareView(store: store)
                 }
                 .fullScreenCover(store: self.store.scope(state: \.$premiumState,
                                                          action: \.fullScreenCoverPremium)) { store in

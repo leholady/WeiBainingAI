@@ -19,6 +19,7 @@ struct MoreOptionsFeature {
         var balanceItems: [MoreBalanceItemModel] = []
         @PresentationState var safariState: MoreSafariFeature.State?
         @PresentationState var premiumState: PremiumMemberFeature.State?
+        @PresentationState var shareState: MoreShareFeature.State?
         var isVipState: Bool = false
     }
     
@@ -39,6 +40,9 @@ struct MoreOptionsFeature {
         case hudDismiss
         case hudFailure(String)
         case hudSuccess(String)
+        case uploadShare
+        case dismissShare(TaskResult<MoreShareModel>)
+        case fullScreenCoverShare(PresentationAction<MoreShareFeature.Action>)
     }
     
     @Dependency(\.moreClient) var moreClient
@@ -138,6 +142,21 @@ struct MoreOptionsFeature {
             case let .vipStateUpload(isVip):
                 state.isVipState = isVip
                 return .none
+            case .uploadShare:
+                return .run { send in
+                    await send(.hudShow)
+                    await send(.dismissShare(TaskResult {
+                        try await httpClient.getShareData()
+                    }))
+                    await send(.hudDismiss)
+                }
+            case let .dismissShare(.success(model)):
+                state.shareState = MoreShareFeature.State(shareModel: model)
+                return .none
+            case .dismissShare(.failure):
+                return .run { send in
+                    await send(.hudFailure("获取分享数据失败"))
+                }
             case .hudShow:
                 SVProgressHUD.show()
                 return .none
@@ -159,6 +178,9 @@ struct MoreOptionsFeature {
         }
         .ifLet(\.$premiumState, action: \.fullScreenCoverPremium) {
             PremiumMemberFeature()
+        }
+        .ifLet(\.$shareState, action: \.fullScreenCoverShare) {
+            MoreShareFeature()
         }
     }
 }

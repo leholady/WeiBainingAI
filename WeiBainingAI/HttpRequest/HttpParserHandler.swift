@@ -31,6 +31,7 @@ struct HttpConst {
     static let genTxt2imgTask = "ColorizeServer.genTxt2imgTask"
     static let getTxt2imgResult = "ColorizeServer.getTxt2imgResult"
     static let getHomeAll = "ChatTool.getHomeAll"
+    static let getShareData = "ChatTool.getShareData"
     // 静态地址
     static let privateUrl = URL(string: "https://cloudsail.notion.site/66345d0752c64febb32b71d50f2a4a19?pvs=4")!
     static let usageUrl = URL(string: "https://cloudsail.notion.site/ChatAID-3f8d8fdfa72f4596b75c59b719a8ee3b?pvs=4")!

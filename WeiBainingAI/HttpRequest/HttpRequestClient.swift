@@ -23,6 +23,8 @@ struct HttpRequestClient {
     var txtToImageResult: @Sendable (String) async throws -> TextImageTaskResultModel
     /// 助手配置信息
     var getHomeAllAssistant: @Sendable () async throws -> [SupportAssistantModel]
+    /// 获取分享数据
+    var getShareData: @Sendable () async throws -> MoreShareModel
 }
 
 extension HttpRequestClient: DependencyKey {
@@ -49,6 +51,9 @@ extension HttpRequestClient: DependencyKey {
             },
             getHomeAllAssistant: {
                 try await handler.getHomeAllAssistant()
+            },
+            getShareData: {
+                try await handler.getShareData()
             }
         )
     }

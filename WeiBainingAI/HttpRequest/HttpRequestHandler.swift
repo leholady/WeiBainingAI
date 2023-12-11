@@ -278,4 +278,8 @@ extension HttpRequestHandler {
         return try await requestTask(cmd: HttpConst.getHomeAll,
                                      parameters: ["confKey": "assistant"])
     }
+    
+    func getShareData() async throws -> MoreShareModel {
+        return try await requestTask(cmd: HttpConst.getShareData)
+    }
 }
