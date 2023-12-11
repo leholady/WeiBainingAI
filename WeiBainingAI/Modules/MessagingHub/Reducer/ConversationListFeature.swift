@@ -130,6 +130,12 @@ struct ConversationListFeature {
                     await send(.delegate(.updateConversationList(config)))
                     await dismiss()
                 }
+
+            case .presentationNewChat(.presented(.dismissPage)):
+                return .run { send in
+                    await send(.loadChatTopics)
+                }
+
             default:
                 return .none
             }

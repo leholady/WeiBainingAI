@@ -28,4 +28,19 @@ struct WeiBainingAIApp: App {
             }
         }
     }
+
+    init() {
+        initNavigationStyle()
+    }
+
+    // 初始化导航栏
+    private func initNavigationStyle() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.shadowImage = UIImage() // 底部阴影
+        appearance.shadowColor = .clear // 底部阴影颜色
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+    }
 }

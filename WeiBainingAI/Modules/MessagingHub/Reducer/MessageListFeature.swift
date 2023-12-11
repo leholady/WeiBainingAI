@@ -276,17 +276,17 @@ struct MessageListFeature {
                 }
 
             case let .actionTodos(.element(id: id, action: .deleteMessage)):
-                if let message = state.messageList.first(where: { $0.id == id }),
-                   let conversation = state.conversation {
+                if let message = state.messageList.first(where: { $0.id == id }) {
                     let messageList = state.messageList
                     return .run { send in
-                        try await dbClient.deleteMessageGroup(message, messageList)
-                        await send(.loadLocalMessages(conversation))
+                        try await send(.loadMessageList(
+                            await dbClient.deleteMessageGroup(message, messageList)
+                        ))
                     } catch: { error, send in
                         Logger(label: "deleteMessage").error("\(error)")
                         await SVProgressHUD.showError(withStatus: "删除失败")
                         await SVProgressHUD.dismiss(withDelay: 1.5)
-                        await send(.loadLocalMessages(conversation))
+                        await send(.loadMessageList(messageList))
                     }
                 }
                 return .none

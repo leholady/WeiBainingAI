@@ -16,23 +16,22 @@ struct ConversationListView: View {
             NavigationView(content: {
                 VStack(alignment: .center, spacing: 0, content: {
                     if viewStore.conversationList.isEmpty {
-                        ConversationEmptyView()
+                        ConversationEmptyView(store: store)
                     } else {
-                        List {
-                            ForEach(viewStore.conversationList, id: \.identifier) { topic in
-                                ConversationItemView(topicModel: topic,
-                                                     isEditing: viewStore.$isEditing)
-                                    .onTapGesture {
-                                        viewStore.send(.didSelectConversation(topic))
-                                    }
-                            }
-                            .listRowSeparator(.hidden)
-                            .listSectionSeparator(.hidden)
-                            .listRowBackground(Color.clear)
-                            .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                        List(viewStore.conversationList, id: \.identifier) { topic in
+                            ConversationItemView(topicModel: topic,
+                                                 isEditing: viewStore.$isEditing)
+                                .listRowSeparator(.hidden)
+                                .listSectionSeparator(.hidden)
+                                .listRowBackground(Color.clear)
+                                .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                                .onTapGesture {
+                                    viewStore.send(.didSelectConversation(topic))
+                                }
                         }
                         .listStyle(.plain)
                         .listRowSpacing(10)
+                        .padding(.top, 20)
                     }
 
                     // 编辑悬浮按钮
@@ -59,7 +58,9 @@ struct ConversationListView: View {
 
                     ToolbarItem(placement: .topBarTrailing, content: {
                         Button(action: {
-                            viewStore.send(.didSelectEdit)
+                            if !viewStore.conversationList.isEmpty {
+                                viewStore.send(.didSelectEdit)
+                            }
                         }, label: {
                             Text(viewStore.isEditing ? "完成" : "编辑")
                                 .font(.system(size: 14, weight: .semibold))
@@ -68,6 +69,7 @@ struct ConversationListView: View {
                         .buttonStyle(.plain)
                     })
                 })
+                .navigationBarTitleDisplayMode(.inline)
             })
             .fullScreenCover(store: store.scope(state: \.$chatPage,
                                                 action: \.presentationNewChat)) { store in
@@ -88,7 +90,7 @@ struct ConversationItemView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 0) {
             if isEditing {
-                Image(topicModel.isSelected ? .iconSel : .iconUnsel)
+                Image(topicModel.isSelected ? .topicIconSel : .topicIconUnsel)
                     .scaledToFit()
                     .frame(width: 26, height: 26)
                     .padding(.leading, 16)
@@ -159,40 +161,52 @@ struct ConversationItemView: View {
 
 /// 空白视图
 struct ConversationEmptyView: View {
+    let store: StoreOf<ConversationListFeature>
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            Image(.historyDefault)
-                .scaledToFit()
-                .frame(width: 220, height: 90)
-                .padding(.bottom, 10)
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ConversationListFeature>) in
+            ZStack(alignment: .center) {
+                Color(hexadecimal6: 0xF6F6F6)
+                    .ignoresSafeArea()
 
-            Text("还没有聊天记录")
-                .font(.system(size: 14))
-                .foregroundColor(Color(hexadecimal6: 0x666666))
+                VStack(alignment: .center, spacing: 0) {
+                    Image(.historyDefault)
+                        .scaledToFit()
+                        .frame(width: 220, height: 90)
+                        .padding(.bottom, 10)
 
-            Button(action: /*@START_MENU_TOKEN@*/ {}/*@END_MENU_TOKEN@*/, label: {
-                RoundedRectangle(cornerRadius: 20)
-                    .frame(height: 50)
-                    .foregroundColor(Color(hexadecimal6: 0x027AFF))
-                    .overlay {
-                        Text("开始新对话")
-                            .font(.system(size: 16), weight: .semibold)
-                            .foregroundColor(.white)
+                    Text("还没有聊天记录")
+                        .font(.system(size: 14))
+                        .foregroundColor(Color(hexadecimal6: 0x666666))
+
+                    Button(action: {
+                        viewStore.send(.didTapStartNewChat)
+                    }, label: {
+                        RoundedRectangle(cornerRadius: 20)
+                            .frame(height: 50)
+                            .foregroundColor(Color(hexadecimal6: 0x027AFF))
+                            .overlay {
+                                Text("开始新对话")
+                                    .font(.system(size: 16), weight: .semibold)
+                                    .foregroundColor(.white)
+                            }
+                    })
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 40)
+                    .padding(.top, 65)
+
+                    VStack(alignment: .center, spacing: 0) {
+                        Text("New Chat With Chat GPT4")
+                            .font(.system(size: 12))
+                            .foregroundColor(Color(hexadecimal6: 0x027AFF))
+                            .padding(.top, 20)
+                        Divider()
+                            .frame(width: 150, height: 1)
+                            .background(Color(hexadecimal6: 0x027AFF))
+                            .padding(.top, -2)
                     }
-            })
-            .buttonStyle(.plain)
-            .padding(.horizontal, 40)
-            .padding(.top, 65)
-
-            VStack(alignment: .center, spacing: 0) {
-                Text("New Chat With Chat GPT4")
-                    .font(.system(size: 12))
-                    .foregroundColor(Color(hexadecimal6: 0x027AFF))
-                    .padding(.top, 20)
-                Divider()
-                    .frame(width: 150, height: 1)
-                    .background(Color(hexadecimal6: 0x027AFF))
-                    .padding(.top, -2)
+                    .padding(.bottom, 30)
+                }
+                .edgesIgnoringSafeArea(.top)
             }
         }
     }
@@ -218,7 +232,7 @@ struct ConversationEditModeView: View {
                             viewStore.send(.didSelectAllConversation)
                         }, label: {
                             HStack(alignment: .center, spacing: 5, content: {
-                                Image(viewStore.isAllSelected ? .iconSel : .iconUnsel)
+                                Image(viewStore.isAllSelected ? .topicIconSel : .topicIconUnsel)
                                     .scaledToFit()
                                     .frame(width: 26, height: 26)
 

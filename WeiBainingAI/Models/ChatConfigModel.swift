@@ -24,9 +24,9 @@ enum ChatTemperatureType: Double, Codable, Equatable, Hashable {
     }
 }
 
-enum ChatModelType: Int, Codable, Equatable, Hashable {
-    case gpt3_5 = 1
-    case gpt4 = 2
+enum ChatModelType: String, Codable, Equatable, Hashable {
+    case gpt3_5 = "gpt-3.5"
+    case gpt4 = "gpt-4"
 
     var title: String {
         switch self {
@@ -45,16 +45,8 @@ enum ChatModelType: Int, Codable, Equatable, Hashable {
             return "GPT-4可以遵循复杂的指令并准确地解决难题。"
         }
     }
-
-    var code: String {
-        switch self {
-        case .gpt3_5:
-            return "gpt-3.5"
-        case .gpt4:
-            return "gpt-4"
-        }
-    }
 }
+
 /// 聊天配置
 struct ChatRequestConfigMacro: Equatable, Codable {
     var temperature: ChatTemperatureType

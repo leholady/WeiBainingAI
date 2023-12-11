@@ -76,11 +76,11 @@ struct ChatModelSelectionView: View {
                 HStack(alignment: .center, spacing: 20, content: {
                     ForEach(0 ..< viewStore.chatModelList.count) { index in
                         ChatModelSelectionItem(
-                            isSelect: viewStore.selectModelId == index,
+                            isSelect: viewStore.chatConfig.model == viewStore.chatModelList[index],
                             modelItem: viewStore.chatModelList[index]
                         )
                         .onTapGesture {
-                            viewStore.send(.selectChatModel(index: index))
+                            viewStore.send(.selectChatModel(index: viewStore.chatModelList[index]))
                         }
                     }
                 })
@@ -141,8 +141,8 @@ struct ChatStyleSelectionView: View {
                     .multilineTextAlignment(.leading)
                     .padding(.bottom, 10)
 
-                SegmentControlStyleView(items: viewStore.chatStyleItem.map { $0.title },
-                                        selectedIndex: viewStore.$selectStyleIndex)
+                SegmentControlStyleView(items: viewStore.chatStyleList,
+                                        selectedIndex: viewStore.$selectStyle)
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 30)

@@ -27,87 +27,30 @@ struct MessageDbClient {
     /// 传入会话数据，删除会话
     var deleteConversation: @Sendable (_ conversations: [ConversationItemDb]) async throws -> Void
     /// 传入当前点击的消息模型，删除对应的消息
-    var deleteMessageGroup: @Sendable (_ msg: MessageItemDb, _ msgList: [MessageItemDb]) async throws -> Void
+    var deleteMessageGroup: @Sendable (_ msg: MessageItemDb, _ msgList: [MessageItemDb]) async throws -> [MessageItemDb]
 }
 
 extension MessageDbClient: DependencyKey {
     static var liveValue: MessageDbClient {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let database = Database(at: "\(documentsPath)/WeiBainingAI.db")
+        let dbActor = MessageDbActor()
 
         return Self {
-            try database.create(table: ConversationItemDb.tableName, of: ConversationItemDb.self)
-            try database.create(table: MessageItemDb.tableName, of: MessageItemDb.self)
+            try await dbActor.createTable()
             return true
         } createConversation: {
-            var topic = ConversationItemDb(userId: $0, timestamp: Date(), topic: "", reply: "")
-            try database.insert(topic, intoTable: ConversationItemDb.tableName)
-            Logger(label: "createConversation").info("create conversation: \(topic.lastInsertedRowID)")
-            // 获取 identifier 的最大值
-            let maxIdentifier = try database.getValue(on: ConversationItemDb.Properties.identifier.max(),
-                                                      fromTable: ConversationItemDb.tableName)
-            topic.identifier = Int(maxIdentifier.int64Value)
-            return topic
+            try await dbActor.insertConversationItem($0)
         } updateConversation: {
-            var conversation = $0
-            if $1.role == MessageSendRole.robot.rawValue {
-                conversation.reply = $1.content
-                conversation.timestamp = $1.timestamp
-                try database.update(table: ConversationItemDb.tableName,
-                                    on: [ConversationItemDb.Properties.reply,
-                                         ConversationItemDb.Properties.timestamp],
-                                    with: conversation,
-                                    where: ConversationItemDb.Properties.identifier == $0.identifier)
-            } else {
-                conversation.topic = $1.content
-                try database.update(table: ConversationItemDb.tableName,
-                                    on: ConversationItemDb.Properties.topic,
-                                    with: conversation,
-                                    where: ConversationItemDb.Properties.identifier == $0.identifier)
-            }
-
+            try await dbActor.updateConversationItem($0, $1)
         } loadConversation: {
-            let topics: [ConversationItemDb] = try database.getObjects(
-                on: ConversationItemDb.Properties.all,
-                fromTable: ConversationItemDb.tableName,
-                where: ConversationItemDb.Properties.userId == $0
-            )
-            return topics
+            try await dbActor.getConversationItem($0)
         } loadMessages: {
-            let messages: [MessageItemDb] = try database.getObjects(
-                on: MessageItemDb.Properties.all,
-                fromTable: MessageItemDb.tableName,
-                where: MessageItemDb.Properties.conversationId == $0.identifier
-            )
-            return messages
+            try await dbActor.getMessageItem($0.identifier)
         } saveSingleMessage: {
-            try database.insert([$0], intoTable: MessageItemDb.tableName)
+            try await dbActor.insertMessageItem($0)
         } deleteConversation: {
-            try $0.forEach { conversation in
-                try database.delete(fromTable: ConversationItemDb.tableName,
-                                    where: ConversationItemDb.Properties.identifier == conversation.identifier)
-            }
-        } deleteMessageGroup: { msg, msgList in
-            // 根据传入的消息，以消息组上下文方式，查询队组
-            let currentIndex = msgList.firstIndex(where: { $0.identifier == msg.identifier }) ?? 0
-            // 检查上一条消息和下一条消息是否存在，以及它们的内容
-            if msg.roleType == .user {
-                if currentIndex < msgList.count - 1 {
-                    let nextMsg = msgList[currentIndex + 1]
-                    try database.delete(fromTable: MessageItemDb.tableName,
-                                        where: MessageItemDb.Properties.identifier == msg.identifier)
-                    try database.delete(fromTable: MessageItemDb.tableName,
-                                        where: MessageItemDb.Properties.identifier == nextMsg.identifier)
-                }
-            } else {
-                if currentIndex > 0 {
-                    let previousMsg = msgList[currentIndex - 1]
-                    try database.delete(fromTable: MessageItemDb.tableName,
-                                        where: MessageItemDb.Properties.identifier == msg.identifier)
-                    try database.delete(fromTable: MessageItemDb.tableName,
-                                        where: MessageItemDb.Properties.identifier == previousMsg.identifier)
-                }
-            }
+            try await dbActor.deleteConversationItem($0)
+        } deleteMessageGroup: {
+            try await dbActor.deleteMessageItem($0, $1)
         }
     }
 }
@@ -185,7 +128,7 @@ extension MessageDbClient: TestDependencyKey {
             },
             saveSingleMessage: { _ in },
             deleteConversation: { _ in },
-            deleteMessageGroup: { _, _ in }
+            deleteMessageGroup: { _, _ in [] }
         )
     }
 

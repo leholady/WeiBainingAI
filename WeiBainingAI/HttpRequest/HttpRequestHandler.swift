@@ -314,9 +314,8 @@ extension HttpRequestHandler {
     func seedMessage(_ chatConfig: (content: String, config: ChatRequestConfigMacro),
                      _ messageList: [MessageItemDb]) async throws -> DataStreamTask {
         
-        let maxMsgCount = chatConfig.config.msgCount * 2
+        let maxMsgCount = chatConfig.config.msgCount
         var subArray: [MessageDialogModel] = []
-        
         if messageList.count >= maxMsgCount {
             let startIndex = messageList.count - maxMsgCount
             subArray = Array(messageList[startIndex ..< messageList.count]).map { itemDb in
@@ -337,7 +336,7 @@ extension HttpRequestHandler {
             "ownerUserId": chatConfig.config.userId,
             "conversationId": chatConfig.config.conversationId,
             "maxtokens": chatConfig.config.maxtokens,
-            "model": chatConfig.config.model.code,
+            "model": chatConfig.config.model.rawValue,
             "temperature": chatConfig.config.temperature.rawValue,
             "messages": jsonString
         ]

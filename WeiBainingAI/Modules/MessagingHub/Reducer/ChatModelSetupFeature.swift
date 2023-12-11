@@ -12,17 +12,15 @@ import UIKit
 struct ChatModelSetupFeature {
     struct State: Equatable {
         /// 选择模型
-        var selectModelId: Int = 0
         var chatConfig: ChatRequestConfigMacro
         /// 选择风格
-        @BindingState var selectStyleIndex: Int = 0
+        @BindingState var selectStyle: ChatTemperatureType = .balance
         /// 附加消息计数
         @BindingState var msgCount: Int = 0
         /// 附加消息Token
         @BindingState var msgTokens: Int = 0
-
         var chatModelList: [ChatModelType] = [.gpt3_5, .gpt4]
-        var chatStyleItem: [ChatTemperatureType] = [.creativity, .balance, .accurate]
+        var chatStyleList: [ChatTemperatureType] = [.creativity, .balance, .accurate]
     }
 
     enum Action: BindableAction, Equatable {
@@ -31,7 +29,7 @@ struct ChatModelSetupFeature {
         /// 加载聊天配置
         case loadChatConfig
         /// 选择聊天模型
-        case selectChatModel(index: Int)
+        case selectChatModel(index: ChatModelType)
         /// 聊天配置缓存
         case saveChatConfig
         /// 更新消息计数
@@ -55,32 +53,17 @@ struct ChatModelSetupFeature {
         Reduce { state, action in
             switch action {
             case .binding:
-                if state.selectStyleIndex == 0 {
-                    state.chatConfig.temperature = .creativity
-                } else if state.selectStyleIndex == 1 {
-                    state.chatConfig.temperature = .balance
-                } else if state.selectStyleIndex == 2 {
-                    state.chatConfig.temperature = .accurate
-                }
+                state.chatConfig.temperature = state.selectStyle
                 state.chatConfig.msgCount = state.msgCount
                 state.chatConfig.maxtokens = state.msgTokens
                 return .none
             case .loadChatConfig:
-                state.selectModelId = (state.chatConfig.model == .gpt3_5) ? 0 : 1
-                switch state.chatConfig.temperature {
-                case .creativity:
-                    state.selectStyleIndex = 0
-                case .balance:
-                    state.selectStyleIndex = 1
-                case .accurate:
-                    state.selectStyleIndex = 2
-                }
+                state.selectStyle = state.chatConfig.temperature
                 state.msgCount = state.chatConfig.msgCount
                 state.msgTokens = state.chatConfig.maxtokens
                 return .none
             case let .selectChatModel(index):
-                state.selectModelId = index
-                state.chatConfig.model = (index == 0) ? .gpt3_5 : .gpt4
+                state.chatConfig.model = index
                 return .none
             case .dismissConfig:
                 let chatConfig = state.chatConfig

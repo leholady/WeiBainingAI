@@ -19,6 +19,10 @@ struct MessageListView: View {
                         ScrollView {
                             ScrollViewReader { scrollViewProxy in
                                 VStack(alignment: .center, spacing: 0) {
+                                    if let first = viewStore.messageList.first {
+                                        MessageTimestampCell(mesItem: first)
+                                    }
+
                                     ForEachStore(
                                         self.store.scope(state: \.msgTodos, action: \.actionTodos)
                                     ) { todoStore in
@@ -92,8 +96,8 @@ struct MessageListView: View {
                                 }
                         })
                     }
+                    .navigationBarTitleDisplayMode(.inline)
                 }
-                .navigationBarTitleDisplayMode(.inline)
                 .navigationViewStyle(.stack)
 
                 IfLetStore(

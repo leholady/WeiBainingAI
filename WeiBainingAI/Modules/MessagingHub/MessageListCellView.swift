@@ -13,9 +13,10 @@ import SwiftUIX
 
 /// 消息时间戳
 struct MessageTimestampCell: View {
+    let mesItem: MessageItemDb
     var body: some View {
         HStack {
-            Text("2023-06-22 22:20")
+            Text(mesItem.timestamp.timeFormat)
                 .font(.system(size: 12))
                 .foregroundColor(Color(hexadecimal6: 0xC7C7C7))
                 .maxWidth(.infinity)
