@@ -10,10 +10,10 @@ import ComposableArchitecture
 
 struct TabHubView: View {
     let store: StoreOf<TabHubFeature>
+    
     var body: some View {
-        WithViewStore(store, observe: \.currentTab) { viewStore in
-            
-            TabView(selection: viewStore.binding(send: { .tabSelected($0) })) {
+//        WithViewStore(store, observe: \.currentTab) { viewStore in
+            TabView {
                 MessagingHubView(store: store
                     .scope(state: \.messagingHubState, action: { .messagingHub($0) })
                 )
@@ -38,8 +38,7 @@ struct TabHubView: View {
                 }
                 .tag(TabHubFeature.Tab.moreOptions)
             }
-        }
-        
+//        }
     }
 }
 
@@ -72,10 +71,10 @@ struct TabHubFeature {
         Scope(state: \.moreOptionsState, action: \.moreOptions) {
             MoreOptionsFeature()
         }
-        Reduce { _, _ in
-            return .none
-        }
-        ._printChanges()
+//        Reduce { _, _ in
+//            return .none
+//        }
+//        ._printChanges()
     }
 }
 
