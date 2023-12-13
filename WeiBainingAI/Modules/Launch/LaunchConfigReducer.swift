@@ -11,11 +11,15 @@ import UIKit
 import StoreKit
 import Logging
 
-struct LaunchConfigReducer: Reducer {
+@Reducer
+struct LaunchConfigReducer {
     struct State: Equatable {
         var userProfile: UserProfileModel?
         /// 无网络
         var loadError: Bool = false
+        
+        var privacyAuth: Bool = false
+        @PresentationState var safariState: MoreSafariFeature.State?
     }
 
     @Dependency(\.launchClient) var launchClient
@@ -28,6 +32,11 @@ struct LaunchConfigReducer: Reducer {
         case loadConfig
         case loadConfigSuccess(userProfile: UserProfileModel)
         case loadConfigFailure
+        case loadPrivacyAuth
+        case privacyAuthUpdate(Bool)
+        case savePrivacyAuth(Bool)
+        case dismissSafari(URL)
+        case fullScreenCoverSafari(PresentationAction<MoreSafariFeature.Action>)
         
         case mamberUpdates
         case transactionValidation(TaskResult<Transaction>)
@@ -68,6 +77,25 @@ struct LaunchConfigReducer: Reducer {
                 return .none
             case .loadConfigFailure:
                 state.loadError = true
+                return .none
+            case .loadPrivacyAuth:
+                return .run { send in
+//                    launchClient.privacyAuthUpdate(false)
+                    await send(.privacyAuthUpdate(launchClient.privacyAuth()))
+                }
+            case let .privacyAuthUpdate(privacy):
+                state.privacyAuth = privacy
+                return .run { send in
+                    if privacy {
+                        await send(.loadConfig)
+                    }
+                }
+            case let .savePrivacyAuth(privacy):
+                state.privacyAuth = privacy
+                launchClient.privacyAuthUpdate(privacy)
+                return .none
+            case let .dismissSafari(url):
+                state.safariState = MoreSafariFeature.State(url: url)
                 return .none
             case .mamberUpdates:
                 return .run { send in
@@ -111,6 +139,9 @@ struct LaunchConfigReducer: Reducer {
             default:
                 return .none
             }
+        }
+        .ifLet(\.$safariState, action: \.fullScreenCoverSafari) {
+            MoreSafariFeature()
         }
     }
 }
