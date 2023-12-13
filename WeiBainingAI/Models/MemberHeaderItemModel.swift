@@ -12,8 +12,8 @@ struct MemberHeaderItemModel: RawRepresentable, Codable, Equatable, Hashable, Id
         rawValue
     }
     let rawValue: String
-    static let gtp3 = MemberHeaderItemModel(rawValue: "无限聊天GPT3.5")
-    static let gtp4 = MemberHeaderItemModel(rawValue: "解锁ChatGPT4.0")
+    static let gtp3 = MemberHeaderItemModel(rawValue: "无限Chat3.5")
+    static let gtp4 = MemberHeaderItemModel(rawValue: "解锁Chat4.0")
     static let assistant = MemberHeaderItemModel(rawValue: "解锁所有AI助手")
     static let server = MemberHeaderItemModel(rawValue: "专用服务器快速")
     static let ads = MemberHeaderItemModel(rawValue: "删除所有广告")

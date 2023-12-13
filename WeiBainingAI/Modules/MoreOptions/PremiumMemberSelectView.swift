@@ -23,7 +23,7 @@ struct PremiumMemberSelectView: View {
                                                                   selectColor: Color(hex: 0x69696F),
                                                                   height: 29,
                                                                   textColor: Color.white),
-                    items: pageItems.compactMap { $0.pageState.rawValue },
+                    items: pageItems.compactMap { $0.pageState.title },
                     selectedIndex: $selectPage
                 )
                 .frame(width: 160)
