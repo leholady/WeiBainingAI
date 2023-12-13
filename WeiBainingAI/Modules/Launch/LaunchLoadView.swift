@@ -58,12 +58,7 @@ struct ReloadConfigView: View {
     var textTapAction: (ReloadConfigState) -> Void
     
     let privacyContentText = """
-    请您仔细阅与您隐私相关的简要说明，并在您仔细阅读我们的协议并同意后继续使用我们的服务。
-    只有当您开启相关功能或使用相关服务时，为实现相关功能、服务，我们才会处理您的对应信息。对您数据通过加密隧道进行传输，我们不会监控、记录、收集、分享您的任何数据，确保您的隐私数据安全且匿名。如您不开启相关功能或使用相关服务，则我们不会处理您对应的信息。
-    您应严格遵守当地法律法规使用我们的加速服务,我们将秉承遵守国内法律法规的原则，相关加速仅为中国大陆地区可合法访问的网站、App提供加速服务。
-    在您使用APP的其他功能时，我们可能会收集您的设备信息、错误日志、统计相关的数据，用于App的优化、Bug修复、数据统计、防止欺诈行为,这些信息均不会与您的个人身份相关联。
-
-    请仔细阅读我们的
+    我们非常重视对您隐私的保护，在使用提供的服务前，请您仔细阅读如下声明。\n\n为了保证功能的完整性我们会在相应的使用场景下向您获取必要权限，经您授权给我们后使用。您可以拒绝或撤回授权，但可能导致部分产品功能使用受限。\n\n 为了保障提供给您更优质的服务，在您使用APP时，我们会搜集设备信息、崩溃日志等信息用于优化体验及错误统计分析，我们不会将您的信息共享给第三方或任何未经您授权的其他用途。\n\n在您阅读并同意我们的
     """
 
     var body: some View {
@@ -93,11 +88,11 @@ struct ReloadConfigView: View {
             }
             .padding(30)
             if !privacyAuth {
-                VStack(spacing: 30) {
+                VStack(spacing: 15) {
                     Text("隐私保护")
                         .font(.system(size: 18, weight: .semibold))
                     ScrollView(.vertical, showsIndicators: false) {
-                        Text("\(privacyContentText)[《隐私政策》](WeiBainingAI:privacy)\("和")[《用户协议》](WeiBainingAI:usage)\("后，确认同意继续使用我们的服务。")")
+                        Text("\(privacyContentText)[《隐私政策》](WeiBainingAI:privacy)\("和")[《用户协议》](WeiBainingAI:usage)\("后，继续使用我们的服务。")")
                             .font(.system(size: 12))
                             .lineSpacing(6)
                             .onOpenURL(perform: { url in
@@ -111,6 +106,7 @@ struct ReloadConfigView: View {
                                 }
                             })
                     }
+                    .padding(.bottom, 15)
                     HStack {
                         Button {
                             exit(0)
