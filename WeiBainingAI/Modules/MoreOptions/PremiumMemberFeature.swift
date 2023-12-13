@@ -17,6 +17,7 @@ struct PremiumMemberFeature {
     struct State: Equatable {
         var headerItems: [MemberHeaderItemModel] = [.gtp3, .gtp4, .assistant, .server, .ads, .update]
         var products: [Product] = []
+        var headerTitle: String = "Premium会员"
         @BindingState var pageSelect: Int = 0
         var pageItems: [PremiumMemberPageModel] = []
         @PresentationState var safariState: MoreSafariFeature.State?
@@ -58,6 +59,9 @@ struct PremiumMemberFeature {
         BindingReducer()
         Reduce { state, action in
             switch action {
+            case .binding(\.$pageSelect):
+                state.headerTitle = state.pageSelect < state.pageItems.count ? state.pageItems[state.pageSelect].pageState.headerTitle : "Premium会员"
+                return .none
             case .premiumDismiss:
                 return .run { _ in
                     await self.dismiss()

@@ -22,8 +22,8 @@ struct MoreOptionsHeaderView: View {
                 Image("more_membercard_title")
                 HStack {
                     VStack(alignment: .leading, spacing: 10) {
-                        moreHeaderItem(text: "无限聊天GPT3.5")
-                        moreHeaderItem(text: "解锁GPT4.0和Midjourney")
+                        moreHeaderItem(text: "无限Chat3.5")
+                        moreHeaderItem(text: "解锁Chat4.0和Midjourney")
                         moreHeaderItem(text: "删除所有广告")
                     }
                     Spacer()

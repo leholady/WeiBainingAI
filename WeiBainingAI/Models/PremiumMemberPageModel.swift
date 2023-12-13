@@ -28,6 +28,16 @@ struct PremiumMemberPageModel: Codable, Equatable, Hashable, Identifiable {
                 return "Premium"
             }
         }
+        var headerTitle: String {
+            switch self {
+            case .premium:
+                return "Premium会员"
+            case .quota:
+                return "Chat Quota"
+            default:
+                return "Premium"
+            }
+        }
         let rawValue: Int
         static let premium = PremiumMemberPageState(rawValue: 0)
         static let quota = PremiumMemberPageState(rawValue: 1)

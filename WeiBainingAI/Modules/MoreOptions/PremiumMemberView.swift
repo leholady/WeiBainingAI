@@ -22,7 +22,8 @@ struct PremiumMemberView: View {
                 ScrollView(.vertical,
                            showsIndicators: false) {
                     VStack {
-                        PremiumMemberHeaderView(items: viewStore.headerItems)
+                        PremiumMemberHeaderView(items: viewStore.headerItems,
+                                                title: viewStore.headerTitle)
                         PremiumMemberSelectView(selectPage: viewStore.$pageSelect,
                                                 pageItems: viewStore.pageItems,
                                                 itemSelects: viewStore.$itemSelects) { pageIndex, itemIndex in
