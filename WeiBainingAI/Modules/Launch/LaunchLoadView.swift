@@ -71,19 +71,21 @@ struct ReloadConfigView: View {
                     .frame(width: 150, height: 150)
                     .padding(.top, 120)
                 Spacer()
-                if isReload {
-                    Text("获取数据失败，请重试")
-                        .foregroundColor(.white)
-                        .font(.system(size: 20, weight: .medium))
-                        .padding(.all, 20)
-                    Text("请点击页面重试")
-                        .foregroundColor(.white)
-                        .font(.system(size: 16, weight: .medium))
-                } else {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .scaleEffect(2)
-                        .padding(.bottom, 20)
+                if privacyAuth {
+                    if isReload {
+                        Text("获取数据失败，请重试")
+                            .foregroundColor(.white)
+                            .font(.system(size: 20, weight: .medium))
+                            .padding(.all, 20)
+                        Text("请点击页面重试")
+                            .foregroundColor(.white)
+                            .font(.system(size: 16, weight: .medium))
+                    } else {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(2)
+                            .padding(.bottom, 20)
+                    }
                 }
             }
             .padding(30)
