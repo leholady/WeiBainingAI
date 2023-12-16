@@ -12,6 +12,7 @@ struct SupportAssistantDetailsTextCell: View {
     var title: String
     var placeholder: String
     @Binding var text: String
+    var editorHeight: CGFloat = 120
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -23,7 +24,7 @@ struct SupportAssistantDetailsTextCell: View {
                     .padding(6)
                     .font(.system(size: 14))
                     .foregroundColor(.black)
-                    .frame(minHeight: 120)
+                    .frame(minHeight: editorHeight)
                     .background(.white)
                     .cornerRadius(10)
                 if text.isEmpty {
@@ -32,6 +33,7 @@ struct SupportAssistantDetailsTextCell: View {
                         .foregroundColor(Color(hex: 0x999999))
                         .padding(.horizontal, 11)
                         .padding(.vertical, 14)
+                        .isTapGestureEnabled(false)
                 }
             }
             .padding(.bottom, 25)

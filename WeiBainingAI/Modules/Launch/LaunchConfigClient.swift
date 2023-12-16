@@ -13,6 +13,8 @@ import UIKit
 struct LaunchConfigClient {
     /// 用于检测网络连接状态
     var reachable: @Sendable () async -> AsyncStream<Reachability.Connection>
+    var privacyAuth: @Sendable () -> Bool
+    var privacyAuthUpdate: @Sendable (Bool) -> Void
 }
 
 extension LaunchConfigClient: DependencyKey {
@@ -50,7 +52,12 @@ extension LaunchConfigClient: DependencyKey {
                     reachability?.stopNotifier()
                 }
             }
+        } privacyAuth: {
+            UserDefaults.standard.bool(forKey: "privacyAuthKey")
+        } privacyAuthUpdate: {
+            UserDefaults.standard.set($0, forKey: "privacyAuthKey")
         }
+
     }
 }
 

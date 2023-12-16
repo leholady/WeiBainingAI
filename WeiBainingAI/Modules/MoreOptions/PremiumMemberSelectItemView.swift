@@ -9,19 +9,22 @@ import SwiftUI
 
 struct PremiumMemberSelectItemView: View {
     
+    var model: PremiumMemberModel
     var isSelect: Bool
     
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
-                Text("月付")
+                Text(model.title ?? "")
                     .font(.system(size: 16, weight: .semibold))
                 HStack(spacing: 0) {
-                    Text("¥38.00")
+                    Text("\(model.code ?? "")\(model.price ?? "")")
                         .font(.system(size: 18, weight: .semibold))
-                    Text("/月")
-                        .font(.system(size: 12, weight: .medium))
-                        .offset(y: 1.5)
+                    if model.state == .premium {
+                        Text("/\(model.unit ?? "")")
+                            .font(.system(size: 12, weight: .medium))
+                            .offset(y: 1.5)
+                    }
                 }
             }
             .foregroundColor(.white)

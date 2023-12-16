@@ -13,8 +13,17 @@ struct SupportAssistantMakeView: View {
     
     @Environment(\.dismiss) var dismiss
     
+    struct ViewState: Equatable {
+        var makeStatus: AssistantMakeStatus
+        var progress: CGFloat
+        init(state: SupportAssistantMakeFeature.State) {
+            self.makeStatus = state.makeStatus
+            self.progress = state.progress
+        }
+    }
+    
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: ViewState.init) { viewStore in
             VStack(spacing: 20) {
                 Image(viewStore.makeStatus == .failure ? "error_default" : "generating_default")
                     .padding(.bottom, 10)

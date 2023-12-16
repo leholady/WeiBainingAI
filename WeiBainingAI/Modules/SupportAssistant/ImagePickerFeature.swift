@@ -12,6 +12,7 @@ import ComposableArchitecture
 struct ImagePickerFeature {
     struct State: Equatable {
         @BindingState var imgData: Data?
+        var isAllowsEditing: Bool
     }
     
     enum Action: BindableAction, Equatable {

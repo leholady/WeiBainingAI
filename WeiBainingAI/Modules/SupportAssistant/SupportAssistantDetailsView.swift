@@ -18,7 +18,7 @@ struct SupportAssistantDetailsView: View {
             WithViewStore(store, observe: { $0 }) { viewStore in
                 List {
                     SupportAssistantDetailsTextCell(title: "文字提示",
-                                                    placeholder: "输入所需的头像内容和风格例如：太空行走的小猫",
+                                                    placeholder: "输入所需的内容和风格例如：太空行走的小猫",
                                                     text: viewStore.$editorText)
                     SupportAssistantDetailsImageCell(title: "图像提示",
                                                      imageData: viewStore.selectImageData) {
@@ -26,15 +26,21 @@ struct SupportAssistantDetailsView: View {
                     } deleteAction: {
                         viewStore.send(.selectImageDetele)
                     }
-                    SupportAssistantDetailsSegmentedCell(title: "图像参考度",
-                                                         items: viewStore.aspectImageFactors.compactMap { $0.title },
-                                                         select: viewStore.$selectImageFactor)
-                    SupportAssistantDetailsSegmentedCell(title: "风格",
-                                                         items: viewStore.aspectStyles.compactMap { $0.title },
-                                                         select: viewStore.$selectStyle)
-                    SupportAssistantDetailsSegmentedCell(title: "纵横比",
-                                                         items: viewStore.aspectRatios.compactMap { $0.title },
-                                                         select: viewStore.$selectRatios)
+                    if viewStore.aspectImageFactors.count > 1 {
+                        SupportAssistantDetailsSegmentedCell(title: "图像参考度",
+                                                             items: viewStore.aspectImageFactors.compactMap { $0.title },
+                                                             select: viewStore.$selectImageFactor)
+                    }
+                    if viewStore.aspectStyles.count > 1 {
+                        SupportAssistantDetailsSegmentedCell(title: "风格",
+                                                             items: viewStore.aspectStyles.compactMap { $0.title },
+                                                             select: viewStore.$selectStyle)
+                    }
+                    if viewStore.aspectRatios.count > 1 {
+                        SupportAssistantDetailsSegmentedCell(title: "纵横比",
+                                                             items: viewStore.aspectRatios.compactMap { $0.title },
+                                                             select: viewStore.$selectRatios)
+                    }
                     RoundedRectangle(cornerRadius: 20)
                         .overlay(content: {
                             Text("生成")
@@ -77,7 +83,11 @@ struct SupportAssistantDetailsView: View {
 }
 
 #Preview {
-    SupportAssistantDetailsView(store: Store(initialState: SupportAssistantDetailsFeature.State(assistantTitle: "Hello World"),
+    SupportAssistantDetailsView(store: Store(initialState: SupportAssistantDetailsFeature.State(
+        assistantTitle: "Hello World",
+        aspectRatios: [.one, .two, .three, .four, .five, .six], 
+        aspectStyles: [.style8, .style26, .style12, .style16, .style27],
+        aspectImageFactors: [.low, .middle, .high, .forced]),
                                              reducer: {
         SupportAssistantDetailsFeature()
     }))

@@ -19,10 +19,7 @@ extension MoreOptionsClient: TestDependencyKey {
                                   unit: ""),
              MoreBalanceItemModel(title: "ChatGPT 4.0",
                                   number: "10.1w",
-                                  unit: "Tokens"),
-             MoreBalanceItemModel(title: "Midjourney",
-                                  number: "65",
-                                  unit: "Images")]
+                                  unit: "Tokens")]
         }
     }
 }
