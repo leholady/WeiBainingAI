@@ -10,9 +10,17 @@ import ComposableArchitecture
 
 struct SupportAssistantView: View {
     let store: StoreOf<SupportAssistantFeature>
+
+    struct ViewState: Equatable {
+        var assistants: [SupportAssistantModel] = []
+        init(state: SupportAssistantFeature.State) {
+            self.assistants = state.assistants
+        }
+    }
+    
     var body: some View {
         NavigationView {
-            WithViewStore(store, observe: { $0 }) { viewStore in
+            WithViewStore(store, observe: ViewState.init) { viewStore in
                 List(0..<viewStore.assistants.count, id: \.self) { index in
                     let item = viewStore.assistants[index]
                     SupportAssistantCell(model: item)
@@ -24,10 +32,20 @@ struct SupportAssistantView: View {
                                                   trailing: 20))
                         .onTapGesture {
                             switch item.type {
+                            case .imageToAvatar,
+                                    .imageToWallpaper:
+                                viewStore.send(.dismissAlbum(item))
+                            case .textToAvatar,
+                                    .textToWallpaper:
+                                viewStore.send(.dismissTextMake(item))
+                            case .aiDiy:
+                                viewStore.send(.dismissDetails(item))
+                            case .lightShadow:
+                                viewStore.send(.dismissLightShadow(item))
                             case .chat:
                                 break
                             default:
-                                viewStore.send(.dismissDetails(item))
+                                break
                             }
                         }
                 }
@@ -40,38 +58,44 @@ struct SupportAssistantView: View {
                             .foregroundColor(.black)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
-                        Image("home_icon_member")
+                        Button(action: {
+                            viewStore.send(.dismissPremium)
+                        }, label: {
+                            Image("home_icon_member")
+                        })
                     }
                 }
                 .onAppear {
                     viewStore.send(.uploadAssistantItems)
                 }
-                .fullScreenCover(
-                    store: self.store.scope(state: \.$details,
-                                            action: \.fullScreenCoverDetails)) { store in
-                                                SupportAssistantDetailsView(store: store)
-                                            }
+                .fullScreenCover(store: self.store.scope(state: \.$premiumState,
+                                                         action: \.fullScreenCoverPremium)) { store in
+                    PremiumMemberView(store: store)
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$lightShadowState,
+                                                         action: \.fullScreenCoverLightShadow)) { store in
+                    SupportAssistantLightShadowView(store: store)
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$makeState,
+                                                         action: \.fullScreenCoverMake)) { store in
+                    SupportAssistantMakeView(store: store)
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$textState,
+                                                         action: \.fullScreenCoverTextMake)) { store in
+                    SupportAssistantTextView(store: store)
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$albumState,
+                                                         action: \.fullScreenCoverAlbum)) { store in
+                    ImagePickerView(store: store)
+                }
+                .fullScreenCover(store: self.store.scope(state: \.$details,
+                                                         action: \.fullScreenCoverDetails)) { store in
+                    SupportAssistantDetailsView(store: store)
+                }
             }
             .background(Color(hex: 0xF6F6F6))
         }
         .navigationViewStyle(.stack)
-    }
-}
-
-extension Color {
-    init(hex: Int, alpha: Double = 1) {
-        let components = (
-            R: Double((hex >> 16) & 0xff) / 255,
-            G: Double((hex >> 08) & 0xff) / 255,
-            B: Double((hex >> 00) & 0xff) / 255
-        )
-        self.init(
-            .sRGB,
-            red: components.R,
-            green: components.G,
-            blue: components.B,
-            opacity: alpha
-        )
     }
 }
 

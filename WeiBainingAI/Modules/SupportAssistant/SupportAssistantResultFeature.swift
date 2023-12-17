@@ -20,6 +20,10 @@ struct SupportAssistantResultFeature {
     enum Action: Equatable {
         case savePhotoAlbum
         case delegate(Delegate)
+        case hudShow
+        case hudDismiss
+        case hudFailure(String)
+        case hudSuccess(String)
         enum Delegate: Equatable {
             case resultDismiss
         }
@@ -29,25 +33,37 @@ struct SupportAssistantResultFeature {
         Reduce { state, action in
             switch action {
             case .savePhotoAlbum:
-                return .run { [url = state.imgUrl] _ in
-                    await SVProgressHUD.show()
+                return .run { [url = state.imgUrl] send in
+                    await send(.hudShow)
                     do {
                         let data = try Data(contentsOf: url)
                         guard let image = UIImage(data: data) else {
-                            await SVProgressHUD.dismiss()
-                            await SVProgressHUD.showSuccess(withStatus: "保存失败, 请稍候重试")
+                            await send(.hudDismiss)
+                            await send(.hudFailure("保存失败, 请稍候重试"))
                             return
                         }
                         try await PHPhotoLibrary.shared().performChanges {
                             PHAssetChangeRequest.creationRequestForAsset(from: image)
                         }
-                        await SVProgressHUD.dismiss()
-                        await SVProgressHUD.showSuccess(withStatus: "已保存到相册")
+                        await send(.hudDismiss)
+                        await send(.hudSuccess("已保存到相册"))
                     } catch {
-                        await SVProgressHUD.dismiss()
-                        await SVProgressHUD.showSuccess(withStatus: "保存失败, 请稍候重试")
+                        await send(.hudDismiss)
+                        await send(.hudFailure("保存失败, 请稍候重试"))
                     }
                 }
+            case .hudShow:
+                SVProgressHUD.show()
+                return .none
+            case .hudDismiss:
+                SVProgressHUD.dismiss()
+                return .none
+            case let .hudSuccess(message):
+                SVProgressHUD.showSuccess(withStatus: message)
+                return .none
+            case let .hudFailure(message):
+                SVProgressHUD.showError(withStatus: message)
+                return .none
             default:
                 return .none
             }

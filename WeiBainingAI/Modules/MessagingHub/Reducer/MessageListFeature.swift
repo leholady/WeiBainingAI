@@ -229,6 +229,7 @@ struct MessageListFeature {
                     ))
                 }
             case let .msgShareTapped(result):
+                if state.messageList.isEmpty { return .none }
                 if let message = result {
                     state.sharePage = ChatMsgShareFeature.State(
                         userConfig: state.userConfig,

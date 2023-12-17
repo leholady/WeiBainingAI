@@ -190,6 +190,7 @@ actor HttpRequestHandler {
         case .success where taskRespons.res != nil:
             return taskRespons.res!
         case .needLogin:
+            userProfile = try await loginUserAccount()
             return try await requestTask(cmd: cmd, parameters: params)
         default:
             throw HttpErrorHandler.failedWithServer(taskRespons.errUserMsg)
@@ -305,6 +306,34 @@ extension HttpRequestHandler {
                                      parameters: ["transcationId": transcationId])
     }
 
+    func payConfList() async throws -> [PremiumMemberModel] {
+        let model: PremiumMemberResultModel = try await requestTask(cmd: HttpConst.payConfList,
+                                                                    parameters: ["payConf": "iOS"])
+        return model.datas
+    }
+
+    func payAppStoreV2(_ transactionId: String,
+                       originalTransactionId: String) async throws -> Bool {
+        let model: AppStoreResultModel = try await requestTask(cmd: HttpConst.payAppStoreV2,
+                                                               parameters: ["transactionId": transactionId,
+                                                                            "originalTransactionId": originalTransactionId])
+        return model.isValid
+    }
+
+    func payAppleV2(_ transactionId: String) async throws -> Bool {
+        return try await requestTask(cmd: HttpConst.payAppleV2,
+                                     parameters: ["transactionId": transactionId])
+    }
+
+    func getHomeAllAssistant() async throws -> [SupportAssistantModel] {
+        return try await requestTask(cmd: HttpConst.getHomeAll,
+                                     parameters: ["confKey": "assistant"])
+    }
+
+    func getShareData() async throws -> MoreShareModel {
+        return try await requestTask(cmd: HttpConst.getShareData)
+    }
+
     /// 请求首页的配置内容
     func requestHomeConfig() async throws -> HomeConfigModel {
         return try await requestTask(cmd: HttpConst.getHomeAll)
@@ -313,7 +342,6 @@ extension HttpRequestHandler {
     /// 发送消息
     func seedMessage(_ chatConfig: (content: String, config: ChatRequestConfigMacro),
                      _ messageList: [MessageItemDb]) async throws -> DataStreamTask {
-        
         let maxMsgCount = chatConfig.config.msgCount
         var subArray: [MessageDialogModel] = []
         if messageList.count >= maxMsgCount {

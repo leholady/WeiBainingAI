@@ -32,12 +32,12 @@ struct SegmentControlStyleView: View {
                     })
                     .padding(.horizontal, 5)
                     .matchedGeometryEffect(
-                        id: items[index].title,
+                        id: items[index],
                         in: namespace,
                         isSource: true
                     )
                     .onTapGesture {
-                        withAnimation(.easeInOut(duration: 0.1)) {
+                        withAnimation {
                             selectedIndex = items[index]
                         }
                     }

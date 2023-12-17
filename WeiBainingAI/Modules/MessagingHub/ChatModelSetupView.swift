@@ -14,10 +14,9 @@ struct ChatModelSetupView: View {
     var body: some View {
         WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<ChatModelSetupFeature>) in
             VStack(alignment: .center, spacing: 0, content: {
-                Divider()
-                    .frame(width: 30, height: 3)
-                    .background(Color(hexadecimal6: 0xDDDDDD))
-                    .cornerRadius(2)
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(Color(hexadecimal6: 0xDDDDDD))
+                    .frame(width: 30, height: 4)
                     .padding(.top, 10)
 
                 Text("偏好设置")

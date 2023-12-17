@@ -14,7 +14,7 @@ struct PremiumMemberView: View {
     
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            ZStack(alignment: .topLeading) {
+            ZStack(alignment: .top) {
                 Image("member_bg")
                     .resizable()
                     .frame(height: 375)
@@ -22,58 +22,45 @@ struct PremiumMemberView: View {
                 ScrollView(.vertical,
                            showsIndicators: false) {
                     VStack {
-                        PremiumMemberHeaderView(items: viewStore.headerItems)
-                        VStack(spacing: 20) {
-                            if viewStore.pageItems.count > 1 {
-                                SegmentedControl(
-                                    configuratiion: SegmentedControlConfiguration(backgroundRadius: 8,
-                                                                                  selectRadius: 6,
-                                                                                  backgroundColor: Color(hex: 0x313136),
-                                                                                  selectColor: Color(hex: 0x69696F),
-                                                                                  height: 29,
-                                                                                  textColor: Color.white),
-                                    items: viewStore.pageItems.compactMap { $0.pageState.rawValue },
-                                    selectedIndex: viewStore.$pageSelect
-                                )
-                                .frame(width: 160)
-                            }
-                            TabView(selection: viewStore.$pageSelect) {
-                                ForEach(viewStore.pageItems) { item in
-                                    ScrollView {
-                                        VStack {
-                                            ForEach(item.pageItems) { _ in
-                                                PremiumMemberSelectItemView(isSelect: true)
-                                            }
-                                        }
-                                        .padding(.horizontal, 20)
-                                    }
-                                }
-                            }
-                            .tabViewStyle(.page)
-                            .frame(height: 270)
+                        PremiumMemberHeaderView(items: viewStore.headerItems,
+                                                title: viewStore.headerTitle)
+                        PremiumMemberSelectView(selectPage: viewStore.$pageSelect,
+                                                pageItems: viewStore.pageItems,
+                                                itemSelects: viewStore.$itemSelects) { pageIndex, itemIndex in
+                            viewStore.send(.cellDidAt(pageIndex, itemIndex))
                         }
-                        .padding(.vertical, 20)
                         memberBottomButtons {
-                            
+                            viewStore.send(.memberStartBuy)
                         } privateAction: {
                             viewStore.send(.dismissSafari(HttpConst.privateUrl))
                         } usageAction: {
                             viewStore.send(.dismissSafari(HttpConst.usageUrl))
-                        } feedbackAction: {
-                            viewStore.send(.dismissSafari(HttpConst.feedbackUrl))
+                        } recoverAction: {
+                            viewStore.send(.recover)
                         }
                     }
                 }
                 .ignoresSafeArea()
-                Button(action: {
-                    viewStore.send(.premiumDismiss)
-                }, label: {
-                    Image("icon_back_white")
-                        .frame(width: 44, height: 44)
-                })
+                HStack {
+                    Button(action: {
+                        viewStore.send(.premiumDismiss)
+                    }, label: {
+                        Image("icon_back_white")
+                            .frame(width: 44, height: 44)
+                    })
+                    Spacer()
+                    if viewStore.isVipState,
+                       let vipExpireTime = viewStore.vipExpireTime {
+                        Text(vipExpireTime)
+                            .foregroundColor(.white)
+                            .font(.system(size: 16, weight: .medium))
+                            .padding(.trailing, 20)
+                    }
+                }
             }
             .onAppear {
                 viewStore.send(.uploadPageItems)
+                viewStore.send(.uploadMemberStatus)
             }
             .fullScreenCover(store: self.store.scope(state: \.$safariState,
                                                      action: \.fullScreenCoverSafari)) { store in
@@ -86,7 +73,7 @@ struct PremiumMemberView: View {
     func memberBottomButtons(openAction: @escaping () -> Void,
                              privateAction: @escaping () -> Void,
                              usageAction: @escaping () -> Void,
-                             feedbackAction: @escaping() -> Void) -> some View {
+                             recoverAction: @escaping() -> Void) -> some View {
         VStack(spacing: 20) {
             Button(action: openAction,
                    label: {
@@ -99,6 +86,9 @@ struct PremiumMemberView: View {
                             .foregroundColor(.white)
                     }
             })
+            Text("会员权益为自动续期订阅，确认订阅时，费用将从您的iTunes帐号扣除。订阅将会自动以订阅时的价格续订，除非在当前订阅期结束至少24小时以前关闭自动续订功能。您可以在设置中管理您的订阅项目。")
+                .font(.system(size: 10))
+                .foregroundColor(.white.opacity(0.7))
             HStack {
                 Button(action: usageAction,
                        label: {
@@ -116,7 +106,7 @@ struct PremiumMemberView: View {
                         .foregroundColor(Color(hex: 0x999999))
                 })
                 Spacer()
-                Button(action: feedbackAction,
+                Button(action: recoverAction,
                        label: {
                     Text("恢复购买")
                         .font(.system(size: 10, weight: .medium))

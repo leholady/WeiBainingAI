@@ -15,7 +15,8 @@ struct ImagePickerView: View {
     
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
-            MYImagePicker(data: viewStore.$imgData)
+            MYImagePicker(data: viewStore.$imgData,
+                          allowsEditing: viewStore.isAllowsEditing)
                 .ignoresSafeArea()
         }
         .background(.white)
@@ -32,7 +33,7 @@ public struct MYImagePicker: UIViewControllerRepresentable {
     let data: Binding<Data?>?
     
     let encoding: Image.Encoding?
-    var allowsEditing = true
+    var allowsEditing: Bool
     var cameraDevice: UIImagePickerController.CameraDevice?
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
     var mediaTypes: [String]?
@@ -104,36 +105,42 @@ extension NSObjectProtocol {
 extension MYImagePicker {
     public init(
         info: Binding<[UIImagePickerController.InfoKey: Any]?>,
+        allowsEditing: Bool = true,
         onCancel: (() -> Void)? = nil
     ) {
         self.info = info
         self.image = nil
         self.data = nil
         self.encoding = nil
+        self.allowsEditing = allowsEditing
         self.onCancel = onCancel
     }
     
     public init(
         image: Binding<AppKitOrUIKitImage?>,
         encoding: Image.Encoding? = nil,
+        allowsEditing: Bool = true,
         onCancel: (() -> Void)? = nil
     ) {
         self.info = nil
         self.image = image
         self.data = nil
         self.encoding = encoding
+        self.allowsEditing = allowsEditing
         self.onCancel = onCancel
     }
     
     public init(
         data: Binding<Data?>,
         encoding: Image.Encoding? = nil,
+        allowsEditing: Bool = true,
         onCancel: (() -> Void)? = nil
     ) {
         self.info = nil
         self.image = nil
         self.data = data
         self.encoding = encoding
+        self.allowsEditing = allowsEditing
         self.onCancel = onCancel
     }
 }
@@ -167,7 +174,7 @@ extension UIImage {
 }
 
 #Preview {
-    ImagePickerView(store: Store(initialState: ImagePickerFeature.State(), reducer: {
+    ImagePickerView(store: Store(initialState: ImagePickerFeature.State(isAllowsEditing: true), reducer: {
         ImagePickerFeature()
     }))
 }

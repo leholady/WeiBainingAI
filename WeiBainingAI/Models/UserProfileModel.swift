@@ -15,4 +15,5 @@ struct UserProfileModel: Codable, Equatable {
     var isVip: Bool?
     var isLogin: Bool?
     var vipExpireTime: Int?
+    var uuid: String?
 }

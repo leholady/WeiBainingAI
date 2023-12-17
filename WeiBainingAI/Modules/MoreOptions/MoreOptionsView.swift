@@ -15,7 +15,7 @@ struct MoreOptionsView: View {
             WithViewStore(store, observe: { $0 }) { viewStore in
                 VStack(spacing: 20) {
                     List {
-                        MoreOptionsHeaderView()
+                        MoreOptionsHeaderView(isVip: viewStore.isVipState)
                             .onTapGesture {
                                 viewStore.send(.dismissPremium)
                             }
@@ -25,12 +25,16 @@ struct MoreOptionsView: View {
                                 switch $0 {
                                 case .itemMember:
                                     viewStore.send(.dismissPremium)
+                                case .itemResume:
+                                    viewStore.send(.recover)
                                 case .itemPolicy:
                                     viewStore.send(.dismissSafari(HttpConst.privateUrl))
                                 case .itemAgreement:
                                     viewStore.send(.dismissSafari(HttpConst.usageUrl))
                                 case .itemConnect:
                                     viewStore.send(.dismissSafari(HttpConst.feedbackUrl))
+                                case .itemShare:
+                                    viewStore.send(.uploadShare)
                                 default:
                                     break
                                 }
@@ -39,7 +43,7 @@ struct MoreOptionsView: View {
                     }
                     .background(Color.clear)
                     .listStyle(.plain)
-                    Text("v 1.0")
+                    Text(viewStore.versionText)
                         .foregroundColor(Color(hex: 0x999999))
                         .font(.system(size: 10))
                 }
@@ -53,6 +57,11 @@ struct MoreOptionsView: View {
                 }
                 .onAppear {
                     viewStore.send(.uploadBalanceItems)
+                    viewStore.send(.uploadMemberStatus)
+                }
+                .sheet(store: self.store.scope(state: \.$shareState,
+                                                         action: \.fullScreenCoverShare)) { store in
+                    MoreShareView(store: store)
                 }
                 .fullScreenCover(store: self.store.scope(state: \.$premiumState,
                                                          action: \.fullScreenCoverPremium)) { store in

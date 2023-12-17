@@ -23,6 +23,10 @@ struct HttpRequestClient {
     var txtToImageTask: @Sendable (TextImageTaskConfigureModel) async throws -> TextImageTaskResultModel
     /// 获取AI自动创作图像结果
     var txtToImageResult: @Sendable (String) async throws -> TextImageTaskResultModel
+    /// 助手配置信息
+    var getHomeAllAssistant: @Sendable () async throws -> [SupportAssistantModel]
+    /// 获取分享数据
+    var getShareData: @Sendable () async throws -> MoreShareModel
     /// 发送聊天消息
     var sendMessage: @Sendable (_ chatConfig: (String, ChatRequestConfigMacro),
                                 _ messageList: [MessageItemDb]) async throws -> DataStreamTask
@@ -53,6 +57,12 @@ extension HttpRequestClient: DependencyKey {
             },
             txtToImageResult: {
                 try await handler.txtToImageResult($0)
+            },
+            getHomeAllAssistant: {
+                try await handler.getHomeAllAssistant()
+            },
+            getShareData: {
+                try await handler.getShareData()
             },
             sendMessage: { chatConfig, messageList in
                 try await handler.seedMessage(chatConfig, messageList)
