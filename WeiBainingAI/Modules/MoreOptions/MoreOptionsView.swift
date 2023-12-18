@@ -27,6 +27,8 @@ struct MoreOptionsView: View {
                                     viewStore.send(.dismissPremium)
                                 case .itemResume:
                                     viewStore.send(.recover)
+                                case .itemChat:
+                                    viewStore.send(.didTapHistoryMsg)
                                 case .itemPolicy:
                                     viewStore.send(.dismissSafari(HttpConst.privateUrl))
                                 case .itemAgreement:
@@ -70,6 +72,10 @@ struct MoreOptionsView: View {
                 .fullScreenCover(store: self.store.scope(state: \.$safariState,
                                                          action: \.fullScreenCoverSafari)) { store in
                     MoreSafariView(store: store)
+                }
+                .fullScreenCover(store: store.scope(state: \.$historyItem,
+                                                    action: \.presentationHistoryMsg)) { store in
+                    ConversationListView(store: store)
                 }
              }
             .background(Color(hex: 0xF6F6F6))
