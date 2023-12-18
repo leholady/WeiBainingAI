@@ -12,7 +12,7 @@ import SwiftUIX
 struct MessagingHubView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessagingHubViewFeature>) in
             NavigationView(content: {
                 ScrollView {
                     VStack(alignment: .center, spacing: 0, content: {
@@ -23,12 +23,14 @@ struct MessagingHubView: View {
                         SuggestQuestionListView(store: store)
                             .frame(maxWidth: .infinity)
                             .background(Color(hexadecimal6: 0xF7F7F7))
-                            .height(300)
 
-                        TopicHistoryView(store: store)
-                            .frame(maxWidth: .infinity)
-                            .background(Color(hexadecimal6: 0xF7F7F7))
+                        if !viewStore.conversations.isEmpty {
+                            TopicHistoryView(store: store)
+                                .frame(maxWidth: .infinity)
+                                .background(Color(hexadecimal6: 0xF7F7F7))
+                        }
                     })
+                    .padding(.bottom, 20)
                 }
                 .listStyle(.plain)
                 .navigationBarTitleDisplayMode(.inline)
@@ -38,25 +40,39 @@ struct MessagingHubView: View {
                             .font(.custom("DOUYINSANSBOLD-GB", size: 24))
                     })
                     ToolbarItem(placement: .topBarTrailing, content: {
-                        HStack(content: {
-                            NavigationLink(destination: Text("Destination"), label: {
-                                Image(.homeIconMember)
-                                    .scaledToFit()
-                                    .frame(width: 26, height: 26)
-                            })
+                        HStack(spacing: 10) {
+                            Image(.homeIconMember)
+                                .scaledToFit()
+                                .frame(width: 26, height: 26)
+                                .onTapGesture {
+                                    viewStore.send(.didTapPremium)
+                                }
 
-                            NavigationLink(destination: Text("Destination"), label: {
-                                Image(.homeIconHistory)
-                                    .scaledToFit()
-                                    .frame(width: 26, height: 26)
-                            })
-                        })
+                            Image(.homeIconHistory)
+                                .scaledToFit()
+                                .frame(width: 26, height: 26)
+                                .onTapGesture {
+                                    viewStore.send(.didTapHistoryMsg)
+                                }
+                        }
                     })
                 }
             })
             .navigationViewStyle(.stack)
+            .fullScreenCover(store: store.scope(state: \.$msgItem,
+                                                action: \.presentationNewChat)) { store in
+                MessageListView(store: store)
+            }
+            .fullScreenCover(store: store.scope(state: \.$historyItem,
+                                                action: \.presentationHistoryMsg)) { store in
+                ConversationListView(store: store)
+            }
+            .fullScreenCover(store: store.scope(state: \.$premiumState,
+                                                action: \.presentationPremium)) { store in
+                PremiumMemberView(store: store)
+            }
             .task {
-                viewStore.send(.loadDefaultData)
+                viewStore.send(.loadDefaultConfig)
             }
         }
     }
@@ -68,7 +84,7 @@ struct MessagingHubView: View {
 struct NewQuestionView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { _ in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessagingHubViewFeature>) in
             VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 0, content: {
                 Image(.homeIconPresentation)
                     .scaledToFit()
@@ -79,12 +95,9 @@ struct NewQuestionView: View {
                     .multilineTextAlignment(.center)
                     .lineSpacing(5)
 
-                NavigationLink(destination:
-                    MessageListView(store: Store(
-                        initialState: MessageListFeature.State(),
-                        reducer: { MessageListFeature() }
-                    ))
-                ) {
+                Button(action: {
+                    viewStore.send(.didTapStartNewChat(nil))
+                }, label: {
                     Text("开始提问")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.white)
@@ -92,7 +105,7 @@ struct NewQuestionView: View {
                         .frame(maxWidth: .infinity)
                         .background(Color.black)
                         .cornerRadius(20)
-                }
+                })
                 .buttonStyle(.plain)
                 .padding(.top, 30)
 
@@ -113,7 +126,7 @@ struct NewQuestionView: View {
 struct SuggestQuestionListView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessagingHubViewFeature>) in
             VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 20, content: {
                 VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 5, content: {
                     Text("建议问题")
@@ -129,23 +142,22 @@ struct SuggestQuestionListView: View {
                 .padding(.horizontal, 20)
                 .padding(.top, 40)
 
-                List {
+                VStack(alignment: .center, spacing: 10, content: {
                     ForEach(viewStore.suggestions, id: \.self) { suggestion in
                         SuggestQuestionListItemView(suggestion: suggestion)
+                            .onTapGesture {
+                                viewStore.send(.didTapSuggestion(suggestion))
+                            }
                     }
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-                    .listRowBackground(Color.clear)
-                }
-                .listStyle(.plain)
-                .listRowSpacing(10)
+                })
+                .padding(.horizontal, 20)
             })
             .background(.white)
         }
     }
 
     struct SuggestQuestionListItemView: View {
-        var suggestion: SuggestionsModel
+        var suggestion: String
 
         var body: some View {
             HStack {
@@ -154,7 +166,7 @@ struct SuggestQuestionListView: View {
                     .frame(width: 26, height: 26)
                     .padding(.leading, 16)
 
-                Text(suggestion.title)
+                Text(suggestion)
                     .font(.system(size: 14, weight: .regular))
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -176,7 +188,7 @@ struct SuggestQuestionListView: View {
 struct TopicHistoryView: View {
     let store: StoreOf<MessagingHubViewFeature>
     var body: some View {
-        WithViewStore(store, observe: { $0 }) { viewStore in
+        WithViewStore(store, observe: { $0 }) { (viewStore: ViewStoreOf<MessagingHubViewFeature>) in
             VStack(alignment: .leading, spacing: 0, content: {
                 VStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 5, content: {
                     Text("话题历史")
@@ -193,13 +205,19 @@ struct TopicHistoryView: View {
                 .padding(.top, 40)
 
                 ScrollView(.horizontal, showsIndicators: false, content: {
-                    HStack(spacing: 10, content: {
-                        ForEach(viewStore.topicList, id: \.self) { topic in
+                    HStack(alignment: .center, spacing: 10, content: {
+                        ForEach(viewStore.conversations, id: \.self) { topic in
                             TopicHistoryItemView(topicModel: topic)
+                                .onTapGesture {
+                                    viewStore.send(.didTapStartNewChat(topic))
+                                }
+                                .minHeight(175)
+                                .minWidth(Screen.width - 70)
+                                .maxWidth(Screen.width - 70)
                         }
                     })
-                    .padding(.horizontal, 20)
-                    .padding(.top, 20)
+                    .padding(EdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20))
+                    .minHeight(175)
                 })
                 .background(.white)
             })
@@ -208,11 +226,11 @@ struct TopicHistoryView: View {
     }
 
     struct TopicHistoryItemView: View {
-        var topicModel: TopicHistoryModel
+        var topicModel: ConversationItemDb
         var body: some View {
             VStack(alignment: .leading, spacing: 0, content: {
                 HStack(alignment: .center, spacing: 9, content: {
-                    Image(.homeIconBubble)
+                    Image(.chatavatar)
                         .scaledToFit()
                         .frame(width: 26, height: 26)
                         .background(Color(hexadecimal6: 0xF77955))
@@ -246,7 +264,7 @@ struct TopicHistoryView: View {
                     .padding(.horizontal, 16)
 
                 HStack(alignment: .center, spacing: 9, content: {
-                    Image(.homeIconBubble)
+                    Image(.avatarUser)
                         .scaledToFit()
                         .frame(width: 26, height: 26)
                         .background(Color(hexadecimal6: 0x027AFF))
@@ -266,6 +284,8 @@ struct TopicHistoryView: View {
                     })
                 })
                 .padding(EdgeInsets(top: 10, leading: 16, bottom: 0, trailing: 16))
+
+                Spacer()
             })
             .padding(.vertical, 10)
             .background(Color(hexadecimal6: 0xF6F6F6))

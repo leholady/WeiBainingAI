@@ -16,6 +16,7 @@ struct HttpConst {
     static var aesKey = "d828e59dfd99eace879266491b6bbe00"
     static var aseIv = "d828e59dfd99eace"
     static var hostApi = URL(string: "https://aichat.mycolordiary.com/s/api")!
+    static var chatApi = URL(string: "https://aichat.mycolordiary.com/s/genius")!
     static let hostImg = URL(string: "https://aichat.mycolordiary.com/s/img")!
     static var appName: String = "WeiBainingAI"
     // 请求接口cmd
@@ -32,6 +33,7 @@ struct HttpConst {
     static let getTxt2imgResult = "ColorizeServer.getTxt2imgResult"
     static let getHomeAll = "ChatTool.getHomeAll"
     static let getShareData = "ChatTool.getShareData"
+    static let requestChat = "ChatTool.chat"
     // 静态地址
     static let privateUrl = URL(string: "https://cloudsail.notion.site/66345d0752c64febb32b71d50f2a4a19?pvs=4")!
     static let usageUrl = URL(string: "https://cloudsail.notion.site/ChatAID-3f8d8fdfa72f4596b75c59b719a8ee3b?pvs=4")!

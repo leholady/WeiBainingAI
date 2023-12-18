@@ -91,3 +91,6 @@ fastlane/test_output
 R.generated.swift
 
 iOSInjectionProject/
+Pods
+WeiBainingAI.xcworkspace
+Carthage

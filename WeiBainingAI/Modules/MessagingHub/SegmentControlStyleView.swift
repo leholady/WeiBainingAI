@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SegmentControlStyleView: View {
-    var items: [String]
-    @Binding var selectedIndex: Int
+    var items: [ChatTemperatureType]
+    @Binding var selectedIndex: ChatTemperatureType
     @Namespace var namespace
 
     var body: some View {
@@ -19,26 +19,26 @@ struct SegmentControlStyleView: View {
                     .foregroundColor(.clear)
                     .overlay(content: {
                         VStack(alignment: .center, spacing: 0) {
-                            Text(items[index])
+                            Text(items[index].title)
                                 .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(selectedIndex == index ? Color.white : Color.black)
+                                .foregroundColor(selectedIndex == items[index] ? Color.white : Color.black)
                                 .minimumScaleFactor(0.5)
                                 .lineLimit(1)
 
-                            Image(selectedIndex == index ? .homeIconTriangleupSel : .homeIconTriangleupUnsel)
+                            Image(selectedIndex == items[index] ? .homeIconTriangleupSel : .homeIconTriangleupUnsel)
                                 .scaledToFit()
                                 .padding(.top, 8)
                         }
                     })
                     .padding(.horizontal, 5)
                     .matchedGeometryEffect(
-                        id: index,
+                        id: items[index],
                         in: namespace,
                         isSource: true
                     )
                     .onTapGesture {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            selectedIndex = index
+                        withAnimation {
+                            selectedIndex = items[index]
                         }
                     }
             }
@@ -60,6 +60,6 @@ struct SegmentControlStyleView: View {
 }
 
 #Preview {
-    SegmentControlStyleView(items: ["创造力", "平衡", "精确"],
-                            selectedIndex: .constant(0))
+    SegmentControlStyleView(items: [.creativity, .balance, .accurate],
+                            selectedIndex: .constant(.balance))
 }

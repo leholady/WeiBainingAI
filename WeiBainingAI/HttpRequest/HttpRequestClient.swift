@@ -5,7 +5,9 @@
 //  Created by Daniel ° on 2023/11/23.
 //
 
+import Alamofire
 import Dependencies
+import Logging
 import UIKit
 
 struct HttpRequestClient {
@@ -25,6 +27,13 @@ struct HttpRequestClient {
     var getHomeAllAssistant: @Sendable () async throws -> [SupportAssistantModel]
     /// 获取分享数据
     var getShareData: @Sendable () async throws -> MoreShareModel
+    /// 发送聊天消息
+    var sendMessage: @Sendable (_ chatConfig: (String, ChatRequestConfigMacro),
+                                _ messageList: [MessageItemDb]) async throws -> DataStreamTask
+    /// 请求首页的配置接口
+    var requestHomeConfig: @Sendable () async throws -> HomeConfigModel
+    /// 获取本地缓存用户信息
+    var currentUserProfile: @Sendable () async throws -> UserProfileModel
 }
 
 extension HttpRequestClient: DependencyKey {
@@ -43,7 +52,7 @@ extension HttpRequestClient: DependencyKey {
             uploadImageSign: {
                 try await handler.uploadImageSign($0)
             },
-            txtToImageTask: { 
+            txtToImageTask: {
                 try await handler.txtToImageTask($0)
             },
             txtToImageResult: {
@@ -54,6 +63,19 @@ extension HttpRequestClient: DependencyKey {
             },
             getShareData: {
                 try await handler.getShareData()
+            },
+            sendMessage: { chatConfig, messageList in
+                try await handler.seedMessage(chatConfig, messageList)
+            },
+            requestHomeConfig: {
+                try await handler.requestHomeConfig()
+            },
+            currentUserProfile: {
+                if let profile = await handler.userProfile {
+                    return profile
+                } else {
+                    return try await handler.getNewUserProfile()
+                }
             }
         )
     }
