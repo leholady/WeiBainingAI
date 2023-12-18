@@ -44,7 +44,7 @@ struct SupportAssistantView: View {
                                 case .lightShadow:
                                     viewStore.send(.dismissLightShadow(item))
                                 case .chat:
-                                    break
+                                    viewStore.send(.didTapStartNewChat)
                                 default:
                                     break
                                 }
@@ -98,6 +98,10 @@ struct SupportAssistantView: View {
                 .fullScreenCover(store: self.store.scope(state: \.$details,
                                                          action: \.fullScreenCoverDetails)) { store in
                     SupportAssistantDetailsView(store: store)
+                }
+                .fullScreenCover(store: store.scope(state: \.$msgItem,
+                                                    action: \.presentationNewChat)) { store in
+                    MessageListView(store: store)
                 }
             }
             .background(Color(hex: 0xF6F6F6))
