@@ -21,33 +21,40 @@ struct SupportAssistantView: View {
     var body: some View {
         NavigationView {
             WithViewStore(store, observe: ViewState.init) { viewStore in
-                List(0..<viewStore.assistants.count, id: \.self) { index in
-                    let item = viewStore.assistants[index]
-                    SupportAssistantCell(model: item)
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                        .listRowInsets(EdgeInsets(top: 5,
-                                                  leading: 20,
-                                                  bottom: 5,
-                                                  trailing: 20))
-                        .onTapGesture {
-                            switch item.type {
-                            case .imageToAvatar,
-                                    .imageToWallpaper:
-                                viewStore.send(.dismissAlbum(item))
-                            case .textToAvatar,
-                                    .textToWallpaper:
-                                viewStore.send(.dismissTextMake(item))
-                            case .aiDiy:
-                                viewStore.send(.dismissDetails(item))
-                            case .lightShadow:
-                                viewStore.send(.dismissLightShadow(item))
-                            case .chat:
-                                break
-                            default:
-                                break
+                ZStack {
+                    List(0..<viewStore.assistants.count, id: \.self) { index in
+                        let item = viewStore.assistants[index]
+                        SupportAssistantCell(model: item)
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.clear)
+                            .listRowInsets(EdgeInsets(top: 5,
+                                                      leading: 20,
+                                                      bottom: 5,
+                                                      trailing: 20))
+                            .onTapGesture {
+                                switch item.type {
+                                case .imageToAvatar,
+                                        .imageToWallpaper:
+                                    viewStore.send(.dismissAlbum(item))
+                                case .textToAvatar,
+                                        .textToWallpaper:
+                                    viewStore.send(.dismissTextMake(item))
+                                case .aiDiy:
+                                    viewStore.send(.dismissDetails(item))
+                                case .lightShadow:
+                                    viewStore.send(.dismissLightShadow(item))
+                                case .chat:
+                                    break
+                                default:
+                                    break
+                                }
                             }
-                        }
+                    }
+                    if viewStore.assistants.isEmpty {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
+                            .scaleEffect(CGSize(width: 2, height: 2))
+                    }
                 }
                 .background(Color.clear)
                 .listStyle(.plain)
