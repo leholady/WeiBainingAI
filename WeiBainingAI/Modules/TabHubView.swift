@@ -11,14 +11,18 @@ import ComposableArchitecture
 struct TabHubView: View {
     let store: StoreOf<TabHubFeature>
     
+    @State var currentTab: TabHubFeature.Tab = .messagingHub
+    
     var body: some View {
 //        WithViewStore(store, observe: \.currentTab) { viewStore in
-            TabView {
+        TabView(selection: $currentTab) {
                 MessagingHubView(store: store
                     .scope(state: \.messagingHubState, action: { .messagingHub($0) })
                 )
                 .tabItem {
-                    Label("Chat", systemImage: "house")
+                    Label("Chat",
+                          image: currentTab == .messagingHub ? "home_icon_home_sel" : "home_icon_home_unsel")
+//                    Label("Chat", systemImage: "house")
                 }
                 .tag(TabHubFeature.Tab.messagingHub)
                 
@@ -26,7 +30,8 @@ struct TabHubView: View {
                     .scope(state: \.supportAssistantState, action: { .supportAssistant($0) })
                 )
                 .tabItem {
-                    Label("Support", systemImage: "magnifyingglass")
+                    Label("Support", image: currentTab == .supportAssistant ? "home_icon_assistant_sel" : "home_icon_assistant_unsel")
+//                    Label("Support", systemImage: "magnifyingglass")
                 }
                 .tag(TabHubFeature.Tab.supportAssistant)
                 
@@ -34,7 +39,8 @@ struct TabHubView: View {
                     .scope(state: \.moreOptionsState, action: { .moreOptions($0) })
                 )
                 .tabItem {
-                    Label("Settings", systemImage: "gear")
+                    Label("Settings", image: currentTab == .moreOptions ? "home_icon_more_sel" : "home_icon_more_unsel")
+//                    Label("Settings", systemImage: "gear")
                 }
                 .tag(TabHubFeature.Tab.moreOptions)
             }
@@ -50,7 +56,6 @@ struct TabHubFeature {
         var messagingHubState = MessagingHubViewFeature.State()
         var supportAssistantState = SupportAssistantFeature.State()
         var moreOptionsState = MoreOptionsFeature.State()
-        var currentTab: Tab = .messagingHub
     }
     
     enum Action: Equatable {
