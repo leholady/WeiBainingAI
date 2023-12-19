@@ -85,6 +85,10 @@ struct MoreOptionsFeature {
             case .dismissPremium:
                 state.premiumState = PremiumMemberFeature.State()
                 return .none
+            case .fullScreenCoverPremium(.presented(.delegate(.purchaseCompleted))):
+                return .run { send in
+                    await send(.uploadBalanceItems)
+                }
             case .recover:
                 return .run { send in
                     await send(.hudShow)
@@ -92,6 +96,11 @@ struct MoreOptionsFeature {
                         for await result in try await memberClient.recover() {
                             await send(.recoverValidation(TaskResult { try memberClient.verification(result) }))
                         }
+                        await send(.balanceItemsUpdate(
+                            TaskResult {
+                                try await moreClient.moreBalanceItems()
+                            }
+                        ))
                         await send(.hudDismiss)
                         await send(.hudSuccess("购买已恢复"))
                     } catch {

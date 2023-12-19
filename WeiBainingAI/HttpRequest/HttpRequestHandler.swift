@@ -370,4 +370,8 @@ extension HttpRequestHandler {
         ]
         return try await requestStreamTask(cmd: HttpConst.requestChat, parameters: parameters)
     }
+    
+    func getByOwner() async throws -> Int {
+        return try await requestTask(cmd: HttpConst.getByOwner)
+    }
 }

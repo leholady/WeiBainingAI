@@ -52,13 +52,10 @@ struct MoreOptionsBalanceCell: View {
 }
 
 #Preview {
-    MoreOptionsBalanceCell(items: [MoreBalanceItemModel(title: "ChatGPT 3.5",
+    MoreOptionsBalanceCell(items: [MoreBalanceItemModel(title: "Chat 3.5",
                                                         number: "Unlimited",
                                                         unit: ""),
-                                   MoreBalanceItemModel(title: "ChatGPT 4.0",
+                                   MoreBalanceItemModel(title: "Chat 4.0",
                                                         number: "10.1w",
-                                                        unit: "Tokens"),
-                                   MoreBalanceItemModel(title: "Midjourney",
-                                                        number: "65",
-                                                        unit: "Images")])
+                                                        unit: "Tokens")])
 }
