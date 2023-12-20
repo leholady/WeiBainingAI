@@ -50,6 +50,7 @@ struct SupportAssistantView: View {
                                 }
                             }
                     }
+                    .navigationBarTitleDisplayMode(.inline)
                     if viewStore.assistants.isEmpty {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle(tint: Color.black))

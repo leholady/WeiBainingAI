@@ -43,6 +43,7 @@ struct MoreOptionsView: View {
                             }
                         }
                     }
+                    .navigationBarTitleDisplayMode(.inline)
                     .background(Color.clear)
                     .listStyle(.plain)
                     Text(viewStore.versionText)
