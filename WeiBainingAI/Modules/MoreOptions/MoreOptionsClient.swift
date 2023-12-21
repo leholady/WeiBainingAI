@@ -14,10 +14,10 @@ struct MoreOptionsClient {
 extension MoreOptionsClient: TestDependencyKey {
     static var previewValue: MoreOptionsClient {
         Self {
-            [MoreBalanceItemModel(title: "ChatGPT 3.5",
+            [MoreBalanceItemModel(title: "Chat 3.5",
                                   number: "Unlimited",
                                   unit: ""),
-             MoreBalanceItemModel(title: "ChatGPT 4.0",
+             MoreBalanceItemModel(title: "Chat 4.0",
                                   number: "10.1w",
                                   unit: "Tokens")]
         }
@@ -26,8 +26,17 @@ extension MoreOptionsClient: TestDependencyKey {
 
 extension MoreOptionsClient: DependencyKey {
     static var liveValue: MoreOptionsClient {
-        Self {
-            throw Unimplemented("moreBalanceItems not implemented")
-        }
+        let handler = HttpRequestHandler()
+        return Self(
+            moreBalanceItems: {
+                let integral = try await handler.getByOwner()
+               return [MoreBalanceItemModel(title: "Chat 3.5",
+                                      number: "Unlimited",
+                                      unit: ""),
+                 MoreBalanceItemModel(title: "Chat 4.0",
+                                      number: "\(integral)",
+                                      unit: "Tokens")]
+            }
+        )
     }
 }

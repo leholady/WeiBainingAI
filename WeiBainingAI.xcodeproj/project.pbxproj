@@ -42,7 +42,6 @@
 		65876EE62B0FA0A800DFFE0C /* assistant_icon_socializing.gif in Resources */ = {isa = PBXBuildFile; fileRef = 65876EE22B0FA0A800DFFE0C /* assistant_icon_socializing.gif */; };
 		65876EE72B0FA0A800DFFE0C /* assistant_icon_writing.gif in Resources */ = {isa = PBXBuildFile; fileRef = 65876EE32B0FA0A800DFFE0C /* assistant_icon_writing.gif */; };
 		65876EE92B0FA0B400DFFE0C /* DouyinSansBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 65876EE82B0FA0B400DFFE0C /* DouyinSansBold.otf */; };
-		659280412B220B1E009441A8 /* CompactSlider in Frameworks */ = {isa = PBXBuildFile; productRef = 659280402B220B1E009441A8 /* CompactSlider */; };
 		659697492B1F703E00453888 /* ClearBackgournd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 659697482B1F703E00453888 /* ClearBackgournd.swift */; };
 		6596FB652B2E7C930046B9AA /* UploadImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6596FB642B2E7C930046B9AA /* UploadImageModel.swift */; };
 		6596FB662B2EA03A0046B9AA /* TextImageTaskResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D0744C2B1AFD19004A4E0F /* TextImageTaskResultModel.swift */; };
@@ -66,6 +65,7 @@
 		65EAFBD92B18C5E90055ABEA /* MoreOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EAFBD82B18C5E90055ABEA /* MoreOptionsView.swift */; };
 		65EAFBDB2B18C6050055ABEA /* SupportAssistantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EAFBDA2B18C6050055ABEA /* SupportAssistantView.swift */; };
 		65F6930D2B2217BE00B0DFB4 /* VerticalSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F6930C2B2217BE00B0DFB4 /* VerticalSliderView.swift */; };
+		7E0BD6372B2FF3A40006E86A /* CompactSlider in Frameworks */ = {isa = PBXBuildFile; productRef = 7E0BD6362B2FF3A40006E86A /* CompactSlider */; };
 		7E0CD91D2B148A2F00308394 /* SupportAssistantDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0CD91C2B148A2F00308394 /* SupportAssistantDetailsModel.swift */; };
 		7E0FD99C2B2056BF0079C82D /* SupportAssistantTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FD99B2B2056BF0079C82D /* SupportAssistantTextView.swift */; };
 		7E0FD99E2B2056DF0079C82D /* SupportAssistantTextFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E0FD99D2B2056DF0079C82D /* SupportAssistantTextFeature.swift */; };
@@ -251,8 +251,8 @@
 				7EE7CA312B1736BA003A1B4A /* Kingfisher in Frameworks */,
 				65876EC32B0F873D00DFFE0C /* CryptoSwift in Frameworks */,
 				659A552E2B0F004700B2BF9B /* SVProgressHUD in Frameworks */,
+				7E0BD6372B2FF3A40006E86A /* CompactSlider in Frameworks */,
 				650D8CC42B25973800C330F6 /* WCDB.xcframework in Frameworks */,
-				659280412B220B1E009441A8 /* CompactSlider in Frameworks */,
 				659A55342B0F009A00B2BF9B /* Logging in Frameworks */,
 				659A55312B0F007400B2BF9B /* SwiftUIX in Frameworks */,
 				659A552B2B0F003600B2BF9B /* KeychainSwift in Frameworks */,
@@ -528,7 +528,7 @@
 				65876ED42B0F8D7C00DFFE0C /* Alamofire */,
 				7E689D9B2B15CA9600B4BFD3 /* ComposableArchitecture */,
 				7EE7CA302B1736BA003A1B4A /* Kingfisher */,
-				659280402B220B1E009441A8 /* CompactSlider */,
+				7E0BD6362B2FF3A40006E86A /* CompactSlider */,
 			);
 			productName = WeiBainingAI;
 			productReference = 659A550E2B0EFE0500B2BF9B /* WeiBainingAI.app */;
@@ -569,7 +569,7 @@
 				65876ED32B0F8D7C00DFFE0C /* XCRemoteSwiftPackageReference "Alamofire" */,
 				7E689D9A2B15CA9600B4BFD3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				7EE7CA2F2B1736BA003A1B4A /* XCRemoteSwiftPackageReference "Kingfisher" */,
-				6592803F2B220B1E009441A8 /* XCRemoteSwiftPackageReference "CompactSlider" */,
+				7E0BD6352B2FF3A40006E86A /* XCRemoteSwiftPackageReference "CompactSlider" */,
 			);
 			productRefGroup = 659A550F2B0EFE0500B2BF9B /* Products */;
 			projectDirPath = "";
@@ -988,14 +988,6 @@
 				minimumVersion = 5.8.1;
 			};
 		};
-		6592803F2B220B1E009441A8 /* XCRemoteSwiftPackageReference "CompactSlider" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/buh/CompactSlider";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.5;
-			};
-		};
 		659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
@@ -1036,6 +1028,14 @@
 				minimumVersion = 1.5.3;
 			};
 		};
+		7E0BD6352B2FF3A40006E86A /* XCRemoteSwiftPackageReference "CompactSlider" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/buh/CompactSlider.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.5;
+			};
+		};
 		7E689D9A2B15CA9600B4BFD3 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
@@ -1070,11 +1070,6 @@
 			package = 65876ED32B0F8D7C00DFFE0C /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		659280402B220B1E009441A8 /* CompactSlider */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6592803F2B220B1E009441A8 /* XCRemoteSwiftPackageReference "CompactSlider" */;
-			productName = CompactSlider;
-		};
 		659A55212B0EFE2C00B2BF9B /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 659A55202B0EFE2C00B2BF9B /* XCRemoteSwiftPackageReference "Reachability" */;
@@ -1099,6 +1094,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 659A55322B0F009A00B2BF9B /* XCRemoteSwiftPackageReference "swift-log" */;
 			productName = Logging;
+		};
+		7E0BD6362B2FF3A40006E86A /* CompactSlider */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7E0BD6352B2FF3A40006E86A /* XCRemoteSwiftPackageReference "CompactSlider" */;
+			productName = CompactSlider;
 		};
 		7E689D9B2B15CA9600B4BFD3 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;

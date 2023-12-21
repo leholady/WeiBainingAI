@@ -34,6 +34,8 @@ struct HttpRequestClient {
     var requestHomeConfig: @Sendable () async throws -> HomeConfigModel
     /// 获取本地缓存用户信息
     var currentUserProfile: @Sendable () async throws -> UserProfileModel
+    /// 得到一个用户的金币总数
+    var getByOwner: @Sendable () async throws -> Int
 }
 
 extension HttpRequestClient: DependencyKey {
@@ -76,6 +78,9 @@ extension HttpRequestClient: DependencyKey {
                 } else {
                     return try await handler.getNewUserProfile()
                 }
+            },
+            getByOwner: {
+                try await handler.getByOwner()
             }
         )
     }

@@ -49,6 +49,10 @@ struct PremiumMemberFeature {
         case hudFailure(String)
         case hudInfo(String)
         case hudSuccess(String)
+        case delegate(Delegate)
+        enum Delegate: Equatable {
+            case purchaseCompleted
+        }
     }
     
     @Dependency(\.dismiss) var dismiss
@@ -120,6 +124,7 @@ struct PremiumMemberFeature {
                             await transaction.finish()
                             await send(.uploadMemberStatus)
                             await send(.hudSuccess("已成功开通会员"))
+                            await send(.delegate(.purchaseCompleted))
                         } else {
                             await send(.hudInfo("开通会员失败，如已付款请重启应用试试"))
                         }

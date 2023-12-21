@@ -21,6 +21,8 @@ struct SupportAssistantFeature {
         @PresentationState var textState: SupportAssistantTextFeature.State?
         @PresentationState var lightShadowState: SupportAssistantLightShadowFeature.State?
         @PresentationState var premiumState: PremiumMemberFeature.State?
+        /// 跳转到聊天列表
+        @PresentationState var msgItem: MessageListFeature.State?
     }
     
     enum Action: Equatable {
@@ -38,8 +40,13 @@ struct SupportAssistantFeature {
         case fullScreenCoverLightShadow(PresentationAction<SupportAssistantLightShadowFeature.Action>)
         case dismissPremium
         case fullScreenCoverPremium(PresentationAction<PremiumMemberFeature.Action>)
+        /// 点击发起新聊天
+        case didTapStartNewChat
+        case msgItemUpdate(TaskResult<UserProfileModel>)
+        case presentationNewChat(PresentationAction<MessageListFeature.Action>)
     }
 
+    @Dependency(\.memberClient) var memberClient
     @Dependency(\.assistantClient) var assistantClient
     @Dependency(\.dismiss) var dismiss
     
@@ -114,6 +121,17 @@ struct SupportAssistantFeature {
             case .dismissPremium:
                 state.premiumState = PremiumMemberFeature.State()
                 return .none
+            case .didTapStartNewChat:
+                return .run { send in
+                    await send(.msgItemUpdate(
+                        TaskResult {
+                            try await memberClient.userProfile()
+                        }
+                    ))
+                }
+            case let .msgItemUpdate(.success(user)):
+                state.msgItem = MessageListFeature.State(userConfig: user)
+                return .none
             default:
                 return .none
             }
@@ -135,6 +153,9 @@ struct SupportAssistantFeature {
         }
         .ifLet(\.$premiumState, action: \.fullScreenCoverPremium) {
             PremiumMemberFeature()
+        }
+        .ifLet(\.$msgItem, action: \.presentationNewChat) {
+            MessageListFeature()
         }
     }
 }

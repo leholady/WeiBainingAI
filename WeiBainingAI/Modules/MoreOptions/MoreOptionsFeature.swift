@@ -20,6 +20,8 @@ struct MoreOptionsFeature {
         @PresentationState var safariState: MoreSafariFeature.State?
         @PresentationState var premiumState: PremiumMemberFeature.State?
         @PresentationState var shareState: MoreShareFeature.State?
+        /// 跳转到历史记录
+        @PresentationState var historyItem: ConversationListFeature.State?
         var isVipState: Bool = false
     }
     
@@ -43,6 +45,10 @@ struct MoreOptionsFeature {
         case uploadShare
         case dismissShare(TaskResult<MoreShareModel>)
         case fullScreenCoverShare(PresentationAction<MoreShareFeature.Action>)
+        /// 点击历史消息
+        case didTapHistoryMsg
+        case historyItemUpdate(TaskResult<UserProfileModel>)
+        case presentationHistoryMsg(PresentationAction<ConversationListFeature.Action>)
     }
     
     @Dependency(\.moreClient) var moreClient
@@ -79,6 +85,10 @@ struct MoreOptionsFeature {
             case .dismissPremium:
                 state.premiumState = PremiumMemberFeature.State()
                 return .none
+            case .fullScreenCoverPremium(.presented(.delegate(.purchaseCompleted))):
+                return .run { send in
+                    await send(.uploadBalanceItems)
+                }
             case .recover:
                 return .run { send in
                     await send(.hudShow)
@@ -86,6 +96,11 @@ struct MoreOptionsFeature {
                         for await result in try await memberClient.recover() {
                             await send(.recoverValidation(TaskResult { try memberClient.verification(result) }))
                         }
+                        await send(.balanceItemsUpdate(
+                            TaskResult {
+                                try await moreClient.moreBalanceItems()
+                            }
+                        ))
                         await send(.hudDismiss)
                         await send(.hudSuccess("购买已恢复"))
                     } catch {
@@ -157,6 +172,17 @@ struct MoreOptionsFeature {
                 return .run { send in
                     await send(.hudFailure("获取分享数据失败"))
                 }
+            case .didTapHistoryMsg:
+                return .run { send in
+                    await send(.historyItemUpdate(
+                        TaskResult {
+                            try await memberClient.userProfile()
+                        }
+                    ))
+                }
+            case let .historyItemUpdate(.success(userConfig)):
+                state.historyItem = ConversationListFeature.State(userConfig: userConfig)
+                return .none
             case .hudShow:
                 SVProgressHUD.show()
                 return .none
@@ -181,6 +207,9 @@ struct MoreOptionsFeature {
         }
         .ifLet(\.$shareState, action: \.fullScreenCoverShare) {
             MoreShareFeature()
+        }
+        .ifLet(\.$historyItem, action: \.presentationHistoryMsg) {
+            ConversationListFeature()
         }
     }
 }
